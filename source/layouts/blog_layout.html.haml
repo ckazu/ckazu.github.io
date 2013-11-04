@@ -1,7 +1,11 @@
 - wrap_layout :layout do
-  %h2= current_article.title
-  - current_article.tags.each do |tag|
-    %span= tag
-  = I18n.l current_article.date
-  %hr
-  = current_article.body
+  = partial 'shared/blog_sidebar'
+
+  - if current_article
+    %h2= current_article.title
+    - current_article.tags.each do |tag|
+      %span= tag
+    = I18n.l current_article.date
+    %hr
+
+  = yield
