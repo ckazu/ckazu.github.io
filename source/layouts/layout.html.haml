@@ -32,6 +32,8 @@
     %link(rel="apple-touch-icon-precomposed" sizes="114x114" href="/images/apple-touch-icon-114x114-precomposed.png")
 
     -# Stylesheets
+    = stylesheet_link_tag '//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css'
+    = stylesheet_link_tag '//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap-theme.min.css'
     = stylesheet_link_tag 'application'
 
   %body{class: current_page.data.body_class || 'page'}
@@ -63,6 +65,7 @@
     -# Javascripts
     = javascript_include_tag '//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js'
     = javascript_include_tag '//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js'
+    = javascript_include_tag '//netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js'
     = javascript_include_tag 'application'
 
     - if build?
