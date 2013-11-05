@@ -2,6 +2,7 @@
 # Blog settings
 ###
 
+activate :i18n, langs: :ja
 Time.zone = "Tokyo"
 
 activate :blog do |blog|
