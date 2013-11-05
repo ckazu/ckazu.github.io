@@ -34,6 +34,7 @@
     -# Stylesheets
     = stylesheet_link_tag '//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css'
     = stylesheet_link_tag '//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap-theme.min.css'
+    = stylesheet_link_tag '//netdna.bootstrapcdn.com/font-awesome/4.0.2/css/font-awesome.css'
     = stylesheet_link_tag 'application'
 
   %body{class: current_page.data.body_class || 'page'}
@@ -46,6 +47,10 @@
     = javascript_include_tag '//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js'
     = javascript_include_tag '//netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js'
     = javascript_include_tag 'application'
+
+    -# web fonts
+    = stylesheet_link_tag 'http://fonts.googleapis.com/css?family=Inconsolata'
+    = stylesheet_link_tag 'http://fonts.googleapis.com/css?family=Quicksand'
 
     - if build?
       -# Google Analytics
