@@ -38,9 +38,18 @@
     = stylesheet_link_tag 'application'
 
   %body{class: current_page.data.body_class || 'page'}
+    = partial 'shared/navbar'
+
+    %header.jumbotron.text-center
+      %h1= link_to 'What is an Information Architecture?', '/'
+
     .container
       .row
         = yield
+
+    %footer.footer.text-center
+      .container
+        %p &copy ckazu
 
     -# Javascripts
     = javascript_include_tag '//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js'

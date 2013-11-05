@@ -76,11 +76,13 @@ activate :rouge_syntax
 activate :automatic_image_sizes
 
 # Methods defined in the helpers block are available in templates
-# helpers do
-#   def some_helper
-#     "Helping"
-#   end
-# end
+helpers do
+  def blog_tag_for(tag)
+    content_tag(:span, class: 'tag badge fa fa-tag') do
+      link_to tag, tag_path(tag)
+    end
+  end
+end
 
 set :css_dir, 'stylesheets'
 

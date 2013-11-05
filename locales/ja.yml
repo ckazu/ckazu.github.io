@@ -1,2 +1,5 @@
 ---
 ja:
+  time:
+    formats:
+      date: '%F'

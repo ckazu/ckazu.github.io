@@ -1,12 +1,13 @@
 - wrap_layout :layout do
-  .col-md-9
-    - if current_article
-      %h2= current_article.title
-      - current_article.tags.each do |tag|
-        %span= tag
-      = I18n.l current_article.date
-      %hr
-    = yield
+  .blog
+    .col-md-9
+      - if current_article
+        = I18n.l current_article.date
+        %h2= current_article.title
+        - current_article.tags.each do |tag|
+          = blog_tag_for tag
+        %hr
+      = yield
 
-  %aside.col-md-3
-    = partial 'shared/blog_sidebar'
+    %aside.sidebar.col-md-3
+      = partial 'shared/blog_sidebar'

@@ -1,29 +1,33 @@
-.panel.panel-info
+.panel
   .panel-heading
-    %h2 Recent Articles
+    %h1 Recent Articles
   .panel-body
-    %ol
+    %ul
       - blog.articles[0...10].each do |article|
         %li
+          = I18n.l article.date
+          %br
+          %i.fa.fa-pencil
           = link_to article.title, article
-          %span= article.date.strftime('%b %e')
 
-.panel.panel-info
+.panel
   .panel-heading
-    %h2 Tags
+    %h1 Tags
   .panel-body
-    %ol
+    %ul
       - blog.tags.each do |tag, articles|
         %li
+          %i.fa.fa-tag
           = link_to tag, tag_path(tag)
           = "(#{articles.size})"
 
-.panel.panel-info
+.panel
   .panel-heading
-    %h2 By Year
+    %h1 By Month
   .panel-body
-    %ol
+    %ul
       - blog.articles.group_by {|a| a.date.year }.each do |year, articles|
-        %li
-          = link_to year, blog_year_path(year)
-          = "(#{articles.size})"
+        - articles.group_by  {|a| a.date.month }.each do |month, _articles|
+          %li
+            = link_to "#{year}/#{'%02d' % month}", blog_month_path(year, month)
+            = "(#{articles.size})"
