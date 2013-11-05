@@ -2,8 +2,8 @@
   .blog
     .col-md-9
       - if current_article
-        = I18n.l current_article.date
         %h2= current_article.title
+        .date.pull-right= I18n.l current_article.date
         - current_article.tags.each do |tag|
           = blog_tag_for tag
         %hr
