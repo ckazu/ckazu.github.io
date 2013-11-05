@@ -120,3 +120,7 @@ configure :build do
 end
 
 activate :directory_indexes
+
+activate :deploy do |deploy|
+  deploy.method = :git
+end

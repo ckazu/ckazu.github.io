@@ -4,10 +4,16 @@ source 'http://rubygems.org'
 
 gem "middleman", "~> 3.1.6"
 gem "middleman-blog", "~> 3.3.0"
+
+# For deploy
+gem 'middleman-deploy'
+
+# For syntax highlight
 gem 'middleman-rouge'
 gem 'redcarpet'
 
 # For feed.xml.builder
 gem "builder", "~> 3.0"
 
+# For using article#summary
 gem "nokogiri"
