@@ -17,7 +17,6 @@ header.jumbotron h1 {
   .social {
     a { color: inherit; }
     a:hover { color: $footer-color * 2; }
-    li { vertical-align: top; }
   }
 }
 
@@ -54,5 +53,8 @@ header.jumbotron h1 {
         margin-bottom: 1em;
       }
     }
+  }
+  .social_buttons {
+    li { vertical-align: top; }
   }
 }
