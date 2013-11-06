@@ -77,8 +77,16 @@ activate :automatic_image_sizes
 
 # Methods defined in the helpers block are available in templates
 helpers do
+  def page_title
+    if current_page && current_page.respond_to?(:title)
+      "#{current_page.try(:title)} - #{data.page.title || ''}"
+    else
+      data.page.title || ''
+    end
+  end
+
   def blog_tag_for(tag)
-    content_tag(:span, class: 'tag badge fa fa-tag') do
+    content_tag(:span, class: 'tag label fa fa-tag') do
       link_to tag, tag_path(tag)
     end
   end
