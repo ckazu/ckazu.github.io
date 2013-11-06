@@ -47,9 +47,9 @@
       .row
         = yield
 
-    %footer.footer.text-center
+    %footer.footer
       .container
-        %p &copy ckazu
+        = partial 'shared/footer'
 
     -# Javascripts
     = javascript_include_tag '//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js'

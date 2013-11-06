@@ -12,13 +12,19 @@ header.jumbotron h1 {
   margin-top: 100px;
   padding-top: 40px;
   border-top: 1px solid $border-color;
+  color: $footer-color;
+  background: $footer-background;
+  .social {
+    a { color: inherit; }
+    a:hover { color: $footer-color * 2; }
+  }
 }
 
 .blog {
   h2, h3, h4 { margin-top: 24px; }
   h3 { font-size: 1.2em; }
   article {
-    h2 { margin-top: 0 }
+    h2 { margin-top: 0; font-size: 1.8em; }
     .tags { margin-bottom: 1em; }
     .date { font-size: 1.75em; }
     margin-bottom: 3em;
@@ -28,6 +34,7 @@ header.jumbotron h1 {
     a { color: $tag-color; }
     color: $tag-color;
     background: $tag-background;
+    padding: 4px 8px;
     @include border-radius(2px);
   }
 
