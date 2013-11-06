@@ -17,6 +17,7 @@ header.jumbotron h1 {
   .social {
     a { color: inherit; }
     a:hover { color: $footer-color * 2; }
+    li { vertical-align: top; }
   }
 }
 
