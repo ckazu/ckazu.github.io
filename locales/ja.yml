@@ -3,3 +3,5 @@ ja:
   time:
     formats:
       date: '%F'
+  links:
+    readmore: '続きを読む'
