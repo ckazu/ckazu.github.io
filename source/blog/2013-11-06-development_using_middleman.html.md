@@ -7,14 +7,14 @@ published: true
 
 ## 経緯
 
-[jekyll](http://jekyllrb.com/) を使っていた Github Page を [middleman](http://middlemanapp.com/) ([jp](http://middlemanjp.github.io/)) で書きなおしてみました．
+[jekyll](http://jekyllrb.com/) を使っていた Github Page を [Middleman](http://middlemanapp.com/) ([jp](http://middlemanjp.github.io/)) で書きなおしてみました．
 
 更新していなかったので，Jekyll のことはきれいさっぱり忘れた．
 
 ついでにドメインとりました．
 
 
-## middleman
+## Middleman
 
 業務の開発で使うなら，最初の一歩がもうちょっと楽になるとありがたいなーという印象．
 
@@ -53,7 +53,7 @@ activate :rouge_syntax
 
 helpers do
   def blog_tag_for(tag)
-    content_tag(:span, class: 'tag badge fa fa-tag') do
+    content_tag(:span, class: 'tag label fa fa-tag') do
       link_to tag, tag_path(tag)
     end
   end
@@ -75,9 +75,10 @@ Github Pages をカスタムドメインでホスティングしたんだけれ�
 
 はまったところは 3 点あって，
 
+
 ### ひとつは `gh-pages` ブランチがあれば，そっちが優先されると思っていた点．
 
-username/username.github.io だと，`master` ブランチが使われるんですね．
+username/username.github.io だと，`master` ブランチが使われるんですね．Jeykill でもそうだったのに．．．
 
 => [middleman-blogをgithubでホストする](http://blog.coiney.com/2013/06/21/host-middleman-blog-on-github/)
 
