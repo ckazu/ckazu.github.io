@@ -3,5 +3,6 @@ ja:
   time:
     formats:
       date: '%F'
+      month: '%Y-%m'
   links:
     readmore: '続きを読む'
