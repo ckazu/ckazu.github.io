@@ -13,7 +13,7 @@ env:
 before_script:
   - git clone --quiet http://github.com/ckazu/ckazu.github.io build
   - pushd build
-  - git checkout -b
+  - git checkout
   - popd
 
 after_success:
