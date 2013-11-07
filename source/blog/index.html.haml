@@ -5,15 +5,6 @@ layout: blog_layout
 body_class: blog
 ---
 
-- if paginate
-  .panel
-    - if num_pages > 1
-      = "Page #{page_number} of #{num_pages}"
-    - if prev_page
-      = link_to ' << ', prev_page
-    - if next_page
-      = link_to ' >> ', next_page
-
 - page_articles.each do |article|
   %article.container
     .col-md-2
@@ -25,3 +16,12 @@ body_class: blog
           = blog_tag_for tag
       = article.summary(200)
       = link_to I18n.t('links.readmore'), article
+
+- if paginate
+  .nav.text-right
+    - if num_pages > 1
+      = "Page #{page_number} of #{num_pages}"
+    - if prev_page
+      = link_to ' << ', prev_page
+    - if next_page
+      = link_to ' >> ', next_page

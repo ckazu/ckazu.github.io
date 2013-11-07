@@ -39,6 +39,11 @@ header.jumbotron h1 {
   }
 
   .sidebar {
+    .panel {
+      border: 0;
+      box-shadow: none;
+    }
+
     .panel-heading {
       font-size: .8em;
       border-bottom: 1px solid $border-color;
