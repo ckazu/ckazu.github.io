@@ -30,4 +30,4 @@
         - articles.group_by  {|a| a.date.month }.each do |month, _articles|
           %li
             = link_to "#{year}/#{'%02d' % month}", blog_month_path(year, month)
-            = "(#{articles.size})"
+            = "(#{_articles.size})"
