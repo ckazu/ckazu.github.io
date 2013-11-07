@@ -9,7 +9,11 @@
     .collapse.navbar-collapse
       %ul.nav.navbar-nav
         %li= link_to 'Blog', '/blog'
-        %li= link_to 'suburi', 'http://suburi.herokuapp.com', target: :_blank
+        %li= link_to 'Slides', '/slides'
+        %li
+          - link_to 'http://suburi.herokuapp.com', target: :_blank do
+            Suburi
+            %i.fa.fa-external-link
         -#
           %li.dropdown
             %a.dropdown-toggle{href: "#", data: {toggle: "dropdown"}}
