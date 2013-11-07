@@ -17,7 +17,4 @@ before_script:
   - popd
 
 after_success:
-  - cd build
-  - git add -A
-  - git commit -m 'Update'
-  - 'git push --quiet https://$GH_TOKEN@github.com/ckazu/ckazu.github.io.git 2> /dev/null'
+  - bundle exec middleman deploy
