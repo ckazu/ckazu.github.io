@@ -1,23 +1,4 @@
 ---
-language: ruby
-script: bundle exec middleman build
-
-env:
-  global:
-    - GIT_COMMITER_NAME=travis
-    - GIT_COMMITER_EMAIL=ckazu.s@gmail.com
-    - GIT_AUTHOR_NAME=ckazu
-    - GIT_AUTHOR_EMAIL=ckazu.s@gmail.com
-    - secure: aZmB5hHxObj170TRhbuS47SqVTP5XfgaJ26biF3q0fhoPVvIokqJir43oxXFy4Sayh+KRz4yDODWN4ZfSYiNbt2M/B90WZYrfMsQ/j5yQr2t4zbSf3+AE8pWdPt7+KHka/nAqt7gkC0uOxRpp9e1cEYMfNp95am6NH0M8Dsirz0=
-
-before_script:
-  - git clone --quiet http://github.com/ckazu/ckazu.github.io build
-  - pushd build
-  - git checkout -b master
-  - popd
-
-after_success:
-  - cd build
-  - git add -A
-  - git commit -m 'Update'
-  - '[ "$TRAVIS_BRANCH" == "master" ] && [ $GH_TOKEN ] && git push --quiet https://$GH_TOKEN@github.com/ckazu/ckazu.github.io.git master 2> /dev/null'
+branches:
+  only:
+    - source

@@ -13,11 +13,11 @@ env:
 before_script:
   - git clone --quiet http://github.com/ckazu/ckazu.github.io build
   - pushd build
-  - git checkout -b master
+  - git checkout -b
   - popd
 
 after_success:
   - cd build
   - git add -A
   - git commit -m 'Update'
-  - '[ "$TRAVIS_BRANCH" == "master" ] && [ $GH_TOKEN ] && git push --quiet https://$GH_TOKEN@github.com/ckazu/ckazu.github.io.git master 2> /dev/null'
+  - '[ "$TRAVIS_BRANCH" == "master" ] && [ $GH_TOKEN ] && git push --quiet https://$GH_TOKEN@github.com/ckazu/ckazu.github.io.git 2> /dev/null'
