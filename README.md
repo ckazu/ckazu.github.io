@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/ckazu/ckazu.github.io.png?branch=source)](https://travis-ci.org/ckazu/ckazu.github.io)
+
 # Middleman Template with Haml, Sass & Coffeescript
 
 **middleman-hamlsasscoffee** is a [Middleman 3.x](http://middlemanapp.com/) project template with [Compass](http://compass-style.org)/[SASS](http://sass-lang.com/), [HAML](http://haml-lang.com/) and [Coffeescript](http://coffeescript.org). As with all Middleman templates, using [Bundler](http://gembundler.com/) and [Rbenv](https://github.com/sstephenson/rbenv/) is recommended.
