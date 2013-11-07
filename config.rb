@@ -35,7 +35,7 @@ activate :rouge_syntax
 
 # DISQUS
 activate :disqus do |d|
-  d.shortname = 'ckazu'
+  d.shortname = 'ckazuinfo'
 end
 
 ###
