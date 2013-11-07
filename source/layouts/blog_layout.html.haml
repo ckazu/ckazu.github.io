@@ -8,12 +8,15 @@
           = blog_tag_for tag
         %hr
       = yield
-      %hr
-      %ul.social_buttons.list-inline
-        %li.evernote
-        %li.hatena
-        %li.tweet
-        %li.facebook_like
+
+      - if build? && current_article
+        %hr
+        %ul.social_buttons.list-inline
+          %li.evernote
+          %li.hatena
+          %li.tweet
+          %li.facebook_like
+        = disqus
 
     %aside.sidebar.col-md-3
       = partial 'shared/blog_sidebar'

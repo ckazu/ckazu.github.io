@@ -5,6 +5,9 @@ source 'http://rubygems.org'
 gem "middleman", "~> 3.1.6"
 gem "middleman-blog", "~> 3.3.0"
 
+# Use DISQUS
+gem 'middleman-disqus'
+
 # For deploy
 gem 'middleman-deploy'
 

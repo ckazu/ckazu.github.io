@@ -33,6 +33,11 @@ set :markdown, fenced_code_blocks: true, smartypants: true
 set :haml, { ugly: true }
 activate :rouge_syntax
 
+# DISQUS
+activate :disqus do |d|
+  d.shortname = 'ckazu'
+end
+
 ###
 # Compass
 ###
