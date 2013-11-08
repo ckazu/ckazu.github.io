@@ -1,6 +1,9 @@
 ---
 language: ruby
 script: bundle exec middleman build
+branches:
+  only:
+    - source
 
 env:
   global:
