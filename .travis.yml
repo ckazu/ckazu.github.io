@@ -20,8 +20,9 @@ after_success:
   - cd build
   - git add -A
   - git commit -m 'Update'
-  - echo '[ "$TRAVIS_BRANCH" == "master" ]'
-  - echo '[ $TRAVIS_BRANCH == "master" ]'
-  - echo '[ $GT_TOKEN ]'
-  - echo '[ $GIT_TOKEN]'
+  - echo $TRAVIS_BRANCH
+  - echo [ "$TRAVIS_BRANCH" == "master" ]
+  - echo [ $TRAVIS_BRANCH == "master" ]
+  - echo $GT_TOKEN
+  - echo $GIT_TOKEN
   - '[ $TRAVIS_BRANCH == "master" ] && [ $GH_TOKEN ] && git push --quiet https://$GH_TOKEN@github.com/ckazu/ckazu.github.io.git'
