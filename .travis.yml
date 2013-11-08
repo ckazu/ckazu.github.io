@@ -21,6 +21,7 @@ before_script:
 
 after_success:
   - cd build
+  - echo "---\nbranches:\n  only:\n    - source\n" > .travis.yml
   - git add -A
   - git commit -m 'Update'
   - '[ $TRAVIS_BRANCH == "source" ] && [ $GH_TOKEN ] && git push --quiet https://$GH_TOKEN@github.com/ckazu/ckazu.github.io.git 2> /dev/null'
