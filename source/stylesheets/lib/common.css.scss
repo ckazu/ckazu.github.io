@@ -16,9 +16,13 @@ header.jumbotron h1 {
   border-top: 1px solid $border-color;
   color: $footer-color;
   background: $footer-background;
-  .social {
+  .about_links {
     a { color: inherit; }
     a:hover { color: $footer-color * 2; }
+    .twitter a:hover { color: $twitter-color; }
+    .facebook a:hover { color: $facebook-color; }
+    .github a:hover { color: $github-color; }
+    .feed a:hover { color: $rss-color; }
   }
 }
 
