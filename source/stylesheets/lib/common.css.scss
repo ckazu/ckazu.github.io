@@ -33,11 +33,14 @@ header.jumbotron h1 {
   }
 
   .tag {
-    a { color: $tag-color; }
+    a { color: $tag-color; text-decoration: none; }
     color: $tag-color;
     background: $tag-background;
     padding: 4px 8px;
     @include border-radius(2px);
+    &:hover {
+      background: $tag-background * 1.25;
+    }
   }
 
   .sidebar {
