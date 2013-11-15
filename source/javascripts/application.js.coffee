@@ -1,3 +1,4 @@
+#= require 'modernizr/modernizr'
 #= require 'jquery'
 #= require_tree ./vendor
 #= require_tree ./lib
