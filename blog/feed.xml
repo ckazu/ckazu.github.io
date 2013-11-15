@@ -14,7 +14,7 @@
     <link rel="alternate" href="http://ckazu.info/blog/2013/11/08/deploy_by_travis_ci/"/>
     <id>http://ckazu.info/blog/2013/11/08/deploy_by_travis_ci/</id>
     <published>2013-11-08T10:05:00Z</published>
-    <updated>2013-11-10T21:20:17+09:00</updated>
+    <updated>2013-11-15T14:14:21+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -68,8 +68,8 @@
   &lt;span class="p"&gt;-&lt;/span&gt; &lt;span class="s"&gt;cd build&lt;/span&gt;
   &lt;span class="p"&gt;-&lt;/span&gt; &lt;span class="s"&gt;echo -e &amp;quot;---\nbranches:\n  only:\n    - source&amp;quot; &amp;gt; .travis.yml&lt;/span&gt;
   &lt;span class="p"&gt;-&lt;/span&gt; &lt;span class="s"&gt;git add -A&lt;/span&gt;
-  &lt;span class="p"&gt;-&lt;/span&gt; &lt;span class="s"&gt;git commit -m &amp;#39;Update&amp;#39;&lt;/span&gt;
-  &lt;span class="p"&gt;-&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="s"&gt;[&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;$GH_TOKEN&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;]&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;git&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;push&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;--quiet&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;https://$GH_TOKEN@github.com/OWNER/REPO.git&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;2&amp;gt;&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;/dev/null&amp;#39;&lt;/span&gt;
+  &lt;span class="p"&gt;-&lt;/span&gt; &lt;span class="s"&gt;git commit -m 'Update'&lt;/span&gt;
+  &lt;span class="p"&gt;-&lt;/span&gt; &lt;span class="s1"&gt;'&lt;/span&gt;&lt;span class="s"&gt;[&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;$GH_TOKEN&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;]&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;git&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;push&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;--quiet&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;https://$GH_TOKEN@github.com/OWNER/REPO.git&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;2&amp;gt;&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;/dev/null'&lt;/span&gt;
 
 &lt;span class="s"&gt;branches&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
   &lt;span class="s"&gt;only&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
@@ -93,7 +93,7 @@
     <link rel="alternate" href="http://ckazu.info/blog/2013/11/07/check_github_pr/"/>
     <id>http://ckazu.info/blog/2013/11/07/check_github_pr/</id>
     <published>2013-11-07T05:18:00Z</published>
-    <updated>2013-11-07T15:06:18+09:00</updated>
+    <updated>2013-11-15T14:14:21+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -150,7 +150,7 @@
     <link rel="alternate" href="http://ckazu.info/blog/2013/11/07/buy_sheaffer_calligraphy_pen/"/>
     <id>http://ckazu.info/blog/2013/11/07/buy_sheaffer_calligraphy_pen/</id>
     <published>2013-11-06T18:21:00Z</published>
-    <updated>2013-11-07T04:45:13+09:00</updated>
+    <updated>2013-11-15T14:14:21+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -207,7 +207,7 @@
     <link rel="alternate" href="http://ckazu.info/blog/2013/11/06/development_using_middleman/"/>
     <id>http://ckazu.info/blog/2013/11/06/development_using_middleman/</id>
     <published>2013-11-05T21:26:00Z</published>
-    <updated>2013-11-07T04:45:28+09:00</updated>
+    <updated>2013-11-15T14:14:21+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -271,7 +271,7 @@
 
 &lt;span class="n"&gt;helpers&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
   &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;blog_tag_for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="n"&gt;content_tag&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:span&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;class: &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;tag label fa fa-tag&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+    &lt;span class="n"&gt;content_tag&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:span&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;class: &lt;/span&gt;&lt;span class="s1"&gt;'tag label fa fa-tag'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
       &lt;span class="n"&gt;link_to&lt;/span&gt; &lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;tag_path&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="k"&gt;end&lt;/span&gt;
   &lt;span class="k"&gt;end&lt;/span&gt;
@@ -340,7 +340,7 @@
     <link rel="alternate" href="http://ckazu.info/blog/2011/12/06/ruby-rails-rake-notes-spec-js-coffee-scss-haml-slim/"/>
     <id>http://ckazu.info/blog/2011/12/06/ruby-rails-rake-notes-spec-js-coffee-scss-haml-slim/</id>
     <published>2011-12-05T15:00:00Z</published>
-    <updated>2013-11-06T05:30:36+09:00</updated>
+    <updated>2013-11-15T14:14:21+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -389,7 +389,7 @@
     <link rel="alternate" href="http://ckazu.info/blog/2011/05/23/ruby-rails-rails-Mix-in/"/>
     <id>http://ckazu.info/blog/2011/05/23/ruby-rails-rails-Mix-in/</id>
     <published>2011-05-22T15:00:00Z</published>
-    <updated>2013-11-06T05:30:36+09:00</updated>
+    <updated>2013-11-15T14:14:21+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -418,13 +418,13 @@
 
   &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;method_with_new_method&lt;/span&gt;
     &lt;span class="n"&gt;method_without_new_method&lt;/span&gt;
-    &lt;span class="s1"&gt;&amp;#39;new method&amp;#39;&lt;/span&gt;
+    &lt;span class="s1"&gt;'new method'&lt;/span&gt;
   &lt;span class="k"&gt;end&lt;/span&gt;
 &lt;span class="k"&gt;end&lt;/span&gt;
 
 &lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;Origin&lt;/span&gt;
   &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;method&lt;/span&gt;
-    &lt;span class="s1"&gt;&amp;#39;origin method&amp;#39;&lt;/span&gt;
+    &lt;span class="s1"&gt;'origin method'&lt;/span&gt;
   &lt;span class="k"&gt;end&lt;/span&gt;
   &lt;span class="kp"&gt;include&lt;/span&gt; &lt;span class="no"&gt;NewMethod&lt;/span&gt;
 &lt;span class="k"&gt;end&lt;/span&gt;
@@ -440,7 +440,7 @@
 &lt;h2&gt;普通の include&lt;/h2&gt;
 &lt;pre class="highlight ruby"&gt;&lt;span class="k"&gt;module&lt;/span&gt; &lt;span class="nn"&gt;NewMethod&lt;/span&gt;
   &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;method&lt;/span&gt;
-    &lt;span class="s1"&gt;&amp;#39;new method&amp;#39;&lt;/span&gt;
+    &lt;span class="s1"&gt;'new method'&lt;/span&gt;
   &lt;span class="k"&gt;end&lt;/span&gt;
 &lt;span class="k"&gt;end&lt;/span&gt;
 
@@ -455,14 +455,14 @@
 &lt;p&gt;モジュールのメソッドは呼ばれない．&lt;/p&gt;
 &lt;pre class="highlight ruby"&gt;&lt;span class="k"&gt;module&lt;/span&gt; &lt;span class="nn"&gt;NewMethod&lt;/span&gt;
   &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;method&lt;/span&gt;
-    &lt;span class="s1"&gt;&amp;#39;new method&amp;#39;&lt;/span&gt;
+    &lt;span class="s1"&gt;'new method'&lt;/span&gt;
   &lt;span class="k"&gt;end&lt;/span&gt;
 &lt;span class="k"&gt;end&lt;/span&gt;
 
 &lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;Origin&lt;/span&gt;
   &lt;span class="kp"&gt;include&lt;/span&gt; &lt;span class="no"&gt;NewMethod&lt;/span&gt;
   &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;method&lt;/span&gt;
-    &lt;span class="s1"&gt;&amp;#39;origin method&amp;#39;&lt;/span&gt;
+    &lt;span class="s1"&gt;'origin method'&lt;/span&gt;
   &lt;span class="k"&gt;end&lt;/span&gt;
 &lt;span class="k"&gt;end&lt;/span&gt;
 
@@ -473,13 +473,13 @@
 &lt;p&gt;メソッドの定義順を変えても駄目．&lt;/p&gt;
 &lt;pre class="highlight ruby"&gt;&lt;span class="k"&gt;module&lt;/span&gt; &lt;span class="nn"&gt;NewMethod&lt;/span&gt;
   &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;method&lt;/span&gt;
-    &lt;span class="s1"&gt;&amp;#39;new method&amp;#39;&lt;/span&gt;
+    &lt;span class="s1"&gt;'new method'&lt;/span&gt;
   &lt;span class="k"&gt;end&lt;/span&gt;
 &lt;span class="k"&gt;end&lt;/span&gt;
 
 &lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;Origin&lt;/span&gt;
   &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;method&lt;/span&gt;
-    &lt;span class="s1"&gt;&amp;#39;origin method&amp;#39;&lt;/span&gt;
+    &lt;span class="s1"&gt;'origin method'&lt;/span&gt;
   &lt;span class="k"&gt;end&lt;/span&gt;
   &lt;span class="kp"&gt;include&lt;/span&gt; &lt;span class="no"&gt;NewMethod&lt;/span&gt;
 &lt;span class="k"&gt;end&lt;/span&gt;
