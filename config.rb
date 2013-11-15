@@ -100,7 +100,7 @@ end
 set :css_dir, 'stylesheets'
 
 set :js_dir, 'javascripts'
-
+set :bower_dir, '../vendor/components'
 set :images_dir, 'images'
 
 # Build-specific configuration

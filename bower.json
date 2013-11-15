@@ -14,5 +14,8 @@
     "vendor/components",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "jquery": "~2.0.3"
+  }
 }

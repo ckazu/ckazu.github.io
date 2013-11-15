@@ -1,3 +1,4 @@
+#= require 'jquery'
 #= require_tree ./vendor
 #= require_tree ./lib
 $('.tweet').socialbutton('twitter', {button: 'horizontal'});
