@@ -5,6 +5,10 @@ source 'http://rubygems.org'
 gem "middleman", "~> 3.1.6"
 gem "middleman-blog", "~> 3.3.0"
 
+# Use LESS
+gem 'therubyracer'
+gem 'less'
+
 # Use DISQUS
 gem 'middleman-disqus'
 
