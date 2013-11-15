@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>ckazu.info</title>
+  <subtitle>What is an Information Architecture?</subtitle>
+  <id>http://ckazu.info/blog</id>
+  <link href="http://ckazu.info/blog"/>
+  <link href="http://ckazu.info/blog/feed.xml" rel="self"/>
+  <updated>2013-11-08T10:05:00Z</updated>
+  <author>
+    <name>ckazu</name>
+  </author>
+  <entry>
+    <title>Middleman の記事更新を Travis-CI でする</title>
+    <link rel="alternate" href="http://ckazu.info/blog/2013/11/08/deploy_by_travis_ci/"/>
+    <id>http://ckazu.info/blog/2013/11/08/deploy_by_travis_ci/</id>
+    <published>2013-11-08T10:05:00Z</published>
+    <updated>2013-11-10T21:20:17+09:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <summary type="html">&lt;h2&gt;Middleman 静的ファイルのデプロイ&lt;/h2&gt;
+
+&lt;p&gt;このサイトは Middleman + github.io でできていて，デプロイ時には &lt;code&gt;middleman build &amp;amp;&amp;amp; middleman deploy&lt;/code&gt;とします．&lt;/p&gt;
+
+&lt;p&gt;これはそんなに面倒じゃないんですが，↓の記事に倣って自動化させてみました．&lt;/p&gt;
+
+&lt;p&gt;=&amp;gt; &lt;a href="http://tricknotes.hateblo.jp/entry/2013/06/17/020229"&gt;Middleman で作った web サイトを Travis + GitHub pages でお手軽に運用する&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3&gt;利点&lt;/h3&gt;
+
+&lt;p&gt;それほど積極的な利点じゃないですが，web ブラウザで GitHub ...&lt;/p&gt;</summary>
+    <content type="html">&lt;h2&gt;Middleman 静的ファイルのデプロイ&lt;/h2&gt;
+
+&lt;p&gt;このサイトは Middleman + github.io でできていて，デプロイ時には &lt;code&gt;middleman build &amp;amp;&amp;amp; middleman deploy&lt;/code&gt;とします．&lt;/p&gt;
+
+&lt;p&gt;これはそんなに面倒じゃないんですが，↓の記事に倣って自動化させてみました．&lt;/p&gt;
+
+&lt;p&gt;=&amp;gt; &lt;a href="http://tricknotes.hateblo.jp/entry/2013/06/17/020229"&gt;Middleman で作った web サイトを Travis + GitHub pages でお手軽に運用する&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3&gt;利点&lt;/h3&gt;
+
+&lt;p&gt;それほど積極的な利点じゃないですが，web ブラウザで GitHub リポジトリの記事を直接更新した時にもデプロイされます．&lt;/p&gt;
+
+&lt;p&gt;端末が使えないけど更新したい時とかあるかわかりませんが，便利といえば便利です．&lt;/p&gt;
+
+&lt;h2&gt;違い&lt;/h2&gt;
+
+&lt;p&gt;で，ちょっと違う点があって工夫が必要だったので，その点だけ，残しておきます．&lt;/p&gt;
+
+&lt;h3&gt;gh-pages ブランチを使用していない&lt;/h3&gt;
+
+&lt;p&gt;この点が違うところで，ブランチ構成を次のようにしています．&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;master&lt;/code&gt; # 生成された後の静的ファイル&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;source&lt;/code&gt; # 実際に作業しているブランチ&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;なので，source に push したら，build して，master へコミットしないといけません．&lt;/p&gt;
+
+&lt;p&gt;それ自体は大したことがないのですが，困るのは master に push するので，Travis さんが master のビルドをしようとしてしまいます．&lt;/p&gt;
+
+&lt;p&gt;ということで，master に push する際に &lt;code&gt;master&lt;/code&gt; ブランチでビルドしない設定の &lt;code&gt;.travis.yml&lt;/code&gt; を生成して対応することにしました．&lt;/p&gt;
+
+&lt;p&gt;ついでに，ビルドしたいのは &lt;code&gt;source&lt;/code&gt; ブランチに push した時だけなので，&lt;code&gt;source&lt;/code&gt; ブランチの &lt;code&gt;.travis.yml&lt;/code&gt; にも追加．&lt;/p&gt;
+&lt;pre class="highlight yaml"&gt;&lt;span class="s"&gt;...略...&lt;/span&gt;
+&lt;span class="s"&gt;after_success&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+  &lt;span class="p"&gt;-&lt;/span&gt; &lt;span class="s"&gt;cd build&lt;/span&gt;
+  &lt;span class="p"&gt;-&lt;/span&gt; &lt;span class="s"&gt;echo -e &amp;quot;---\nbranches:\n  only:\n    - source&amp;quot; &amp;gt; .travis.yml&lt;/span&gt;
+  &lt;span class="p"&gt;-&lt;/span&gt; &lt;span class="s"&gt;git add -A&lt;/span&gt;
+  &lt;span class="p"&gt;-&lt;/span&gt; &lt;span class="s"&gt;git commit -m &amp;#39;Update&amp;#39;&lt;/span&gt;
+  &lt;span class="p"&gt;-&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="s"&gt;[&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;$GH_TOKEN&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;]&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;git&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;push&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;--quiet&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;https://$GH_TOKEN@github.com/OWNER/REPO.git&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;2&amp;gt;&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;/dev/null&amp;#39;&lt;/span&gt;
+
+&lt;span class="s"&gt;branches&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+  &lt;span class="s"&gt;only&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="p"&gt;-&lt;/span&gt; &lt;span class="s"&gt;source&lt;/span&gt;
+&lt;/pre&gt;
+&lt;h3&gt;gh-pages 運用で問題が起きない理由&lt;/h3&gt;
+
+&lt;p&gt;Travis さんは &lt;a href="http://about.travis-ci.org/docs/user/build-configuration/#White--or-blacklisting-branches"&gt;Configuring your build#White- or blacklisting branches&lt;/a&gt; にあるように，&lt;code&gt;gh-pages&lt;/code&gt; が更新された際にはビルドしないんですねー．&lt;/p&gt;
+
+&lt;h2&gt;残された問題点&lt;/h2&gt;
+
+&lt;p&gt;手動で更新した際には，&lt;code&gt;master&lt;/code&gt; もビルドされてしまう．&lt;/p&gt;
+
+&lt;p&gt;&lt;img alt="middleman-travis-ci" src="/images/middleman-travis-ci.png" /&gt;&lt;/p&gt;
+
+&lt;p&gt;対応策は，&lt;code&gt;middlemana build&lt;/code&gt; で，&lt;code&gt;.travis.yml&lt;/code&gt; を置くようにするか，コミットメッセージに &lt;code&gt;[ci skip]&lt;/code&gt; を入れるようにするか，くらい？&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>GitHub で open になっている PR をチェックする</title>
+    <link rel="alternate" href="http://ckazu.info/blog/2013/11/07/check_github_pr/"/>
+    <id>http://ckazu.info/blog/2013/11/07/check_github_pr/</id>
+    <published>2013-11-07T05:18:00Z</published>
+    <updated>2013-11-07T15:06:18+09:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <summary type="html">&lt;h2&gt;API を叩く&lt;/h2&gt;
+
+&lt;p&gt;複数の GitHub リポジトリの PR をチェックするのが割りと面倒なので，日時バッチで通知するようにしている．&lt;/p&gt;
+
+&lt;p&gt;PR を取得するには，&lt;a href="http://developer.github.com/v3/pulls/#list-pull-requests"&gt;GitHub Developer API&lt;/a&gt; を叩けば済む．&lt;/p&gt;
+&lt;pre class="highlight shell"&gt;&lt;span class="gp"&gt;$ &lt;/span&gt;curl https://api.github.com/repos/rails/rails/pulls
+&lt;/pre&gt;
+&lt;p&gt;以下の様に JSON でまるっと返ってくるので，必要に応じて欲しい情報を取得する．&lt;/p&gt;
+&lt;pre class="highlight json"&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="w"&gt;
+  &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;
+    &lt;/span&gt;&lt;span class="s2"&gt;"url"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"https://api.github.com/repos...&lt;/span&gt;&lt;/pre&gt;</summary>
+    <content type="html">&lt;h2&gt;API を叩く&lt;/h2&gt;
+
+&lt;p&gt;複数の GitHub リポジトリの PR をチェックするのが割りと面倒なので，日時バッチで通知するようにしている．&lt;/p&gt;
+
+&lt;p&gt;PR を取得するには，&lt;a href="http://developer.github.com/v3/pulls/#list-pull-requests"&gt;GitHub Developer API&lt;/a&gt; を叩けば済む．&lt;/p&gt;
+&lt;pre class="highlight shell"&gt;&lt;span class="gp"&gt;$ &lt;/span&gt;curl https://api.github.com/repos/rails/rails/pulls
+&lt;/pre&gt;
+&lt;p&gt;以下の様に JSON でまるっと返ってくるので，必要に応じて欲しい情報を取得する．&lt;/p&gt;
+&lt;pre class="highlight json"&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="w"&gt;
+  &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;
+    &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;url&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;https://api.github.com/repos/rails/rails/pulls/12791&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+    &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;id&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;9743099&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+    &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;html_url&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;https://github.com/rails/rails/pull/12791&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+    &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;diff_url&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;https://github.com/rails/rails/pull/12791.diff&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+    &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;patch_url&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;https://github.com/rails/rails/pull/12791.patch&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+    &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;issue_url&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;https://github.com/rails/rails/pull/12791&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+    &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;number&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;12791&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+    &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;state&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;open&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+    &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;title&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;add autoload :TransactionState to fix Marshal.load issues&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+    &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;user&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;
+      &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;login&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;jasonayre&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+      &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;id&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;155084&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+      &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;avatar_url&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;https://2.gravatar.com/avatar/3d4ea18be907fb6130be9749ec336cd6?d=https%3A%2F%2Fidenticons.github.com%2Faf5a6968d0d85aa4ea4af86409d642a0.png&amp;amp;r=x&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;span class="err"&gt;...以下略...&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/pre&gt;
+&lt;h2&gt;private repository&lt;/h2&gt;
+
+&lt;p&gt;ただし，private なリポジトリの場合には認証が必要．&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="https://github.com/settings/applications"&gt;https://github.com/settings/applications&lt;/a&gt; から，&lt;code&gt;Personal Access Token&lt;/code&gt;を発行して使用する．&lt;/p&gt;
+&lt;pre class="highlight shell"&gt;&lt;span class="gp"&gt;$ &lt;/span&gt;curl -u USERNAME:ACCESSTOKEN https://api.github.com/repos/OWNER/REPO/pulls
+&lt;/pre&gt;
+&lt;h2&gt;ruby で書いたものはこちらに．&lt;/h2&gt;
+
+&lt;p&gt;=&amp;gt; &lt;a href="https://github.com/ckazu/github_checker"&gt;ckazu/github_checker&lt;/a&gt;&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>カリグラフィペンを買った</title>
+    <link rel="alternate" href="http://ckazu.info/blog/2013/11/07/buy_sheaffer_calligraphy_pen/"/>
+    <id>http://ckazu.info/blog/2013/11/07/buy_sheaffer_calligraphy_pen/</id>
+    <published>2013-11-06T18:21:00Z</published>
+    <updated>2013-11-07T04:45:13+09:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <summary type="html">&lt;h2&gt;Sheaffer Calligraphy MINI&lt;/h2&gt;
+
+&lt;p&gt;ちょっと前からカリグラフィやりたいなと思っていたので，ペンを買ってきた．&lt;/p&gt;
+
+&lt;p&gt;近所の文具店に行ったら，&lt;a href="http://www.sheaffer.jp/products/calligraphy/mini_kit"&gt;Sheaffer® カリグラフィー ミニキット&lt;/a&gt;と，&lt;a href="http://www.pilot.co.jp/products/pen/color_pen/parallel/"&gt;PILOT パラレルペン&lt;/a&gt; があったけど，せっかくなので，万年筆タイプの Sheaffer にした．&lt;/p&gt;
+
+&lt;p&gt;これは，安価な入門キットで，付属の太さの違う３種類のペン先(ニブというようだ)を付け替えられる．&lt;/p&gt;
+
+&lt;h2&gt;初めてのカリグラフィ&lt;/h2&gt;
+
+&lt;p&gt;で，とりあえず，見よう見まねで書いてみたニューヨークタイムズとペ...&lt;/p&gt;</summary>
+    <content type="html">&lt;h2&gt;Sheaffer Calligraphy MINI&lt;/h2&gt;
+
+&lt;p&gt;ちょっと前からカリグラフィやりたいなと思っていたので，ペンを買ってきた．&lt;/p&gt;
+
+&lt;p&gt;近所の文具店に行ったら，&lt;a href="http://www.sheaffer.jp/products/calligraphy/mini_kit"&gt;Sheaffer® カリグラフィー ミニキット&lt;/a&gt;と，&lt;a href="http://www.pilot.co.jp/products/pen/color_pen/parallel/"&gt;PILOT パラレルペン&lt;/a&gt; があったけど，せっかくなので，万年筆タイプの Sheaffer にした．&lt;/p&gt;
+
+&lt;p&gt;これは，安価な入門キットで，付属の太さの違う３種類のペン先(ニブというようだ)を付け替えられる．&lt;/p&gt;
+
+&lt;h2&gt;初めてのカリグラフィ&lt;/h2&gt;
+
+&lt;p&gt;で，とりあえず，見よう見まねで書いてみたニューヨークタイムズとペン．&lt;/p&gt;
+
+&lt;iframe src="//instagram.com/p/gYe-XVnmgU/embed/" width="612" height="710" frameborder="0" scrolling="no" allowtransparency="true"&gt;&lt;/iframe&gt;
+
+&lt;p&gt;本物と太さが違うけど気にせず書いた．&lt;/p&gt;
+
+&lt;p&gt;ペン先が切られてるので，普通の万年筆よりコツがいる．&lt;/p&gt;
+
+&lt;p&gt;書き方の基本も，書き順も何もかも知らないので，こういうことなのかと想像しながら書いた．&lt;/p&gt;
+
+&lt;p&gt;というのも，近所の書店にはカリグラフィの本がなかったから．&lt;/p&gt;
+
+&lt;p&gt;これから amazon さんで探そう．&lt;/p&gt;
+
+&lt;h3&gt;二巡目以降&lt;/h3&gt;
+
+&lt;p&gt;細かい部分まで見ながら書くからか，すっかり覚えてしまって，二回目からは時間を書けずに書けるようになった．&lt;/p&gt;
+
+&lt;p&gt;上手くはなっていない．大文字難しい．e を書くのが楽しい．&lt;/p&gt;
+
+&lt;iframe src="//instagram.com/p/gYfv5vHmhN/embed/" width="612" height="710" frameborder="0" scrolling="no" allowtransparency="true"&gt;&lt;/iframe&gt;
+
+&lt;p&gt;本物とはまったく違うものが出来上がっているけれど，まあ楽しいので良い．&lt;/p&gt;
+
+&lt;p&gt;あと，Zapfino, Euler font を書きたいと思って挑戦してみたけど，技術力が足りなすぎた．&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>middleman を使ってみた</title>
+    <link rel="alternate" href="http://ckazu.info/blog/2013/11/06/development_using_middleman/"/>
+    <id>http://ckazu.info/blog/2013/11/06/development_using_middleman/</id>
+    <published>2013-11-05T21:26:00Z</published>
+    <updated>2013-11-07T04:45:28+09:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <summary type="html">&lt;h2&gt;経緯&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href="http://jekyllrb.com/"&gt;jekyll&lt;/a&gt; を使っていた Github Page を &lt;a href="http://middlemanapp.com/"&gt;Middleman&lt;/a&gt; (&lt;a href="http://middlemanjp.github.io/"&gt;jp&lt;/a&gt;) で書きなおしてみました．&lt;/p&gt;
+
+&lt;p&gt;更新していなかったので，Jekyll のことはきれいさっぱり忘れた．&lt;/p&gt;
+
+&lt;p&gt;ついでにドメインとりました．&lt;/p&gt;
+
+&lt;h2&gt;Middleman&lt;/h2&gt;
+
+&lt;p&gt;業務の開発で使うなら，最初の一歩がもうちょっと楽になるとありがたいなーという印象．&lt;/p&gt;
+
+&lt;p&gt;個人使用でセットアップは一度きりと考えると，これで良いのかなという感じで割り切りました．&lt;/p&gt;
+
+&lt;p&gt;template がいくつか用意されているんだけれど，使いたいものが...&lt;/p&gt;</summary>
+    <content type="html">&lt;h2&gt;経緯&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href="http://jekyllrb.com/"&gt;jekyll&lt;/a&gt; を使っていた Github Page を &lt;a href="http://middlemanapp.com/"&gt;Middleman&lt;/a&gt; (&lt;a href="http://middlemanjp.github.io/"&gt;jp&lt;/a&gt;) で書きなおしてみました．&lt;/p&gt;
+
+&lt;p&gt;更新していなかったので，Jekyll のことはきれいさっぱり忘れた．&lt;/p&gt;
+
+&lt;p&gt;ついでにドメインとりました．&lt;/p&gt;
+
+&lt;h2&gt;Middleman&lt;/h2&gt;
+
+&lt;p&gt;業務の開発で使うなら，最初の一歩がもうちょっと楽になるとありがたいなーという印象．&lt;/p&gt;
+
+&lt;p&gt;個人使用でセットアップは一度きりと考えると，これで良いのかなという感じで割り切りました．&lt;/p&gt;
+
+&lt;p&gt;template がいくつか用意されているんだけれど，使いたいものが全部入りというのがなく，結局，自分で書くか template からの導入は諦める感じになりました．&lt;/p&gt;
+
+&lt;p&gt;activate の仕組みは便利ですね．&lt;/p&gt;
+
+&lt;h2&gt;code&lt;/h2&gt;
+
+&lt;p&gt;config.rb は大体こんな感じ&lt;/p&gt;
+
+&lt;p&gt;helper はここにおいておいて良いのかな？？？&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;
+&lt;span class="n"&gt;activate&lt;/span&gt; &lt;span class="ss"&gt;:i18n&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;langs: :ja&lt;/span&gt;
+
+&lt;span class="c1"&gt;# blog&lt;/span&gt;
+&lt;span class="n"&gt;activate&lt;/span&gt; &lt;span class="ss"&gt;:blog&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;blog&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+  &lt;span class="n"&gt;blog&lt;/span&gt;&lt;span class="nf"&gt;.prefix&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;blog&amp;quot;&lt;/span&gt;
+  &lt;span class="n"&gt;blog&lt;/span&gt;&lt;span class="nf"&gt;.layout&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;blog_layout&amp;quot;&lt;/span&gt;
+  &lt;span class="n"&gt;blog&lt;/span&gt;&lt;span class="nf"&gt;.tag_template&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;blog/tag.html&amp;quot;&lt;/span&gt;
+  &lt;span class="n"&gt;blog&lt;/span&gt;&lt;span class="nf"&gt;.calendar_template&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;blog/calendar.html&amp;quot;&lt;/span&gt;
+  &lt;span class="n"&gt;blog&lt;/span&gt;&lt;span class="nf"&gt;.paginate&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kp"&gt;true&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="n"&gt;activate&lt;/span&gt; &lt;span class="ss"&gt;:directory_indexes&lt;/span&gt;
+&lt;span class="n"&gt;page&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;/feed.xml&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:layout&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="kp"&gt;false&lt;/span&gt;
+
+&lt;span class="c1"&gt;# syntax highlight&lt;/span&gt;
+&lt;span class="n"&gt;set&lt;/span&gt; &lt;span class="ss"&gt;:markdown_engine&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:redcarpet&lt;/span&gt;
+&lt;span class="n"&gt;set&lt;/span&gt; &lt;span class="ss"&gt;:markdown&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;fenced_code_blocks: &lt;/span&gt;&lt;span class="kp"&gt;true&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;smartypants: &lt;/span&gt;&lt;span class="kp"&gt;true&lt;/span&gt;
+&lt;span class="n"&gt;set&lt;/span&gt; &lt;span class="ss"&gt;:haml&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="ss"&gt;ugly: &lt;/span&gt;&lt;span class="kp"&gt;true&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="n"&gt;activate&lt;/span&gt; &lt;span class="ss"&gt;:rouge_syntax&lt;/span&gt;
+
+&lt;span class="n"&gt;helpers&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;blog_tag_for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;content_tag&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:span&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;class: &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;tag label fa fa-tag&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+      &lt;span class="n"&gt;link_to&lt;/span&gt; &lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;tag_path&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="n"&gt;activate&lt;/span&gt; &lt;span class="ss"&gt;:deploy&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;deploy&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+  &lt;span class="n"&gt;deploy&lt;/span&gt;&lt;span class="nf"&gt;.method&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="ss"&gt;:git&lt;/span&gt;
+  &lt;span class="n"&gt;deploy&lt;/span&gt;&lt;span class="nf"&gt;.branch&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="ss"&gt;:master&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;syntax highlight で pre タグが改行されてしまって左に余白ができてしまうのに困っていたら，良さそうな解決方法が見つかって良かった．
+=&amp;gt; &lt;a href="http://qiita.com/kumanoayumi/items/3e39936882db5aa912d6"&gt;MiddlemanでMarkdownでpre要素を使う時に出てしまう余分な余白を消す方法&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2&gt;github.io&lt;/h2&gt;
+
+&lt;p&gt;Github Pages をカスタムドメインでホスティングしたんだけれど，うまいこと反映されなくて長いことはまった．&lt;/p&gt;
+
+&lt;p&gt;はまったところは 3 点あって，&lt;/p&gt;
+
+&lt;h3&gt;ひとつは &lt;code&gt;gh-pages&lt;/code&gt; ブランチがあれば，そっちが優先されると思っていた点．&lt;/h3&gt;
+
+&lt;p&gt;username/username.github.io だと，&lt;code&gt;master&lt;/code&gt; ブランチが使われるんですね．Jeykill でもそうだったのに．．．&lt;/p&gt;
+
+&lt;p&gt;=&amp;gt; &lt;a href="http://blog.coiney.com/2013/06/21/host-middleman-blog-on-github/"&gt;middleman-blogをgithubでホストする&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3&gt;2 点目は，&lt;code&gt;CNAME&lt;/code&gt; の置き場所．&lt;/h3&gt;
+
+&lt;p&gt;プロジェクト直下においていたのが間違いで，&lt;code&gt;/source&lt;/code&gt; 以下に配置しないといけなかった．&lt;/p&gt;
+
+&lt;p&gt;ビルド後のファイル構成を考えればすぐ分かりそうなもんでした．．．&lt;/p&gt;
+
+&lt;h3&gt;最後は，ホスティング先の勘違い．&lt;/h3&gt;
+
+&lt;p&gt;上の理由 (CNAME が配置されていない状態) から，&lt;code&gt;username.github.io&lt;/code&gt; に展開されているのに，カスタムドメインの方を見に行っていて，いつまでたっても反映されないなーとやっていた．&lt;/p&gt;
+
+&lt;p&gt;これは，github のプロジェクトページの&lt;code&gt;Setting &amp;gt; GitHub Pages&lt;/code&gt; のところを見ると，&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Your site is published at http://username.github.io&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;といった風に展開先が表示されるので確認できます．&lt;/p&gt;
+
+&lt;h2&gt;雑感&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;静的サイトを作るのにちゃんと使えそう&lt;/li&gt;
+&lt;li&gt;少ないながらも開発に必要な道具が割と揃ってる (or 組み込める)&lt;/li&gt;
+&lt;li&gt;livereload 便利&lt;/li&gt;
+&lt;li&gt;Frontmatter 便利&lt;/li&gt;
+&lt;li&gt;ruby, Padrino の資産活用できて良い&lt;/li&gt;
+&lt;li&gt;JS, CSS, WebFonts などの管理 =&amp;gt; Bower とか?&lt;/li&gt;
+&lt;li&gt;ファイル構成はもうちょっと整理したほうが．．．&lt;/li&gt;
+&lt;li&gt;middleman-blog 使っても，いきなりきれいなブログサイトなんかできないよ！&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;おわり&lt;/h2&gt;
+
+&lt;p&gt;とりあえず，徐々にサイト作っていきます&lt;/p&gt;
+
+&lt;p&gt;(なるべく更新したい&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>rake notes で，spec, js, coffee, scss, haml, slim のファイルも対象にする</title>
+    <link rel="alternate" href="http://ckazu.info/blog/2011/12/06/ruby-rails-rake-notes-spec-js-coffee-scss-haml-slim/"/>
+    <id>http://ckazu.info/blog/2011/12/06/ruby-rails-rake-notes-spec-js-coffee-scss-haml-slim/</id>
+    <published>2011-12-05T15:00:00Z</published>
+    <updated>2013-11-06T05:30:36+09:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <summary type="html">&lt;pre class="highlight ruby"&gt;
+&lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;SourceAnnotationExtractor&lt;/span&gt;
+  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;find_with_custom_directories&lt;/span&gt;
+    &lt;span class="n"&gt;find_without_custom_directories&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sx"&gt;%w|app lib spec|&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+  &lt;span class="n"&gt;alias_method_chain&lt;/span&gt; &lt;span class="ss"&gt;:find&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:custom_directories&lt;/span&gt;
+
+  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;find_in_with_custom_files&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dir&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;results&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;find_in_without_custom_files&lt;/span&gt;&lt;/pre&gt;</summary>
+    <content type="html">&lt;pre class="highlight ruby"&gt;
+&lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;SourceAnnotationExtractor&lt;/span&gt;
+  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;find_with_custom_directories&lt;/span&gt;
+    &lt;span class="n"&gt;find_without_custom_directories&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sx"&gt;%w|app lib spec|&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+  &lt;span class="n"&gt;alias_method_chain&lt;/span&gt; &lt;span class="ss"&gt;:find&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:custom_directories&lt;/span&gt;
+
+  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;find_in_with_custom_files&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dir&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;results&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;find_in_without_custom_files&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dir&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="no"&gt;Dir&lt;/span&gt;&lt;span class="nf"&gt;.glob&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="n"&gt;dir&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;/*&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+      &lt;span class="k"&gt;next&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="no"&gt;File&lt;/span&gt;&lt;span class="nf"&gt;.basename&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="sc"&gt;?.&lt;/span&gt;
+
+      &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="no"&gt;File&lt;/span&gt;&lt;span class="nf"&gt;.directory?&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;results&lt;/span&gt;&lt;span class="nf"&gt;.update&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;find_in&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+      &lt;span class="k"&gt;elsif&lt;/span&gt; &lt;span class="n"&gt;item&lt;/span&gt; &lt;span class="o"&gt;=~&lt;/span&gt; &lt;span class="sr"&gt;/\.(coffee)$/&lt;/span&gt;
+        &lt;span class="n"&gt;results&lt;/span&gt;&lt;span class="nf"&gt;.update&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;extract_annotations_from&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="sr"&gt;/#\s*\[?(&lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="sr"&gt;)\]?\s*:?\s*(.*)$/&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+      &lt;span class="k"&gt;elsif&lt;/span&gt; &lt;span class="n"&gt;item&lt;/span&gt; &lt;span class="o"&gt;=~&lt;/span&gt; &lt;span class="sr"&gt;/\.(js|scss)$/&lt;/span&gt;
+        &lt;span class="n"&gt;results&lt;/span&gt;&lt;span class="nf"&gt;.update&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;extract_annotations_from&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="sr"&gt;/\/\/\s*\[?(&lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="sr"&gt;)\]?\s*:?\s*(.*)$/&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+      &lt;span class="k"&gt;elsif&lt;/span&gt; &lt;span class="n"&gt;item&lt;/span&gt; &lt;span class="o"&gt;=~&lt;/span&gt; &lt;span class="sr"&gt;/\.(haml)$/&lt;/span&gt;
+        &lt;span class="n"&gt;results&lt;/span&gt;&lt;span class="nf"&gt;.update&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;extract_annotations_from&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="sr"&gt;/[\/|(\-\#)]\s*\[?(&lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="sr"&gt;)\]?\s*:?\s*(.*)$/&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+      &lt;span class="k"&gt;elsif&lt;/span&gt; &lt;span class="n"&gt;item&lt;/span&gt; &lt;span class="o"&gt;=~&lt;/span&gt; &lt;span class="sr"&gt;/\.(slim)$/&lt;/span&gt;
+        &lt;span class="n"&gt;results&lt;/span&gt;&lt;span class="nf"&gt;.update&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;extract_annotations_from&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="sr"&gt;/\/\!?\s*\[?(&lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="sr"&gt;)\]?\s*:?\s*(.*)$/&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+      &lt;span class="k"&gt;end&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+    &lt;span class="n"&gt;results&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+  &lt;span class="n"&gt;alias_method_chain&lt;/span&gt; &lt;span class="ss"&gt;:find_in&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:custom_files&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;</content>
+  </entry>
+  <entry>
+    <title>rails で Mix-in するときにすでにあるメソッドをオーバーライドする</title>
+    <link rel="alternate" href="http://ckazu.info/blog/2011/05/23/ruby-rails-rails-Mix-in/"/>
+    <id>http://ckazu.info/blog/2011/05/23/ruby-rails-rails-Mix-in/</id>
+    <published>2011-05-22T15:00:00Z</published>
+    <updated>2013-11-06T05:30:36+09:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <summary type="html">&lt;pre class="highlight ruby"&gt;&lt;span class="k"&gt;module&lt;/span&gt; &lt;span class="nn"&gt;NewMethod&lt;/span&gt;
+  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nc"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;included&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;mod&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;mod&lt;/span&gt;&lt;span class="nf"&gt;.class_eval&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+      &lt;span class="n"&gt;alias_method_chain&lt;/span&gt; &lt;span class="ss"&gt;:method&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:new_method&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+
+  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;method_with_new_method&lt;/span&gt;
+    &lt;span class="n"&gt;method_without_new_method&lt;/span&gt;
+    &lt;span class="s1"&gt;'new method'&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;Origin&lt;/span&gt;
+  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;method&lt;/span&gt;
+    &lt;span class="s1"&gt;'origin...&lt;/span&gt;&lt;/pre&gt;</summary>
+    <content type="html">&lt;pre class="highlight ruby"&gt;&lt;span class="k"&gt;module&lt;/span&gt; &lt;span class="nn"&gt;NewMethod&lt;/span&gt;
+  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nc"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;included&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;mod&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;mod&lt;/span&gt;&lt;span class="nf"&gt;.class_eval&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+      &lt;span class="n"&gt;alias_method_chain&lt;/span&gt; &lt;span class="ss"&gt;:method&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:new_method&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+
+  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;method_with_new_method&lt;/span&gt;
+    &lt;span class="n"&gt;method_without_new_method&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;new method&amp;#39;&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;Origin&lt;/span&gt;
+  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;method&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;origin method&amp;#39;&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+  &lt;span class="kp"&gt;include&lt;/span&gt; &lt;span class="no"&gt;NewMethod&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="nb"&gt;puts&lt;/span&gt; &lt;span class="no"&gt;Origin&lt;/span&gt;&lt;span class="nf"&gt;.new.method&lt;/span&gt;    &lt;span class="c1"&gt;#=&amp;gt; new method&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;include をメソッドの後に書かないといけないのが微妙&lt;/p&gt;
+
+&lt;!-- more --&gt;
+
+&lt;p&gt;ちょっと補足&lt;/p&gt;
+
+&lt;h2&gt;普通の include&lt;/h2&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="k"&gt;module&lt;/span&gt; &lt;span class="nn"&gt;NewMethod&lt;/span&gt;
+  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;method&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;new method&amp;#39;&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;Origin&lt;/span&gt;
+  &lt;span class="kp"&gt;include&lt;/span&gt; &lt;span class="no"&gt;NewMethod&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="nb"&gt;puts&lt;/span&gt; &lt;span class="no"&gt;Origin&lt;/span&gt;&lt;span class="nf"&gt;.new.method&lt;/span&gt;          &lt;span class="c1"&gt;# =&amp;gt; new method&lt;/span&gt;
+&lt;/pre&gt;
+&lt;h2&gt;同名メソッドがある場合&lt;/h2&gt;
+
+&lt;p&gt;モジュールのメソッドは呼ばれない．&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="k"&gt;module&lt;/span&gt; &lt;span class="nn"&gt;NewMethod&lt;/span&gt;
+  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;method&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;new method&amp;#39;&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;Origin&lt;/span&gt;
+  &lt;span class="kp"&gt;include&lt;/span&gt; &lt;span class="no"&gt;NewMethod&lt;/span&gt;
+  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;method&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;origin method&amp;#39;&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="nb"&gt;puts&lt;/span&gt; &lt;span class="no"&gt;Origin&lt;/span&gt;&lt;span class="nf"&gt;.new.method&lt;/span&gt;          &lt;span class="c1"&gt;# =&amp;gt; origin method&lt;/span&gt;
+&lt;/pre&gt;
+&lt;h2&gt;include の順番を変えた例&lt;/h2&gt;
+
+&lt;p&gt;メソッドの定義順を変えても駄目．&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="k"&gt;module&lt;/span&gt; &lt;span class="nn"&gt;NewMethod&lt;/span&gt;
+  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;method&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;new method&amp;#39;&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;Origin&lt;/span&gt;
+  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;method&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;origin method&amp;#39;&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+  &lt;span class="kp"&gt;include&lt;/span&gt; &lt;span class="no"&gt;NewMethod&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="nb"&gt;puts&lt;/span&gt; &lt;span class="no"&gt;Origin&lt;/span&gt;&lt;span class="nf"&gt;.new.method&lt;/span&gt;          &lt;span class="c1"&gt;# =&amp;gt; origin method&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;結局，include しても，最初に見つかるメソッドが呼ばれるだけ．
+ということで，冒頭のコードのように method_chain を使って定義．&lt;/p&gt;
+</content>
+  </entry>
+</feed>
