@@ -5,16 +5,164 @@
   <id>http://ckazu.info/blog</id>
   <link href="http://ckazu.info/blog"/>
   <link href="http://ckazu.info/blog/feed.xml" rel="self"/>
-  <updated>2013-11-08T10:05:00Z</updated>
+  <updated>2013-12-03T15:50:00Z</updated>
   <author>
     <name>ckazu</name>
   </author>
+  <entry>
+    <title>rails で画像ファイルを DB に保存する</title>
+    <link rel="alternate" href="http://ckazu.info/blog/2013/12/04/image_upload_to_ar_db/"/>
+    <id>http://ckazu.info/blog/2013/12/04/image_upload_to_ar_db/</id>
+    <published>2013-12-03T15:50:00Z</published>
+    <updated>2013-12-03T17:36:03+00:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <summary type="html">&lt;h2&gt;rails で画像を保存する&lt;/h2&gt;
+
+&lt;p&gt;rails 画像を扱うには，&lt;a href="https://github.com/thoughtbot/paperclip"&gt;https://github.com/thoughtbot/paperclip&lt;/a&gt; や &lt;a href="https://github.com/carrierwaveuploader/carrierwave"&gt;https://github.com/carrierwaveuploader/carrierwave&lt;/a&gt; といった便利な画像アップローダの gem がありますが，ちょっとしたアイコンやアバター，ロゴ，バナー画像などの類で，加工も必要ないような場合には DB にバイナリで突っ込んでおくくらいが手軽で良さそうです．&lt;/p&gt;
+
+&lt;h3&gt;前提&lt;/h3&gt;
+&lt;pre class="highlight shell"&gt;&lt;span class="gp"&gt;$ &lt;/span&gt;rails new test_app...&lt;/pre&gt;</summary>
+    <content type="html">&lt;h2&gt;rails で画像を保存する&lt;/h2&gt;
+
+&lt;p&gt;rails 画像を扱うには，&lt;a href="https://github.com/thoughtbot/paperclip"&gt;https://github.com/thoughtbot/paperclip&lt;/a&gt; や &lt;a href="https://github.com/carrierwaveuploader/carrierwave"&gt;https://github.com/carrierwaveuploader/carrierwave&lt;/a&gt; といった便利な画像アップローダの gem がありますが，ちょっとしたアイコンやアバター，ロゴ，バナー画像などの類で，加工も必要ないような場合には DB にバイナリで突っ込んでおくくらいが手軽で良さそうです．&lt;/p&gt;
+
+&lt;h3&gt;前提&lt;/h3&gt;
+&lt;pre class="highlight shell"&gt;&lt;span class="gp"&gt;$ &lt;/span&gt;rails new test_app
+&lt;span class="gp"&gt;$ &lt;/span&gt;vi Gemfile
+Gemfile に haml-rails を追加
+&lt;span class="gp"&gt;$ &lt;/span&gt;bundle install
+&lt;span class="gp"&gt;$ &lt;/span&gt;rails g scaffold user name icon:binary icon_content_type
+&lt;span class="gp"&gt;$ &lt;/span&gt;rake db:migrate
+&lt;/pre&gt;
+&lt;p&gt;以上の作業後の状態です．&lt;/p&gt;
+
+&lt;h3&gt;画像を保存するカラム&lt;/h3&gt;
+
+&lt;p&gt;上で生成しているように，今回は &lt;code&gt;User#icon&lt;/code&gt; に保存することにします．&lt;/p&gt;
+
+&lt;p&gt;また，ファイルタイプを保持しておくために，&lt;code&gt;User#icon_content_type&lt;/code&gt; も同時に用意しておきます．&lt;/p&gt;
+
+&lt;p&gt;それから，デフォルトの状態だと User#icon は blob なので，必要に応じて変更します．&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;CreateUsers&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;ActiveRecord&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Migration&lt;/span&gt;
+  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;change&lt;/span&gt;
+    &lt;span class="n"&gt;create_table&lt;/span&gt; &lt;span class="ss"&gt;:users&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+      &lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="nf"&gt;.string&lt;/span&gt; &lt;span class="ss"&gt;:name&lt;/span&gt;
+      &lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="nf"&gt;.binary&lt;/span&gt; &lt;span class="ss"&gt;:icon&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;limit: &lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="nf"&gt;.megabyte&lt;/span&gt; &lt;span class="c1"&gt;# &amp;lt;= limit を指定する&lt;/span&gt;
+      &lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="nf"&gt;.string&lt;/span&gt; &lt;span class="ss"&gt;:icon_content_type&lt;/span&gt;
+
+      &lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="nf"&gt;.timestamps&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;サンプルは Sqlite3 で作ってしまったので関係ないのですが．．．&lt;/p&gt;
+
+&lt;p&gt;なにはともあれ，migration します．&lt;/p&gt;
+&lt;pre class="highlight shell"&gt;&lt;span class="gp"&gt;$ &lt;/span&gt;rake db:migrate:redo
+&lt;/pre&gt;
+&lt;h2&gt;コントローラでバイナリをセットする&lt;/h2&gt;
+
+&lt;p&gt;icon のバイナリデータとファイルタイプは create (update も) アクション内でパラメータからセットするようにします．&lt;/p&gt;
+
+&lt;p&gt;rails4 で scaffold を使用すると，&lt;code&gt;user_params&lt;/code&gt; のようなメソッドが生えるので，今回は &lt;code&gt;icon&lt;/code&gt;, &lt;code&gt;icon_content_type&lt;/code&gt; をそこから除外してしまうことにします．&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="n"&gt;app&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;controllers&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;users_controller&lt;/span&gt;&lt;span class="nf"&gt;.rb&lt;/span&gt;
+
+&lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;UsersController&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;ApplicationController&lt;/span&gt;
+&lt;span class="nf"&gt;..&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;
+  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;create&lt;/span&gt;
+    &lt;span class="vi"&gt;@user&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;User&lt;/span&gt;&lt;span class="nf"&gt;.new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;user_params&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="vi"&gt;@user&lt;/span&gt;&lt;span class="nf"&gt;.icon&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;params&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="ss"&gt;:user&lt;/span&gt;&lt;span class="o"&gt;][&lt;/span&gt;&lt;span class="ss"&gt;:icon&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="nf"&gt;.read&lt;/span&gt; &lt;span class="c1"&gt;# &amp;lt;= バイナリをセット&lt;/span&gt;
+    &lt;span class="vi"&gt;@user&lt;/span&gt;&lt;span class="nf"&gt;.icon_content_type&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;params&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="ss"&gt;:user&lt;/span&gt;&lt;span class="o"&gt;][&lt;/span&gt;&lt;span class="ss"&gt;:icon&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="nf"&gt;.content_type&lt;/span&gt; &lt;span class="c1"&gt;# &amp;lt;= ファイルタイプをセット&lt;/span&gt;
+
+    &lt;span class="nf"&gt;..&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+  &lt;span class="nf"&gt;..&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;
+  &lt;span class="kp"&gt;private&lt;/span&gt;
+    &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;user_params&lt;/span&gt;
+      &lt;span class="n"&gt;params&lt;/span&gt;&lt;span class="nf"&gt;.require&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:user&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nf"&gt;.permit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:name&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# &amp;lt;= icon, icon_content_type を削除&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="nf"&gt;..&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;
+&lt;h2&gt;フォームの変更&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;User#icon&lt;/code&gt; にファイルをアップロードできるように変更します．&lt;/p&gt;
+
+&lt;p&gt;&lt;img alt="フォームの変更" src="/images/20131204_1.png" /&gt;&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="n"&gt;app&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;views&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;users&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;_form&lt;/span&gt;&lt;span class="nf"&gt;.html.haml&lt;/span&gt;
+
+&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;form_for&lt;/span&gt; &lt;span class="vi"&gt;@user&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+  &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="vi"&gt;@user&lt;/span&gt;&lt;span class="nf"&gt;.errors.any?&lt;/span&gt;
+    &lt;span class="c1"&gt;#error_explanation&lt;/span&gt;
+      &lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;h2&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="n"&gt;pluralize&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="vi"&gt;@user&lt;/span&gt;&lt;span class="nf"&gt;.errors.count&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;error&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt; prohibited this user from being saved:&amp;quot;&lt;/span&gt;
+      &lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;ul&lt;/span&gt;
+        &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="vi"&gt;@user&lt;/span&gt;&lt;span class="nf"&gt;.errors.full_messages.each&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+          &lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;li&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;msg&lt;/span&gt;
+
+  &lt;span class="nf"&gt;.field&lt;/span&gt;
+    &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="nf"&gt;.label&lt;/span&gt; &lt;span class="ss"&gt;:name&lt;/span&gt;
+    &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="nf"&gt;.text_field&lt;/span&gt; &lt;span class="ss"&gt;:name&lt;/span&gt;
+  &lt;span class="nf"&gt;.field&lt;/span&gt;
+    &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="nf"&gt;.label&lt;/span&gt; &lt;span class="ss"&gt;:icon&lt;/span&gt;
+    &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="nf"&gt;.file_field&lt;/span&gt; &lt;span class="ss"&gt;:icon&lt;/span&gt; &lt;span class="c1"&gt;# &amp;lt;= text_field を file_field に変更&lt;/span&gt;
+  &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="c1"&gt;# icon_content_type はフォームから削除しておく&lt;/span&gt;
+  &lt;span class="nf"&gt;.actions&lt;/span&gt;
+    &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="nf"&gt;.submit&lt;/span&gt; &lt;span class="s1"&gt;'Save'&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;ここまでで，保存ができるようになりましたが，index, show アクションで &lt;code&gt;User#icon&lt;/code&gt; がエラーになってしまいます．&lt;/p&gt;
+
+&lt;h2&gt;保存した画像を表示できるようにする&lt;/h2&gt;
+
+&lt;p&gt;解消するための下準備として，画像を表示できるようにします．&lt;/p&gt;
+
+&lt;p&gt;画像専用のルーティングを定義します．&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;routes&lt;/span&gt;&lt;span class="nf"&gt;.rb&lt;/span&gt;
+
+&lt;span class="no"&gt;SampleApp&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Application&lt;/span&gt;&lt;span class="nf"&gt;.routes.draw&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+  &lt;span class="n"&gt;resources&lt;/span&gt; &lt;span class="ss"&gt;:users&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+    &lt;span class="n"&gt;member&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="ss"&gt;:icon&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;pre class="highlight shell"&gt;&lt;span class="gp"&gt;$ &lt;/span&gt;rake routes
+   Prefix Verb   URI Pattern               Controller#Action
+icon_user GET    /users/:id/icon&lt;span class="o"&gt;(&lt;/span&gt;.:format&lt;span class="o"&gt;)&lt;/span&gt; users#icon
+...
+&lt;/pre&gt;
+&lt;p&gt;コントローラに &lt;code&gt;icon&lt;/code&gt; アクションを追加し，&lt;code&gt;send_data&lt;/code&gt; メソッドにより画像を取得します．&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="n"&gt;app&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;controllers&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;users_controller&lt;/span&gt;&lt;span class="nf"&gt;.rb&lt;/span&gt;
+
+&lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;UsersController&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;ApplicationController&lt;/span&gt;
+  &lt;span class="n"&gt;before_action&lt;/span&gt; &lt;span class="ss"&gt;:set_user&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;only: &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="ss"&gt;:show&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:edit&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:update&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:destroy&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:icon&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="c1"&gt;# &amp;lt;= scaffold の場合はここに :icon を追加すると楽&lt;/span&gt;
+
+  &lt;span class="nf"&gt;..&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;
+  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;icon&lt;/span&gt;
+    &lt;span class="n"&gt;send_data&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="vi"&gt;@user&lt;/span&gt;&lt;span class="nf"&gt;.icon&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;type: &lt;/span&gt;&lt;span class="vi"&gt;@user&lt;/span&gt;&lt;span class="nf"&gt;.icon_content_type&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;disposition: :inline&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+  &lt;span class="nf"&gt;..&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;これで，&lt;code&gt;/users/:id/icon&lt;/code&gt; で画像が表示できるようになりました．&lt;/p&gt;
+
+&lt;h2&gt;ビューの変更&lt;/h2&gt;
+
+&lt;p&gt;最後に，index, show のビューを，&lt;code&gt;/users/:id/icon&lt;/code&gt; の画像を使用するように変更します．&lt;/p&gt;
+
+&lt;p&gt;それぞれの &lt;code&gt;icon&lt;/code&gt; の表示部分を以下のように変更します．&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="n"&gt;image_tag&lt;/span&gt; &lt;span class="n"&gt;icon_user_path&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;&lt;img alt="ビューの変更" src="/images/20131204_2.png" /&gt;&lt;/p&gt;
+
+&lt;p&gt;これで完了です．&lt;/p&gt;
+</content>
+  </entry>
   <entry>
     <title>Middleman の記事更新を Travis-CI でする</title>
     <link rel="alternate" href="http://ckazu.info/blog/2013/11/08/deploy_by_travis_ci/"/>
     <id>http://ckazu.info/blog/2013/11/08/deploy_by_travis_ci/</id>
     <published>2013-11-08T10:05:00Z</published>
-    <updated>2013-11-15T14:14:21+00:00</updated>
+    <updated>2013-12-03T17:36:03+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -93,7 +241,7 @@
     <link rel="alternate" href="http://ckazu.info/blog/2013/11/07/check_github_pr/"/>
     <id>http://ckazu.info/blog/2013/11/07/check_github_pr/</id>
     <published>2013-11-07T05:18:00Z</published>
-    <updated>2013-11-15T14:14:21+00:00</updated>
+    <updated>2013-12-03T17:36:03+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -150,7 +298,7 @@
     <link rel="alternate" href="http://ckazu.info/blog/2013/11/07/buy_sheaffer_calligraphy_pen/"/>
     <id>http://ckazu.info/blog/2013/11/07/buy_sheaffer_calligraphy_pen/</id>
     <published>2013-11-06T18:21:00Z</published>
-    <updated>2013-11-15T14:14:21+00:00</updated>
+    <updated>2013-12-03T17:36:03+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -207,7 +355,7 @@
     <link rel="alternate" href="http://ckazu.info/blog/2013/11/06/development_using_middleman/"/>
     <id>http://ckazu.info/blog/2013/11/06/development_using_middleman/</id>
     <published>2013-11-05T21:26:00Z</published>
-    <updated>2013-11-15T14:14:21+00:00</updated>
+    <updated>2013-12-03T17:36:03+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -340,7 +488,7 @@
     <link rel="alternate" href="http://ckazu.info/blog/2011/12/06/ruby-rails-rake-notes-spec-js-coffee-scss-haml-slim/"/>
     <id>http://ckazu.info/blog/2011/12/06/ruby-rails-rake-notes-spec-js-coffee-scss-haml-slim/</id>
     <published>2011-12-05T15:00:00Z</published>
-    <updated>2013-11-15T14:14:21+00:00</updated>
+    <updated>2013-12-03T17:36:03+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -383,111 +531,5 @@
   &lt;span class="n"&gt;alias_method_chain&lt;/span&gt; &lt;span class="ss"&gt;:find_in&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:custom_files&lt;/span&gt;
 &lt;span class="k"&gt;end&lt;/span&gt;
 &lt;/pre&gt;</content>
-  </entry>
-  <entry>
-    <title>rails で Mix-in するときにすでにあるメソッドをオーバーライドする</title>
-    <link rel="alternate" href="http://ckazu.info/blog/2011/05/23/ruby-rails-rails-Mix-in/"/>
-    <id>http://ckazu.info/blog/2011/05/23/ruby-rails-rails-Mix-in/</id>
-    <published>2011-05-22T15:00:00Z</published>
-    <updated>2013-11-15T14:14:21+00:00</updated>
-    <author>
-      <name>Article Author</name>
-    </author>
-    <summary type="html">&lt;pre class="highlight ruby"&gt;&lt;span class="k"&gt;module&lt;/span&gt; &lt;span class="nn"&gt;NewMethod&lt;/span&gt;
-  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nc"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;included&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;mod&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="n"&gt;mod&lt;/span&gt;&lt;span class="nf"&gt;.class_eval&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
-      &lt;span class="n"&gt;alias_method_chain&lt;/span&gt; &lt;span class="ss"&gt;:method&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:new_method&lt;/span&gt;
-    &lt;span class="k"&gt;end&lt;/span&gt;
-  &lt;span class="k"&gt;end&lt;/span&gt;
-
-  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;method_with_new_method&lt;/span&gt;
-    &lt;span class="n"&gt;method_without_new_method&lt;/span&gt;
-    &lt;span class="s1"&gt;'new method'&lt;/span&gt;
-  &lt;span class="k"&gt;end&lt;/span&gt;
-&lt;span class="k"&gt;end&lt;/span&gt;
-
-&lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;Origin&lt;/span&gt;
-  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;method&lt;/span&gt;
-    &lt;span class="s1"&gt;'origin...&lt;/span&gt;&lt;/pre&gt;</summary>
-    <content type="html">&lt;pre class="highlight ruby"&gt;&lt;span class="k"&gt;module&lt;/span&gt; &lt;span class="nn"&gt;NewMethod&lt;/span&gt;
-  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nc"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;included&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;mod&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="n"&gt;mod&lt;/span&gt;&lt;span class="nf"&gt;.class_eval&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
-      &lt;span class="n"&gt;alias_method_chain&lt;/span&gt; &lt;span class="ss"&gt;:method&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:new_method&lt;/span&gt;
-    &lt;span class="k"&gt;end&lt;/span&gt;
-  &lt;span class="k"&gt;end&lt;/span&gt;
-
-  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;method_with_new_method&lt;/span&gt;
-    &lt;span class="n"&gt;method_without_new_method&lt;/span&gt;
-    &lt;span class="s1"&gt;'new method'&lt;/span&gt;
-  &lt;span class="k"&gt;end&lt;/span&gt;
-&lt;span class="k"&gt;end&lt;/span&gt;
-
-&lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;Origin&lt;/span&gt;
-  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;method&lt;/span&gt;
-    &lt;span class="s1"&gt;'origin method'&lt;/span&gt;
-  &lt;span class="k"&gt;end&lt;/span&gt;
-  &lt;span class="kp"&gt;include&lt;/span&gt; &lt;span class="no"&gt;NewMethod&lt;/span&gt;
-&lt;span class="k"&gt;end&lt;/span&gt;
-
-&lt;span class="nb"&gt;puts&lt;/span&gt; &lt;span class="no"&gt;Origin&lt;/span&gt;&lt;span class="nf"&gt;.new.method&lt;/span&gt;    &lt;span class="c1"&gt;#=&amp;gt; new method&lt;/span&gt;
-&lt;/pre&gt;
-&lt;p&gt;include をメソッドの後に書かないといけないのが微妙&lt;/p&gt;
-
-&lt;!-- more --&gt;
-
-&lt;p&gt;ちょっと補足&lt;/p&gt;
-
-&lt;h2&gt;普通の include&lt;/h2&gt;
-&lt;pre class="highlight ruby"&gt;&lt;span class="k"&gt;module&lt;/span&gt; &lt;span class="nn"&gt;NewMethod&lt;/span&gt;
-  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;method&lt;/span&gt;
-    &lt;span class="s1"&gt;'new method'&lt;/span&gt;
-  &lt;span class="k"&gt;end&lt;/span&gt;
-&lt;span class="k"&gt;end&lt;/span&gt;
-
-&lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;Origin&lt;/span&gt;
-  &lt;span class="kp"&gt;include&lt;/span&gt; &lt;span class="no"&gt;NewMethod&lt;/span&gt;
-&lt;span class="k"&gt;end&lt;/span&gt;
-
-&lt;span class="nb"&gt;puts&lt;/span&gt; &lt;span class="no"&gt;Origin&lt;/span&gt;&lt;span class="nf"&gt;.new.method&lt;/span&gt;          &lt;span class="c1"&gt;# =&amp;gt; new method&lt;/span&gt;
-&lt;/pre&gt;
-&lt;h2&gt;同名メソッドがある場合&lt;/h2&gt;
-
-&lt;p&gt;モジュールのメソッドは呼ばれない．&lt;/p&gt;
-&lt;pre class="highlight ruby"&gt;&lt;span class="k"&gt;module&lt;/span&gt; &lt;span class="nn"&gt;NewMethod&lt;/span&gt;
-  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;method&lt;/span&gt;
-    &lt;span class="s1"&gt;'new method'&lt;/span&gt;
-  &lt;span class="k"&gt;end&lt;/span&gt;
-&lt;span class="k"&gt;end&lt;/span&gt;
-
-&lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;Origin&lt;/span&gt;
-  &lt;span class="kp"&gt;include&lt;/span&gt; &lt;span class="no"&gt;NewMethod&lt;/span&gt;
-  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;method&lt;/span&gt;
-    &lt;span class="s1"&gt;'origin method'&lt;/span&gt;
-  &lt;span class="k"&gt;end&lt;/span&gt;
-&lt;span class="k"&gt;end&lt;/span&gt;
-
-&lt;span class="nb"&gt;puts&lt;/span&gt; &lt;span class="no"&gt;Origin&lt;/span&gt;&lt;span class="nf"&gt;.new.method&lt;/span&gt;          &lt;span class="c1"&gt;# =&amp;gt; origin method&lt;/span&gt;
-&lt;/pre&gt;
-&lt;h2&gt;include の順番を変えた例&lt;/h2&gt;
-
-&lt;p&gt;メソッドの定義順を変えても駄目．&lt;/p&gt;
-&lt;pre class="highlight ruby"&gt;&lt;span class="k"&gt;module&lt;/span&gt; &lt;span class="nn"&gt;NewMethod&lt;/span&gt;
-  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;method&lt;/span&gt;
-    &lt;span class="s1"&gt;'new method'&lt;/span&gt;
-  &lt;span class="k"&gt;end&lt;/span&gt;
-&lt;span class="k"&gt;end&lt;/span&gt;
-
-&lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;Origin&lt;/span&gt;
-  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;method&lt;/span&gt;
-    &lt;span class="s1"&gt;'origin method'&lt;/span&gt;
-  &lt;span class="k"&gt;end&lt;/span&gt;
-  &lt;span class="kp"&gt;include&lt;/span&gt; &lt;span class="no"&gt;NewMethod&lt;/span&gt;
-&lt;span class="k"&gt;end&lt;/span&gt;
-
-&lt;span class="nb"&gt;puts&lt;/span&gt; &lt;span class="no"&gt;Origin&lt;/span&gt;&lt;span class="nf"&gt;.new.method&lt;/span&gt;          &lt;span class="c1"&gt;# =&amp;gt; origin method&lt;/span&gt;
-&lt;/pre&gt;
-&lt;p&gt;結局，include しても，最初に見つかるメソッドが呼ばれるだけ．
-ということで，冒頭のコードのように method_chain を使って定義．&lt;/p&gt;
-</content>
   </entry>
 </feed>
