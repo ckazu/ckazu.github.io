@@ -29,7 +29,7 @@ $ rake db:migrate
 
 また，ファイルタイプを保持しておくために，`User#icon_content_type` も同時に用意しておきます．
 
-それから，デフォルトの状態だと User#icon は blob なので，必要に応じて変更します．
+それから，デフォルトの状態だと User#icon は blob で保存できるファイルサイズが小さいと思うので，必要に応じて変更します．
 
 ```ruby
 class CreateUsers < ActiveRecord::Migration
@@ -124,7 +124,7 @@ config/routes.rb
 
 SampleApp::Application.routes.draw do
   resources :users do
-    member { get :icon }
+    member { get :icon } # <= 追加
   end
 end
 ```
@@ -135,6 +135,8 @@ $ rake routes
 icon_user GET    /users/:id/icon(.:format) users#icon
 ...
 ```
+
+`icon_user_path` が定義されました．
 
 コントローラに `icon` アクションを追加し，`send_data` メソッドにより画像を取得します．
 
