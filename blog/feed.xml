@@ -14,7 +14,7 @@
     <link rel="alternate" href="http://ckazu.info/blog/2013/12/04/image_upload_to_ar_db/"/>
     <id>http://ckazu.info/blog/2013/12/04/image_upload_to_ar_db/</id>
     <published>2013-12-03T15:50:00Z</published>
-    <updated>2013-12-03T17:36:03+00:00</updated>
+    <updated>2013-12-03T17:56:01+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -44,7 +44,7 @@ Gemfile に haml-rails を追加
 
 &lt;p&gt;また，ファイルタイプを保持しておくために，&lt;code&gt;User#icon_content_type&lt;/code&gt; も同時に用意しておきます．&lt;/p&gt;
 
-&lt;p&gt;それから，デフォルトの状態だと User#icon は blob なので，必要に応じて変更します．&lt;/p&gt;
+&lt;p&gt;それから，デフォルトの状態だと User#icon は blob で保存できるファイルサイズが小さいと思うので，必要に応じて変更します．&lt;/p&gt;
 &lt;pre class="highlight ruby"&gt;&lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;CreateUsers&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;ActiveRecord&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Migration&lt;/span&gt;
   &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;change&lt;/span&gt;
     &lt;span class="n"&gt;create_table&lt;/span&gt; &lt;span class="ss"&gt;:users&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
@@ -122,7 +122,7 @@ Gemfile に haml-rails を追加
 
 &lt;span class="no"&gt;SampleApp&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Application&lt;/span&gt;&lt;span class="nf"&gt;.routes.draw&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
   &lt;span class="n"&gt;resources&lt;/span&gt; &lt;span class="ss"&gt;:users&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
-    &lt;span class="n"&gt;member&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="ss"&gt;:icon&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="n"&gt;member&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="ss"&gt;:icon&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="c1"&gt;# &amp;lt;= 追加&lt;/span&gt;
   &lt;span class="k"&gt;end&lt;/span&gt;
 &lt;span class="k"&gt;end&lt;/span&gt;
 &lt;/pre&gt;&lt;pre class="highlight shell"&gt;&lt;span class="gp"&gt;$ &lt;/span&gt;rake routes
@@ -130,6 +130,8 @@ Gemfile に haml-rails を追加
 icon_user GET    /users/:id/icon&lt;span class="o"&gt;(&lt;/span&gt;.:format&lt;span class="o"&gt;)&lt;/span&gt; users#icon
 ...
 &lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;icon_user_path&lt;/code&gt; が定義されました．&lt;/p&gt;
+
 &lt;p&gt;コントローラに &lt;code&gt;icon&lt;/code&gt; アクションを追加し，&lt;code&gt;send_data&lt;/code&gt; メソッドにより画像を取得します．&lt;/p&gt;
 &lt;pre class="highlight ruby"&gt;&lt;span class="n"&gt;app&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;controllers&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;users_controller&lt;/span&gt;&lt;span class="nf"&gt;.rb&lt;/span&gt;
 
@@ -162,7 +164,7 @@ icon_user GET    /users/:id/icon&lt;span class="o"&gt;(&lt;/span&gt;.:format&lt;
     <link rel="alternate" href="http://ckazu.info/blog/2013/11/08/deploy_by_travis_ci/"/>
     <id>http://ckazu.info/blog/2013/11/08/deploy_by_travis_ci/</id>
     <published>2013-11-08T10:05:00Z</published>
-    <updated>2013-12-03T17:36:03+00:00</updated>
+    <updated>2013-12-03T17:56:01+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -241,7 +243,7 @@ icon_user GET    /users/:id/icon&lt;span class="o"&gt;(&lt;/span&gt;.:format&lt;
     <link rel="alternate" href="http://ckazu.info/blog/2013/11/07/check_github_pr/"/>
     <id>http://ckazu.info/blog/2013/11/07/check_github_pr/</id>
     <published>2013-11-07T05:18:00Z</published>
-    <updated>2013-12-03T17:36:03+00:00</updated>
+    <updated>2013-12-03T17:56:01+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -298,7 +300,7 @@ icon_user GET    /users/:id/icon&lt;span class="o"&gt;(&lt;/span&gt;.:format&lt;
     <link rel="alternate" href="http://ckazu.info/blog/2013/11/07/buy_sheaffer_calligraphy_pen/"/>
     <id>http://ckazu.info/blog/2013/11/07/buy_sheaffer_calligraphy_pen/</id>
     <published>2013-11-06T18:21:00Z</published>
-    <updated>2013-12-03T17:36:03+00:00</updated>
+    <updated>2013-12-03T17:56:01+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -355,7 +357,7 @@ icon_user GET    /users/:id/icon&lt;span class="o"&gt;(&lt;/span&gt;.:format&lt;
     <link rel="alternate" href="http://ckazu.info/blog/2013/11/06/development_using_middleman/"/>
     <id>http://ckazu.info/blog/2013/11/06/development_using_middleman/</id>
     <published>2013-11-05T21:26:00Z</published>
-    <updated>2013-12-03T17:36:03+00:00</updated>
+    <updated>2013-12-03T17:56:01+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -488,7 +490,7 @@ icon_user GET    /users/:id/icon&lt;span class="o"&gt;(&lt;/span&gt;.:format&lt;
     <link rel="alternate" href="http://ckazu.info/blog/2011/12/06/ruby-rails-rake-notes-spec-js-coffee-scss-haml-slim/"/>
     <id>http://ckazu.info/blog/2011/12/06/ruby-rails-rake-notes-spec-js-coffee-scss-haml-slim/</id>
     <published>2011-12-05T15:00:00Z</published>
-    <updated>2013-12-03T17:36:03+00:00</updated>
+    <updated>2013-12-03T17:56:01+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>

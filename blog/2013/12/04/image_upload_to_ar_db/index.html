@@ -81,7 +81,7 @@ Gemfile に haml-rails を追加
 
 <p>また，ファイルタイプを保持しておくために，<code>User#icon_content_type</code> も同時に用意しておきます．</p>
 
-<p>それから，デフォルトの状態だと User#icon は blob なので，必要に応じて変更します．</p>
+<p>それから，デフォルトの状態だと User#icon は blob で保存できるファイルサイズが小さいと思うので，必要に応じて変更します．</p>
 <pre class="highlight ruby"><span class="k">class </span><span class="nc">CreateUsers</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span>
   <span class="k">def </span><span class="nf">change</span>
     <span class="n">create_table</span> <span class="ss">:users</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
@@ -159,7 +159,7 @@ Gemfile に haml-rails を追加
 
 <span class="no">SampleApp</span><span class="o">::</span><span class="no">Application</span><span class="nf">.routes.draw</span> <span class="k">do</span>
   <span class="n">resources</span> <span class="ss">:users</span> <span class="k">do</span>
-    <span class="n">member</span> <span class="p">{</span> <span class="n">get</span> <span class="ss">:icon</span> <span class="p">}</span>
+    <span class="n">member</span> <span class="p">{</span> <span class="n">get</span> <span class="ss">:icon</span> <span class="p">}</span> <span class="c1"># &lt;= 追加</span>
   <span class="k">end</span>
 <span class="k">end</span>
 </pre><pre class="highlight shell"><span class="gp">$ </span>rake routes
@@ -167,6 +167,8 @@ Gemfile に haml-rails を追加
 icon_user GET    /users/:id/icon<span class="o">(</span>.:format<span class="o">)</span> users#icon
 ...
 </pre>
+<p><code>icon_user_path</code> が定義されました．</p>
+
 <p>コントローラに <code>icon</code> アクションを追加し，<code>send_data</code> メソッドにより画像を取得します．</p>
 <pre class="highlight ruby"><span class="n">app</span><span class="o">/</span><span class="n">controllers</span><span class="o">/</span><span class="n">users_controller</span><span class="nf">.rb</span>
 
@@ -294,8 +296,13 @@ icon_user GET    /users/:id/icon<span class="o">(</span>.:format<span class="o">
 <ul>
 <li>
 <i class='fa fa-tag'></i>
-<a href="/blog/tags/rails/">rails</a>
-(3)
+<a href="/blog/tags/github/">github</a>
+(1)
+</li>
+<li>
+<i class='fa fa-tag'></i>
+<a href="/blog/tags/css3/">css3</a>
+(2)
 </li>
 <li>
 <i class='fa fa-tag'></i>
@@ -304,18 +311,13 @@ icon_user GET    /users/:id/icon<span class="o">(</span>.:format<span class="o">
 </li>
 <li>
 <i class='fa fa-tag'></i>
+<a href="/blog/tags/rails/">rails</a>
+(3)
+</li>
+<li>
+<i class='fa fa-tag'></i>
 <a href="/blog/tags/travis-ci/">travis-ci</a>
 (1)
-</li>
-<li>
-<i class='fa fa-tag'></i>
-<a href="/blog/tags/github/">github</a>
-(1)
-</li>
-<li>
-<i class='fa fa-tag'></i>
-<a href="/blog/tags/css3/">css3</a>
-(2)
 </li>
 <li>
 <i class='fa fa-tag'></i>
