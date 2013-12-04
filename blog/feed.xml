@@ -14,7 +14,7 @@
     <link rel="alternate" href="http://ckazu.info/blog/2013/12/04/action_dispatch_http_uploded_file/"/>
     <id>http://ckazu.info/blog/2013/12/04/action_dispatch_http_uploded_file/</id>
     <published>2013-12-04T13:18:00Z</published>
-    <updated>2013-12-04T14:47:01+00:00</updated>
+    <updated>2013-12-04T15:12:18+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -84,7 +84,7 @@
 [6] pry(#&amp;lt;UsersController&amp;gt;)&amp;gt; params[:user][:icon].read
 =&amp;gt; &amp;quot;&amp;quot;
 &lt;/pre&gt;
-&lt;p&gt;なので，以下のようにプリントでバッグしようとするとはまります(はまりました)．&lt;/p&gt;
+&lt;p&gt;なので，以下のようにプリントデバッグしようとするとはまります(はまりました)．&lt;/p&gt;
 &lt;pre class="highlight ruby"&gt;  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;create&lt;/span&gt;
     &lt;span class="vi"&gt;@user&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;User&lt;/span&gt;&lt;span class="nf"&gt;.new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;user_params&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="n"&gt;pp&lt;/span&gt; &lt;span class="n"&gt;params&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="ss"&gt;:user&lt;/span&gt;&lt;span class="o"&gt;][&lt;/span&gt;&lt;span class="ss"&gt;:icon&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="nf"&gt;.read&lt;/span&gt; &lt;span class="c1"&gt;# &amp;lt;= ここで読んでしまうと&lt;/span&gt;
@@ -98,7 +98,7 @@
     <link rel="alternate" href="http://ckazu.info/blog/2013/12/04/image_upload_to_ar_db/"/>
     <id>http://ckazu.info/blog/2013/12/04/image_upload_to_ar_db/</id>
     <published>2013-12-03T15:50:00Z</published>
-    <updated>2013-12-04T14:47:01+00:00</updated>
+    <updated>2013-12-04T15:12:18+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -248,7 +248,7 @@ icon_user GET    /users/:id/icon&lt;span class="o"&gt;(&lt;/span&gt;.:format&lt;
     <link rel="alternate" href="http://ckazu.info/blog/2013/11/08/deploy_by_travis_ci/"/>
     <id>http://ckazu.info/blog/2013/11/08/deploy_by_travis_ci/</id>
     <published>2013-11-08T10:05:00Z</published>
-    <updated>2013-12-04T14:47:01+00:00</updated>
+    <updated>2013-12-04T15:12:18+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -327,7 +327,7 @@ icon_user GET    /users/:id/icon&lt;span class="o"&gt;(&lt;/span&gt;.:format&lt;
     <link rel="alternate" href="http://ckazu.info/blog/2013/11/07/check_github_pr/"/>
     <id>http://ckazu.info/blog/2013/11/07/check_github_pr/</id>
     <published>2013-11-07T05:18:00Z</published>
-    <updated>2013-12-04T14:47:01+00:00</updated>
+    <updated>2013-12-04T15:12:18+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -384,7 +384,7 @@ icon_user GET    /users/:id/icon&lt;span class="o"&gt;(&lt;/span&gt;.:format&lt;
     <link rel="alternate" href="http://ckazu.info/blog/2013/11/07/buy_sheaffer_calligraphy_pen/"/>
     <id>http://ckazu.info/blog/2013/11/07/buy_sheaffer_calligraphy_pen/</id>
     <published>2013-11-06T18:21:00Z</published>
-    <updated>2013-12-04T14:47:01+00:00</updated>
+    <updated>2013-12-04T15:12:18+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -441,7 +441,7 @@ icon_user GET    /users/:id/icon&lt;span class="o"&gt;(&lt;/span&gt;.:format&lt;
     <link rel="alternate" href="http://ckazu.info/blog/2013/11/06/development_using_middleman/"/>
     <id>http://ckazu.info/blog/2013/11/06/development_using_middleman/</id>
     <published>2013-11-05T21:26:00Z</published>
-    <updated>2013-12-04T14:47:01+00:00</updated>
+    <updated>2013-12-04T15:12:18+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>

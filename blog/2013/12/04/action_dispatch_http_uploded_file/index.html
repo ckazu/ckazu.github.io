@@ -113,7 +113,7 @@
 [6] pry(#&lt;UsersController&gt;)&gt; params[:user][:icon].read
 =&gt; &quot;&quot;
 </pre>
-<p>なので，以下のようにプリントでバッグしようとするとはまります(はまりました)．</p>
+<p>なので，以下のようにプリントデバッグしようとするとはまります(はまりました)．</p>
 <pre class="highlight ruby">  <span class="k">def </span><span class="nf">create</span>
     <span class="vi">@user</span> <span class="o">=</span> <span class="no">User</span><span class="nf">.new</span><span class="p">(</span><span class="n">user_params</span><span class="p">)</span>
     <span class="n">pp</span> <span class="n">params</span><span class="o">[</span><span class="ss">:user</span><span class="o">][</span><span class="ss">:icon</span><span class="o">]</span><span class="nf">.read</span> <span class="c1"># &lt;= ここで読んでしまうと</span>
@@ -238,11 +238,6 @@
 </li>
 <li>
 <i class='fa fa-tag'></i>
-<a href="/blog/tags/github/">github</a>
-(1)
-</li>
-<li>
-<i class='fa fa-tag'></i>
 <a href="/blog/tags/rails/">rails</a>
 (4)
 </li>
@@ -250,6 +245,11 @@
 <i class='fa fa-tag'></i>
 <a href="/blog/tags/css3/">css3</a>
 (2)
+</li>
+<li>
+<i class='fa fa-tag'></i>
+<a href="/blog/tags/github/">github</a>
+(1)
 </li>
 <li>
 <i class='fa fa-tag'></i>
