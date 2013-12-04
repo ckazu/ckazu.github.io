@@ -5,16 +5,100 @@
   <id>http://ckazu.info/blog</id>
   <link href="http://ckazu.info/blog"/>
   <link href="http://ckazu.info/blog/feed.xml" rel="self"/>
-  <updated>2013-12-03T15:50:00Z</updated>
+  <updated>2013-12-04T13:18:00Z</updated>
   <author>
     <name>ckazu</name>
   </author>
+  <entry>
+    <title>rails でファイルをアップロードする際の挙動</title>
+    <link rel="alternate" href="http://ckazu.info/blog/2013/12/04/action_dispatch_http_uploded_file/"/>
+    <id>http://ckazu.info/blog/2013/12/04/action_dispatch_http_uploded_file/</id>
+    <published>2013-12-04T13:18:00Z</published>
+    <updated>2013-12-04T14:47:01+00:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <summary type="html">&lt;h2&gt;経緯&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href="/blog/2013/12/04/image_upload_to_ar_db/"&gt;前回&lt;/a&gt;，画像ファイルをアップロードして DB に保存する記事を書きました．&lt;/p&gt;
+
+&lt;p&gt;実際にファイルはどうやって DB に保存されるのかについて補足します．&lt;/p&gt;
+
+&lt;h2&gt;params をみる&lt;/h2&gt;
+
+&lt;p&gt;前回と同じプロジェクトで進めます．&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;create&lt;/span&gt;
+    &lt;span class="nb"&gt;binding&lt;/span&gt;&lt;span class="nf"&gt;.pry&lt;/span&gt; &lt;span class="c1"&gt;# &amp;lt;= ここの params を確認したい&lt;/span&gt;
+    &lt;span class="vi"&gt;@user&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;User&lt;/span&gt;&lt;span class="nf"&gt;.new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;user_params&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="vi"&gt;@user&lt;/span&gt;&lt;span class="nf"&gt;.icon&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;params&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="ss"&gt;:user&lt;/span&gt;&lt;span class="o"&gt;][&lt;/span&gt;&lt;span class="ss"&gt;:icon&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="nf"&gt;.read&lt;/span&gt;
+    &lt;span class="vi"&gt;@user&lt;/span&gt;&lt;/pre&gt;</summary>
+    <content type="html">&lt;h2&gt;経緯&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href="/blog/2013/12/04/image_upload_to_ar_db/"&gt;前回&lt;/a&gt;，画像ファイルをアップロードして DB に保存する記事を書きました．&lt;/p&gt;
+
+&lt;p&gt;実際にファイルはどうやって DB に保存されるのかについて補足します．&lt;/p&gt;
+
+&lt;h2&gt;params をみる&lt;/h2&gt;
+
+&lt;p&gt;前回と同じプロジェクトで進めます．&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;create&lt;/span&gt;
+    &lt;span class="nb"&gt;binding&lt;/span&gt;&lt;span class="nf"&gt;.pry&lt;/span&gt; &lt;span class="c1"&gt;# &amp;lt;= ここの params を確認したい&lt;/span&gt;
+    &lt;span class="vi"&gt;@user&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;User&lt;/span&gt;&lt;span class="nf"&gt;.new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;user_params&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="vi"&gt;@user&lt;/span&gt;&lt;span class="nf"&gt;.icon&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;params&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="ss"&gt;:user&lt;/span&gt;&lt;span class="o"&gt;][&lt;/span&gt;&lt;span class="ss"&gt;:icon&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="nf"&gt;.read&lt;/span&gt;
+    &lt;span class="vi"&gt;@user&lt;/span&gt;&lt;span class="nf"&gt;.icon_content_type&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;params&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="ss"&gt;:user&lt;/span&gt;&lt;span class="o"&gt;][&lt;/span&gt;&lt;span class="ss"&gt;:icon&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="nf"&gt;.content_type&lt;/span&gt;
+  &lt;span class="nf"&gt;..&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;実際にファイルをアップロードした時のパラメータを見てみます．&lt;/p&gt;
+&lt;pre class="highlight text"&gt;[1] pry(#&amp;lt;UsersController&amp;gt;)&amp;gt; params[:user][:icon]
+=&amp;gt; #&amp;lt;ActionDispatch::Http::UploadedFile:0x007fbdcbbe0ba0
+ @content_type=&amp;quot;image/jpeg&amp;quot;,
+ @headers=
+  &amp;quot;Content-Disposition: form-data; name=\&amp;quot;user[icon]\&amp;quot;; filename=\&amp;quot;laughing_man.jpg\&amp;quot;\r\nContent-Type: image/jpeg\r\n&amp;quot;,
+ @original_filename=&amp;quot;laughing_man.jpg&amp;quot;,
+ @tempfile=
+  #&amp;lt;File:/var/folders/j6/4l756wsn2538zn3b31sgf3yc0000gn/T/RackMultipart20131204-93143-5kjzat&amp;gt;&amp;gt;
+&lt;/pre&gt;
+&lt;p&gt;ということで，ブラウザ上のフォームからアップロードしたファイルの正体は &lt;code&gt;ActionDispatch::Http::UploadedFile&lt;/code&gt; のようです．&lt;/p&gt;
+
+&lt;h2&gt;Tempfile&lt;/h2&gt;
+
+&lt;p&gt;この &lt;code&gt;@tempfile&lt;/code&gt; がファイルの実体です．&lt;/p&gt;
+&lt;pre class="highlight text"&gt;[2] pry(#&amp;lt;UsersController&amp;gt;)&amp;gt; params[:user][:icon].tempfile
+=&amp;gt; #&amp;lt;File:/var/folders/j6/4l756wsn2538zn3b31sgf3yc0000gn/T/RackMultipart20131204-93143-5kjzat&amp;gt;
+[3] pry(#&amp;lt;UsersController&amp;gt;)&amp;gt; params[:user][:icon].tempfile.class
+=&amp;gt; Tempfile
+[4] pry(#&amp;lt;UsersController&amp;gt;)&amp;gt; params[:user][:icon].tempfile.path
+=&amp;gt; &amp;quot;/var/folders/j6/4l756wsn2538zn3b31sgf3yc0000gn/T/RackMultipart20131204-93143-5kjzat&amp;quot;
+&lt;/pre&gt;
+&lt;p&gt;ここからわかるように，アップロードしたファイルは一時的に &lt;code&gt;/var/folders/j6/4l756wsn2538zn3b31sgf3yc0000gn/T/RackMultipart20131204-93143-5kjzat&lt;/code&gt; のような場所に格納されます．&lt;/p&gt;
+
+&lt;p&gt;※ 通常は保存されず，すぐに削除されます．&lt;/p&gt;
+
+&lt;h2&gt;ちなみに，&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;ActionDispatch::Http::UploadedFile&lt;/code&gt; に対して &lt;code&gt;read&lt;/code&gt; メソッドを呼ぶと，バイナリが取得できますが，一度呼ぶと取得できなくなります．&lt;/p&gt;
+&lt;pre class="highlight text"&gt;
+[5] pry(#&amp;lt;UsersController&amp;gt;)&amp;gt; params[:user][:icon].read
+=&amp;gt; &amp;quot;\x89PNG\r\n\x1A\n\x00\x00\x00\rIHDR\x00\x00\x00\x92\x00\x00\x00\x92\b\x06\x00\x00\x00\xAE{\x93\x8E\x00\x00\x00\x19tEXtSoftw
+...
+[6] pry(#&amp;lt;UsersController&amp;gt;)&amp;gt; params[:user][:icon].read
+=&amp;gt; &amp;quot;&amp;quot;
+&lt;/pre&gt;
+&lt;p&gt;なので，以下のようにプリントでバッグしようとするとはまります(はまりました)．&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;create&lt;/span&gt;
+    &lt;span class="vi"&gt;@user&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;User&lt;/span&gt;&lt;span class="nf"&gt;.new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;user_params&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;pp&lt;/span&gt; &lt;span class="n"&gt;params&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="ss"&gt;:user&lt;/span&gt;&lt;span class="o"&gt;][&lt;/span&gt;&lt;span class="ss"&gt;:icon&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="nf"&gt;.read&lt;/span&gt; &lt;span class="c1"&gt;# &amp;lt;= ここで読んでしまうと&lt;/span&gt;
+    &lt;span class="vi"&gt;@user&lt;/span&gt;&lt;span class="nf"&gt;.icon&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;params&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="ss"&gt;:user&lt;/span&gt;&lt;span class="o"&gt;][&lt;/span&gt;&lt;span class="ss"&gt;:icon&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="nf"&gt;.read&lt;/span&gt; &lt;span class="c1"&gt;# &amp;lt;= ここでは取得できない&lt;/span&gt;
+    &lt;span class="vi"&gt;@user&lt;/span&gt;&lt;span class="nf"&gt;.icon_content_type&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;params&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="ss"&gt;:user&lt;/span&gt;&lt;span class="o"&gt;][&lt;/span&gt;&lt;span class="ss"&gt;:icon&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="nf"&gt;.content_type&lt;/span&gt;
+  &lt;span class="nf"&gt;..&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;
+&lt;/pre&gt;</content>
+  </entry>
   <entry>
     <title>rails で画像ファイルを DB に保存する</title>
     <link rel="alternate" href="http://ckazu.info/blog/2013/12/04/image_upload_to_ar_db/"/>
     <id>http://ckazu.info/blog/2013/12/04/image_upload_to_ar_db/</id>
     <published>2013-12-03T15:50:00Z</published>
-    <updated>2013-12-03T17:56:01+00:00</updated>
+    <updated>2013-12-04T14:47:01+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -164,7 +248,7 @@ icon_user GET    /users/:id/icon&lt;span class="o"&gt;(&lt;/span&gt;.:format&lt;
     <link rel="alternate" href="http://ckazu.info/blog/2013/11/08/deploy_by_travis_ci/"/>
     <id>http://ckazu.info/blog/2013/11/08/deploy_by_travis_ci/</id>
     <published>2013-11-08T10:05:00Z</published>
-    <updated>2013-12-03T17:56:01+00:00</updated>
+    <updated>2013-12-04T14:47:01+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -243,7 +327,7 @@ icon_user GET    /users/:id/icon&lt;span class="o"&gt;(&lt;/span&gt;.:format&lt;
     <link rel="alternate" href="http://ckazu.info/blog/2013/11/07/check_github_pr/"/>
     <id>http://ckazu.info/blog/2013/11/07/check_github_pr/</id>
     <published>2013-11-07T05:18:00Z</published>
-    <updated>2013-12-03T17:56:01+00:00</updated>
+    <updated>2013-12-04T14:47:01+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -300,7 +384,7 @@ icon_user GET    /users/:id/icon&lt;span class="o"&gt;(&lt;/span&gt;.:format&lt;
     <link rel="alternate" href="http://ckazu.info/blog/2013/11/07/buy_sheaffer_calligraphy_pen/"/>
     <id>http://ckazu.info/blog/2013/11/07/buy_sheaffer_calligraphy_pen/</id>
     <published>2013-11-06T18:21:00Z</published>
-    <updated>2013-12-03T17:56:01+00:00</updated>
+    <updated>2013-12-04T14:47:01+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -357,7 +441,7 @@ icon_user GET    /users/:id/icon&lt;span class="o"&gt;(&lt;/span&gt;.:format&lt;
     <link rel="alternate" href="http://ckazu.info/blog/2013/11/06/development_using_middleman/"/>
     <id>http://ckazu.info/blog/2013/11/06/development_using_middleman/</id>
     <published>2013-11-05T21:26:00Z</published>
-    <updated>2013-12-03T17:56:01+00:00</updated>
+    <updated>2013-12-04T14:47:01+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -484,54 +568,5 @@ icon_user GET    /users/:id/icon&lt;span class="o"&gt;(&lt;/span&gt;.:format&lt;
 
 &lt;p&gt;(なるべく更新したい&lt;/p&gt;
 </content>
-  </entry>
-  <entry>
-    <title>rake notes で，spec, js, coffee, scss, haml, slim のファイルも対象にする</title>
-    <link rel="alternate" href="http://ckazu.info/blog/2011/12/06/ruby-rails-rake-notes-spec-js-coffee-scss-haml-slim/"/>
-    <id>http://ckazu.info/blog/2011/12/06/ruby-rails-rake-notes-spec-js-coffee-scss-haml-slim/</id>
-    <published>2011-12-05T15:00:00Z</published>
-    <updated>2013-12-03T17:56:01+00:00</updated>
-    <author>
-      <name>Article Author</name>
-    </author>
-    <summary type="html">&lt;pre class="highlight ruby"&gt;
-&lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;SourceAnnotationExtractor&lt;/span&gt;
-  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;find_with_custom_directories&lt;/span&gt;
-    &lt;span class="n"&gt;find_without_custom_directories&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sx"&gt;%w|app lib spec|&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-  &lt;span class="k"&gt;end&lt;/span&gt;
-  &lt;span class="n"&gt;alias_method_chain&lt;/span&gt; &lt;span class="ss"&gt;:find&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:custom_directories&lt;/span&gt;
-
-  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;find_in_with_custom_files&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dir&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="n"&gt;results&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;find_in_without_custom_files&lt;/span&gt;&lt;/pre&gt;</summary>
-    <content type="html">&lt;pre class="highlight ruby"&gt;
-&lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;SourceAnnotationExtractor&lt;/span&gt;
-  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;find_with_custom_directories&lt;/span&gt;
-    &lt;span class="n"&gt;find_without_custom_directories&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sx"&gt;%w|app lib spec|&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-  &lt;span class="k"&gt;end&lt;/span&gt;
-  &lt;span class="n"&gt;alias_method_chain&lt;/span&gt; &lt;span class="ss"&gt;:find&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:custom_directories&lt;/span&gt;
-
-  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;find_in_with_custom_files&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dir&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="n"&gt;results&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;find_in_without_custom_files&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dir&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-
-    &lt;span class="no"&gt;Dir&lt;/span&gt;&lt;span class="nf"&gt;.glob&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="n"&gt;dir&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;/*&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
-      &lt;span class="k"&gt;next&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="no"&gt;File&lt;/span&gt;&lt;span class="nf"&gt;.basename&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="sc"&gt;?.&lt;/span&gt;
-
-      &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="no"&gt;File&lt;/span&gt;&lt;span class="nf"&gt;.directory?&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-        &lt;span class="n"&gt;results&lt;/span&gt;&lt;span class="nf"&gt;.update&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;find_in&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-      &lt;span class="k"&gt;elsif&lt;/span&gt; &lt;span class="n"&gt;item&lt;/span&gt; &lt;span class="o"&gt;=~&lt;/span&gt; &lt;span class="sr"&gt;/\.(coffee)$/&lt;/span&gt;
-        &lt;span class="n"&gt;results&lt;/span&gt;&lt;span class="nf"&gt;.update&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;extract_annotations_from&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="sr"&gt;/#\s*\[?(&lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="sr"&gt;)\]?\s*:?\s*(.*)$/&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-      &lt;span class="k"&gt;elsif&lt;/span&gt; &lt;span class="n"&gt;item&lt;/span&gt; &lt;span class="o"&gt;=~&lt;/span&gt; &lt;span class="sr"&gt;/\.(js|scss)$/&lt;/span&gt;
-        &lt;span class="n"&gt;results&lt;/span&gt;&lt;span class="nf"&gt;.update&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;extract_annotations_from&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="sr"&gt;/\/\/\s*\[?(&lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="sr"&gt;)\]?\s*:?\s*(.*)$/&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-      &lt;span class="k"&gt;elsif&lt;/span&gt; &lt;span class="n"&gt;item&lt;/span&gt; &lt;span class="o"&gt;=~&lt;/span&gt; &lt;span class="sr"&gt;/\.(haml)$/&lt;/span&gt;
-        &lt;span class="n"&gt;results&lt;/span&gt;&lt;span class="nf"&gt;.update&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;extract_annotations_from&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="sr"&gt;/[\/|(\-\#)]\s*\[?(&lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="sr"&gt;)\]?\s*:?\s*(.*)$/&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-      &lt;span class="k"&gt;elsif&lt;/span&gt; &lt;span class="n"&gt;item&lt;/span&gt; &lt;span class="o"&gt;=~&lt;/span&gt; &lt;span class="sr"&gt;/\.(slim)$/&lt;/span&gt;
-        &lt;span class="n"&gt;results&lt;/span&gt;&lt;span class="nf"&gt;.update&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;extract_annotations_from&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="sr"&gt;/\/\!?\s*\[?(&lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="sr"&gt;)\]?\s*:?\s*(.*)$/&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-      &lt;span class="k"&gt;end&lt;/span&gt;
-    &lt;span class="k"&gt;end&lt;/span&gt;
-    &lt;span class="n"&gt;results&lt;/span&gt;
-  &lt;span class="k"&gt;end&lt;/span&gt;
-  &lt;span class="n"&gt;alias_method_chain&lt;/span&gt; &lt;span class="ss"&gt;:find_in&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:custom_files&lt;/span&gt;
-&lt;span class="k"&gt;end&lt;/span&gt;
-&lt;/pre&gt;</content>
   </entry>
 </feed>
