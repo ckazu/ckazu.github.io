@@ -8,7 +8,7 @@
 <html class='no-js' lang='ja'>
 <!-- <![endif] -->
 <head>
-<title>ckazu.info</title>
+<title>simple_form で binary 型フィールドの file_field を使う - ckazu.info</title>
 <meta charset='utf-8' content='text/html' http-equiv='content-type'>
 <meta content='ie=edge,chrome=1' http-equiv='x-ua-compatible'>
 <meta content='' name='description'>
@@ -25,7 +25,7 @@
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.2/css/font-awesome.css" media="screen" rel="stylesheet" type="text/css" />
 <link href="/stylesheets/application.css" media="screen" rel="stylesheet" type="text/css" />
 </head>
-<body class='blog'>
+<body class='page'>
 <div class='navbar navbar-inverse navbar-fixed-top'>
 <div class='container'>
 <div class='navbar-header'>
@@ -57,65 +57,65 @@
 <div class='row'>
 <div class='blog'>
 <div class='col-md-9'>
-<div class='container'>
-<h2>
-Archives
-2011-03
-</h2>
-</div>
+<h2>simple_form で binary 型フィールドの file_field を使う</h2>
+<div class='date pull-right'>2013/12/05 22:35:00</div>
+<span class="tag label fa fa-tag"><a href="/blog/tags/rails/">rails</a></span>
 <hr>
-<article class='container'>
-<div class='col-md-2'>
-<div class='date'>2011-03-21</div>
-</div>
-<div class='col-md-7'>
-<h2><a href="/blog/2011/03/21/css3-jsdo-it-CSS3/">CSS3のみで色々な背景パターンを描画する</a></h2>
-<div class='tags'>
-<span class="tag label fa fa-tag"><a href="/blog/tags/css3/">css3</a></span>
-</div>
-<p><script type="text/javascript" src="http://jsdo.it/blogparts/hvCi/js?view=design"></script></p><p class="ttlBpJsdoit" style="width: 465px; margin: 0; text-align: right; font-size: 11px;"><a href="http://jsdo.it/ckazu/hvCi" title="CSS3 で作る背景パターン">CSS3 で作る背景パターン - jsdo.it - share JavaScript, HTML5 and CSS</a></p>
+<h2>simple_form</h2>
 
-<!-- more -->
+<p><a href="https://github.com/plataformatec/simple_form">https://github.com/plataformatec/simple_form</a> は，煩雑になりがちなフォームの記述をシンプルにしてくれます．</p>
+<pre class="highlight ruby"><span class="o">-</span> <span class="n">form_for</span> <span class="vi">@user</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span>
+  <span class="o">%</span><span class="n">li</span>
+    <span class="nb">name</span><span class="p">:</span>
+    <span class="o">=</span> <span class="n">f</span><span class="nf">.text_field</span> <span class="ss">:name</span>
+  <span class="o">%</span><span class="n">li</span>
+    <span class="ss">email:
+    </span><span class="o">=</span> <span class="n">f</span><span class="nf">.email_field</span> <span class="ss">:mail_address</span>
+  <span class="o">%</span><span class="n">li</span>
+    <span class="ss">password:
+    </span><span class="o">=</span> <span class="n">f</span><span class="nf">.password_field</span> <span class="ss">:password</span>
+</pre>
+<p>通常，このように記述するところを，次のように書くことができます．</p>
+<pre class="highlight ruby"><span class="o">-</span> <span class="n">form_for</span> <span class="vi">@user</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span>
+  <span class="o">=</span> <span class="n">f</span><span class="nf">.input</span> <span class="ss">:name</span>
+  <span class="o">=</span> <span class="n">f</span><span class="nf">.input</span> <span class="ss">:mail_address</span>
+  <span class="o">=</span> <span class="n">f</span><span class="nf">.input</span> <span class="ss">:password</span>
+</pre>
+<p>全部，input で済ませることができます．</p>
 
-<h2>gradient()</h2>
+<h2>binary 型</h2>
 
-<p>background-image に，gradient() を指定するとグラデーションを実現できます．</p>
+<p>基本的には DB のカラム定義を見て生成してくれますが，次のように，binary 型のカラムにファイルをアップロードしようとしたところエラーとなってしまいます．</p>
+<pre class="highlight ruby"><span class="o">-</span> <span class="n">form_for</span> <span class="vi">@user</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span>
+  <span class="o">=</span> <span class="n">f</span><span class="nf">.file_field</span> <span class="ss">:image_file</span> <span class="c1"># &lt;= これを</span>
 
-<p>現状では，webkit, moz で指定方法が異なります．
-webkit のほうが面倒ですね．webkit の書式は変更するとか何とか．．．</p>
-<a href="/blog/2011/03/21/css3-jsdo-it-CSS3/">続きを読む</a>
-</div>
-</article>
-<article class='container'>
-<div class='col-md-2'>
-<div class='date'>2011-03-19</div>
-</div>
-<div class='col-md-7'>
-<h2><a href="/blog/2011/03/19/css3-CSS3/">CSS3で水滴のような形を描く</a></h2>
-<div class='tags'>
-<span class="tag label fa fa-tag"><a href="/blog/tags/css3/">css3</a></span>
-</div>
-<p>CSS3 面白いですね．</p>
-
-<p>今までは思いつかなかったようなことができるようになっています．</p>
-
-<p>その CSS3 を使って，次のような水滴（のようなもの）を CSS だけで作ってみます．</p>
-
-<script type="text/javascript" src="http://jsdo.it/blogparts/cSGk/js"></script><p>なお，動作確認は，chrome, firefox でしか行っていませんので，あしからず．</p>
-
-<p>IE での動作は全く保証しません．</p>
-
-<!-- more -->
-
-<h2>border-radius を使って円を描く</h2>
-
-<p>一般的には角丸を実現するた...</p>
-<a href="/blog/2011/03/19/css3-CSS3/">続きを読む</a>
-</div>
-</article>
-<div class='nav text-right'>
-</div>
-
+<span class="o">-</span> <span class="n">form_for</span> <span class="vi">@user</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span>
+  <span class="o">=</span> <span class="n">f</span><span class="nf">.input</span> <span class="ss">:image_file</span> <span class="c1"># &lt;= このようにするとエラー</span>
+</pre>
+<p>この場合，<a href="https://github.com/plataformatec/simple_form#available-input-types-and-defaults-for-each-column-type">https://github.com/plataformatec/simple_form#available-input-types-and-defaults-for-each-column-type</a> にあるような :as オプションを使用することで回避することができます．</p>
+<pre class="highlight ruby"><span class="o">-</span> <span class="n">form_for</span> <span class="vi">@user</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span>
+  <span class="o">=</span> <span class="n">f</span><span class="nf">.input</span> <span class="ss">:image_file</span><span class="p">,</span> <span class="ss">as: :file</span>
+</pre>
+<hr>
+<ul class='social_buttons list-inline'>
+<li class='evernote'></li>
+<li class='hatena'></li>
+<li class='tweet'></li>
+<li class='facebook_like'></li>
+</ul>
+<div id="disqus_thread"></div>
+            <script type="text/javascript">
+            //<![CDATA[
+                (function() {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = '//ckazuinfo.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            //]]>
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </script>
 </div>
 <aside class='sidebar col-md-3'>
 <div class='panel'>
@@ -292,7 +292,7 @@ webkit のほうが面倒ですね．webkit の書式は変更するとか何と
 </a>
 </li>
 <li class='feed'>
-<a href="feed.xml"><i class='fa fa-3x fa-rss-square'></i>
+<a href="/blog/feed.xml"><i class='fa fa-3x fa-rss-square'></i>
 </a>
 </li>
 </ul>

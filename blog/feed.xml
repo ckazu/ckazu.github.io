@@ -5,16 +5,74 @@
   <id>http://ckazu.info/blog</id>
   <link href="http://ckazu.info/blog"/>
   <link href="http://ckazu.info/blog/feed.xml" rel="self"/>
-  <updated>2013-12-04T13:18:00Z</updated>
+  <updated>2013-12-05T13:35:00Z</updated>
   <author>
     <name>ckazu</name>
   </author>
+  <entry>
+    <title>simple_form で binary 型フィールドの file_field を使う</title>
+    <link rel="alternate" href="http://ckazu.info/blog/2013/12/05/file_field_on_simple_form/"/>
+    <id>http://ckazu.info/blog/2013/12/05/file_field_on_simple_form/</id>
+    <published>2013-12-05T13:35:00Z</published>
+    <updated>2013-12-05T14:11:44+00:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <summary type="html">&lt;h2&gt;simple_form&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href="https://github.com/plataformatec/simple_form"&gt;https://github.com/plataformatec/simple_form&lt;/a&gt; は，煩雑になりがちなフォームの記述をシンプルにしてくれます．&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;form_for&lt;/span&gt; &lt;span class="vi"&gt;@user&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+  &lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;li&lt;/span&gt;
+    &lt;span class="nb"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="nf"&gt;.text_field&lt;/span&gt; &lt;span class="ss"&gt;:name&lt;/span&gt;
+  &lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;li&lt;/span&gt;
+    &lt;span class="ss"&gt;email:
+    &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="nf"&gt;.email_field&lt;/span&gt; &lt;span class="ss"&gt;:mail_address&lt;/span&gt;
+  &lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;li&lt;/span&gt;
+    &lt;span class="ss"&gt;password:
+    &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="nf"&gt;.password_field&lt;/span&gt;&lt;/pre&gt;</summary>
+    <content type="html">&lt;h2&gt;simple_form&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href="https://github.com/plataformatec/simple_form"&gt;https://github.com/plataformatec/simple_form&lt;/a&gt; は，煩雑になりがちなフォームの記述をシンプルにしてくれます．&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;form_for&lt;/span&gt; &lt;span class="vi"&gt;@user&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+  &lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;li&lt;/span&gt;
+    &lt;span class="nb"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="nf"&gt;.text_field&lt;/span&gt; &lt;span class="ss"&gt;:name&lt;/span&gt;
+  &lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;li&lt;/span&gt;
+    &lt;span class="ss"&gt;email:
+    &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="nf"&gt;.email_field&lt;/span&gt; &lt;span class="ss"&gt;:mail_address&lt;/span&gt;
+  &lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;li&lt;/span&gt;
+    &lt;span class="ss"&gt;password:
+    &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="nf"&gt;.password_field&lt;/span&gt; &lt;span class="ss"&gt;:password&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;通常，このように記述するところを，次のように書くことができます．&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;form_for&lt;/span&gt; &lt;span class="vi"&gt;@user&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+  &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="nf"&gt;.input&lt;/span&gt; &lt;span class="ss"&gt;:name&lt;/span&gt;
+  &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="nf"&gt;.input&lt;/span&gt; &lt;span class="ss"&gt;:mail_address&lt;/span&gt;
+  &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="nf"&gt;.input&lt;/span&gt; &lt;span class="ss"&gt;:password&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;全部，input で済ませることができます．&lt;/p&gt;
+
+&lt;h2&gt;binary 型&lt;/h2&gt;
+
+&lt;p&gt;基本的には DB のカラム定義を見て生成してくれますが，次のように，binary 型のカラムにファイルをアップロードしようとしたところエラーとなってしまいます．&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;form_for&lt;/span&gt; &lt;span class="vi"&gt;@user&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+  &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="nf"&gt;.file_field&lt;/span&gt; &lt;span class="ss"&gt;:image_file&lt;/span&gt; &lt;span class="c1"&gt;# &amp;lt;= これを&lt;/span&gt;
+
+&lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;form_for&lt;/span&gt; &lt;span class="vi"&gt;@user&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+  &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="nf"&gt;.input&lt;/span&gt; &lt;span class="ss"&gt;:image_file&lt;/span&gt; &lt;span class="c1"&gt;# &amp;lt;= このようにするとエラー&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;この場合，&lt;a href="https://github.com/plataformatec/simple_form#available-input-types-and-defaults-for-each-column-type"&gt;https://github.com/plataformatec/simple_form#available-input-types-and-defaults-for-each-column-type&lt;/a&gt; にあるような :as オプションを使用することで回避することができます．&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;form_for&lt;/span&gt; &lt;span class="vi"&gt;@user&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+  &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="nf"&gt;.input&lt;/span&gt; &lt;span class="ss"&gt;:image_file&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;as: :file&lt;/span&gt;
+&lt;/pre&gt;</content>
+  </entry>
   <entry>
     <title>rails でファイルをアップロードする際の挙動</title>
     <link rel="alternate" href="http://ckazu.info/blog/2013/12/04/action_dispatch_http_uploded_file/"/>
     <id>http://ckazu.info/blog/2013/12/04/action_dispatch_http_uploded_file/</id>
     <published>2013-12-04T13:18:00Z</published>
-    <updated>2013-12-04T15:12:18+00:00</updated>
+    <updated>2013-12-05T14:11:44+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -98,7 +156,7 @@
     <link rel="alternate" href="http://ckazu.info/blog/2013/12/04/image_upload_to_ar_db/"/>
     <id>http://ckazu.info/blog/2013/12/04/image_upload_to_ar_db/</id>
     <published>2013-12-03T15:50:00Z</published>
-    <updated>2013-12-04T15:12:18+00:00</updated>
+    <updated>2013-12-05T14:11:44+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -248,7 +306,7 @@ icon_user GET    /users/:id/icon&lt;span class="o"&gt;(&lt;/span&gt;.:format&lt;
     <link rel="alternate" href="http://ckazu.info/blog/2013/11/08/deploy_by_travis_ci/"/>
     <id>http://ckazu.info/blog/2013/11/08/deploy_by_travis_ci/</id>
     <published>2013-11-08T10:05:00Z</published>
-    <updated>2013-12-04T15:12:18+00:00</updated>
+    <updated>2013-12-05T14:11:44+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -327,7 +385,7 @@ icon_user GET    /users/:id/icon&lt;span class="o"&gt;(&lt;/span&gt;.:format&lt;
     <link rel="alternate" href="http://ckazu.info/blog/2013/11/07/check_github_pr/"/>
     <id>http://ckazu.info/blog/2013/11/07/check_github_pr/</id>
     <published>2013-11-07T05:18:00Z</published>
-    <updated>2013-12-04T15:12:18+00:00</updated>
+    <updated>2013-12-05T14:11:44+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -384,7 +442,7 @@ icon_user GET    /users/:id/icon&lt;span class="o"&gt;(&lt;/span&gt;.:format&lt;
     <link rel="alternate" href="http://ckazu.info/blog/2013/11/07/buy_sheaffer_calligraphy_pen/"/>
     <id>http://ckazu.info/blog/2013/11/07/buy_sheaffer_calligraphy_pen/</id>
     <published>2013-11-06T18:21:00Z</published>
-    <updated>2013-12-04T15:12:18+00:00</updated>
+    <updated>2013-12-05T14:11:44+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -434,139 +492,6 @@ icon_user GET    /users/:id/icon&lt;span class="o"&gt;(&lt;/span&gt;.:format&lt;
 &lt;p&gt;本物とはまったく違うものが出来上がっているけれど，まあ楽しいので良い．&lt;/p&gt;
 
 &lt;p&gt;あと，Zapfino, Euler font を書きたいと思って挑戦してみたけど，技術力が足りなすぎた．&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>middleman を使ってみた</title>
-    <link rel="alternate" href="http://ckazu.info/blog/2013/11/06/development_using_middleman/"/>
-    <id>http://ckazu.info/blog/2013/11/06/development_using_middleman/</id>
-    <published>2013-11-05T21:26:00Z</published>
-    <updated>2013-12-04T15:12:18+00:00</updated>
-    <author>
-      <name>Article Author</name>
-    </author>
-    <summary type="html">&lt;h2&gt;経緯&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href="http://jekyllrb.com/"&gt;jekyll&lt;/a&gt; を使っていた Github Page を &lt;a href="http://middlemanapp.com/"&gt;Middleman&lt;/a&gt; (&lt;a href="http://middlemanjp.github.io/"&gt;jp&lt;/a&gt;) で書きなおしてみました．&lt;/p&gt;
-
-&lt;p&gt;更新していなかったので，Jekyll のことはきれいさっぱり忘れた．&lt;/p&gt;
-
-&lt;p&gt;ついでにドメインとりました．&lt;/p&gt;
-
-&lt;h2&gt;Middleman&lt;/h2&gt;
-
-&lt;p&gt;業務の開発で使うなら，最初の一歩がもうちょっと楽になるとありがたいなーという印象．&lt;/p&gt;
-
-&lt;p&gt;個人使用でセットアップは一度きりと考えると，これで良いのかなという感じで割り切りました．&lt;/p&gt;
-
-&lt;p&gt;template がいくつか用意されているんだけれど，使いたいものが...&lt;/p&gt;</summary>
-    <content type="html">&lt;h2&gt;経緯&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href="http://jekyllrb.com/"&gt;jekyll&lt;/a&gt; を使っていた Github Page を &lt;a href="http://middlemanapp.com/"&gt;Middleman&lt;/a&gt; (&lt;a href="http://middlemanjp.github.io/"&gt;jp&lt;/a&gt;) で書きなおしてみました．&lt;/p&gt;
-
-&lt;p&gt;更新していなかったので，Jekyll のことはきれいさっぱり忘れた．&lt;/p&gt;
-
-&lt;p&gt;ついでにドメインとりました．&lt;/p&gt;
-
-&lt;h2&gt;Middleman&lt;/h2&gt;
-
-&lt;p&gt;業務の開発で使うなら，最初の一歩がもうちょっと楽になるとありがたいなーという印象．&lt;/p&gt;
-
-&lt;p&gt;個人使用でセットアップは一度きりと考えると，これで良いのかなという感じで割り切りました．&lt;/p&gt;
-
-&lt;p&gt;template がいくつか用意されているんだけれど，使いたいものが全部入りというのがなく，結局，自分で書くか template からの導入は諦める感じになりました．&lt;/p&gt;
-
-&lt;p&gt;activate の仕組みは便利ですね．&lt;/p&gt;
-
-&lt;h2&gt;code&lt;/h2&gt;
-
-&lt;p&gt;config.rb は大体こんな感じ&lt;/p&gt;
-
-&lt;p&gt;helper はここにおいておいて良いのかな？？？&lt;/p&gt;
-&lt;pre class="highlight ruby"&gt;
-&lt;span class="n"&gt;activate&lt;/span&gt; &lt;span class="ss"&gt;:i18n&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;langs: :ja&lt;/span&gt;
-
-&lt;span class="c1"&gt;# blog&lt;/span&gt;
-&lt;span class="n"&gt;activate&lt;/span&gt; &lt;span class="ss"&gt;:blog&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;blog&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
-  &lt;span class="n"&gt;blog&lt;/span&gt;&lt;span class="nf"&gt;.prefix&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;blog&amp;quot;&lt;/span&gt;
-  &lt;span class="n"&gt;blog&lt;/span&gt;&lt;span class="nf"&gt;.layout&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;blog_layout&amp;quot;&lt;/span&gt;
-  &lt;span class="n"&gt;blog&lt;/span&gt;&lt;span class="nf"&gt;.tag_template&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;blog/tag.html&amp;quot;&lt;/span&gt;
-  &lt;span class="n"&gt;blog&lt;/span&gt;&lt;span class="nf"&gt;.calendar_template&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;blog/calendar.html&amp;quot;&lt;/span&gt;
-  &lt;span class="n"&gt;blog&lt;/span&gt;&lt;span class="nf"&gt;.paginate&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kp"&gt;true&lt;/span&gt;
-&lt;span class="k"&gt;end&lt;/span&gt;
-&lt;span class="n"&gt;activate&lt;/span&gt; &lt;span class="ss"&gt;:directory_indexes&lt;/span&gt;
-&lt;span class="n"&gt;page&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;/feed.xml&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:layout&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="kp"&gt;false&lt;/span&gt;
-
-&lt;span class="c1"&gt;# syntax highlight&lt;/span&gt;
-&lt;span class="n"&gt;set&lt;/span&gt; &lt;span class="ss"&gt;:markdown_engine&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:redcarpet&lt;/span&gt;
-&lt;span class="n"&gt;set&lt;/span&gt; &lt;span class="ss"&gt;:markdown&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;fenced_code_blocks: &lt;/span&gt;&lt;span class="kp"&gt;true&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;smartypants: &lt;/span&gt;&lt;span class="kp"&gt;true&lt;/span&gt;
-&lt;span class="n"&gt;set&lt;/span&gt; &lt;span class="ss"&gt;:haml&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="ss"&gt;ugly: &lt;/span&gt;&lt;span class="kp"&gt;true&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
-&lt;span class="n"&gt;activate&lt;/span&gt; &lt;span class="ss"&gt;:rouge_syntax&lt;/span&gt;
-
-&lt;span class="n"&gt;helpers&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
-  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;blog_tag_for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="n"&gt;content_tag&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:span&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;class: &lt;/span&gt;&lt;span class="s1"&gt;'tag label fa fa-tag'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
-      &lt;span class="n"&gt;link_to&lt;/span&gt; &lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;tag_path&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="k"&gt;end&lt;/span&gt;
-  &lt;span class="k"&gt;end&lt;/span&gt;
-&lt;span class="k"&gt;end&lt;/span&gt;
-
-&lt;span class="n"&gt;activate&lt;/span&gt; &lt;span class="ss"&gt;:deploy&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;deploy&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
-  &lt;span class="n"&gt;deploy&lt;/span&gt;&lt;span class="nf"&gt;.method&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="ss"&gt;:git&lt;/span&gt;
-  &lt;span class="n"&gt;deploy&lt;/span&gt;&lt;span class="nf"&gt;.branch&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="ss"&gt;:master&lt;/span&gt;
-&lt;span class="k"&gt;end&lt;/span&gt;
-&lt;/pre&gt;
-&lt;p&gt;syntax highlight で pre タグが改行されてしまって左に余白ができてしまうのに困っていたら，良さそうな解決方法が見つかって良かった．
-=&amp;gt; &lt;a href="http://qiita.com/kumanoayumi/items/3e39936882db5aa912d6"&gt;MiddlemanでMarkdownでpre要素を使う時に出てしまう余分な余白を消す方法&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2&gt;github.io&lt;/h2&gt;
-
-&lt;p&gt;Github Pages をカスタムドメインでホスティングしたんだけれど，うまいこと反映されなくて長いことはまった．&lt;/p&gt;
-
-&lt;p&gt;はまったところは 3 点あって，&lt;/p&gt;
-
-&lt;h3&gt;ひとつは &lt;code&gt;gh-pages&lt;/code&gt; ブランチがあれば，そっちが優先されると思っていた点．&lt;/h3&gt;
-
-&lt;p&gt;username/username.github.io だと，&lt;code&gt;master&lt;/code&gt; ブランチが使われるんですね．Jeykill でもそうだったのに．．．&lt;/p&gt;
-
-&lt;p&gt;=&amp;gt; &lt;a href="http://blog.coiney.com/2013/06/21/host-middleman-blog-on-github/"&gt;middleman-blogをgithubでホストする&lt;/a&gt;&lt;/p&gt;
-
-&lt;h3&gt;2 点目は，&lt;code&gt;CNAME&lt;/code&gt; の置き場所．&lt;/h3&gt;
-
-&lt;p&gt;プロジェクト直下においていたのが間違いで，&lt;code&gt;/source&lt;/code&gt; 以下に配置しないといけなかった．&lt;/p&gt;
-
-&lt;p&gt;ビルド後のファイル構成を考えればすぐ分かりそうなもんでした．．．&lt;/p&gt;
-
-&lt;h3&gt;最後は，ホスティング先の勘違い．&lt;/h3&gt;
-
-&lt;p&gt;上の理由 (CNAME が配置されていない状態) から，&lt;code&gt;username.github.io&lt;/code&gt; に展開されているのに，カスタムドメインの方を見に行っていて，いつまでたっても反映されないなーとやっていた．&lt;/p&gt;
-
-&lt;p&gt;これは，github のプロジェクトページの&lt;code&gt;Setting &amp;gt; GitHub Pages&lt;/code&gt; のところを見ると，&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Your site is published at http://username.github.io&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;といった風に展開先が表示されるので確認できます．&lt;/p&gt;
-
-&lt;h2&gt;雑感&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;静的サイトを作るのにちゃんと使えそう&lt;/li&gt;
-&lt;li&gt;少ないながらも開発に必要な道具が割と揃ってる (or 組み込める)&lt;/li&gt;
-&lt;li&gt;livereload 便利&lt;/li&gt;
-&lt;li&gt;Frontmatter 便利&lt;/li&gt;
-&lt;li&gt;ruby, Padrino の資産活用できて良い&lt;/li&gt;
-&lt;li&gt;JS, CSS, WebFonts などの管理 =&amp;gt; Bower とか?&lt;/li&gt;
-&lt;li&gt;ファイル構成はもうちょっと整理したほうが．．．&lt;/li&gt;
-&lt;li&gt;middleman-blog 使っても，いきなりきれいなブログサイトなんかできないよ！&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2&gt;おわり&lt;/h2&gt;
-
-&lt;p&gt;とりあえず，徐々にサイト作っていきます&lt;/p&gt;
-
-&lt;p&gt;(なるべく更新したい&lt;/p&gt;
 </content>
   </entry>
 </feed>
