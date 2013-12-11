@@ -5,16 +5,113 @@
   <id>http://ckazu.info/blog</id>
   <link href="http://ckazu.info/blog"/>
   <link href="http://ckazu.info/blog/feed.xml" rel="self"/>
-  <updated>2013-12-05T13:35:00Z</updated>
+  <updated>2013-12-11T14:06:00Z</updated>
   <author>
     <name>ckazu</name>
   </author>
+  <entry>
+    <title>ActiveRecord の serialize を使う</title>
+    <link rel="alternate" href="http://ckazu.info/blog/2013/12/11/activerecord_serialize/"/>
+    <id>http://ckazu.info/blog/2013/12/11/activerecord_serialize/</id>
+    <published>2013-12-11T14:06:00Z</published>
+    <updated>2013-12-11T15:03:18+00:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <summary type="html">&lt;h2&gt;ActiveRecord::Base .serialize&lt;/h2&gt;
+
+&lt;p&gt;rails でオブジェクトをそのまま DB に保存したい場合， serialize が使える場合があります．&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;User&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;ActiveRecord&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Base&lt;/span&gt;
+  &lt;span class="n"&gt;serialize&lt;/span&gt; &lt;span class="ss"&gt;:group_ids&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;このようにすると，&lt;code&gt;User#group_ids&lt;/code&gt; オブジェクトは serialize されて保存されますが，扱う際にはそれを意識する必要がありません．&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="no"&gt;User&lt;/span&gt;&lt;span class="nf"&gt;.create&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;'alice...&lt;/span&gt;&lt;/pre&gt;</summary>
+    <content type="html">&lt;h2&gt;ActiveRecord::Base .serialize&lt;/h2&gt;
+
+&lt;p&gt;rails でオブジェクトをそのまま DB に保存したい場合， serialize が使える場合があります．&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;User&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;ActiveRecord&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Base&lt;/span&gt;
+  &lt;span class="n"&gt;serialize&lt;/span&gt; &lt;span class="ss"&gt;:group_ids&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;このようにすると，&lt;code&gt;User#group_ids&lt;/code&gt; オブジェクトは serialize されて保存されますが，扱う際にはそれを意識する必要がありません．&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="no"&gt;User&lt;/span&gt;&lt;span class="nf"&gt;.create&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;'alice'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;group_ids: &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="no"&gt;User&lt;/span&gt;&lt;span class="nf"&gt;.save&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;DB には，YAML 形式で保存されています．&lt;/p&gt;
+&lt;pre class="highlight text"&gt;&amp;gt; select * from users;
+1|alice|---\n- 1\n- 3\n- 5|2013-12-11 14:18:07.344781|2013-12-11 14:18:07.344781
+&lt;/pre&gt;
+&lt;p&gt;rails では，保存した時のオブジェクトとしてきちんと取り扱われます．&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;user&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;User&lt;/span&gt;&lt;span class="nf"&gt;.find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="no"&gt;User&lt;/span&gt; &lt;span class="no"&gt;Load&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="n"&gt;ms&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="no"&gt;SELECT&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;users&amp;quot;&lt;/span&gt;&lt;span class="nf"&gt;.*&lt;/span&gt; &lt;span class="no"&gt;FROM&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;users&amp;quot;&lt;/span&gt; &lt;span class="no"&gt;WHERE&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;users&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;id&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;?&lt;/span&gt; &lt;span class="no"&gt;LIMIT&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;  &lt;span class="o"&gt;[[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;id&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;]]&lt;/span&gt;
+&lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="c1"&gt;#&amp;lt;User id: 1, name: &amp;quot;alice&amp;quot;, group_ids: [1, 3, 5], created_at: &amp;quot;2013-12-11 14:18:07&amp;quot;, updated_at: &amp;quot;2013-12-11 14:18:07&amp;quot;&amp;gt;&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="nf"&gt;.group_ids&lt;/span&gt;
+&lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="nf"&gt;.group_ids.class&lt;/span&gt;
+&lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="nb"&gt;Array&lt;/span&gt;
+&lt;/pre&gt;
+&lt;h2&gt;オブジェクトの種類の制限&lt;/h2&gt;
+
+&lt;p&gt;また，&lt;code&gt;.serialize&lt;/code&gt; の第二引数にオブジェクトのクラスを指定すると，保存するオブジェクトの種類を制限できます．&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;User&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;ActiveRecord&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Base&lt;/span&gt;
+  &lt;span class="n"&gt;serialize&lt;/span&gt; &lt;span class="ss"&gt;:group_ids&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;Array&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;pre class="highlight ruby"&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="no"&gt;User&lt;/span&gt;&lt;span class="nf"&gt;.create&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;'bob'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;group_ids: &lt;/span&gt;&lt;span class="s1"&gt;'1,2,3'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+   &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="n"&gt;ms&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="k"&gt;begin&lt;/span&gt; &lt;span class="n"&gt;transaction&lt;/span&gt;
+   &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="n"&gt;ms&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="n"&gt;rollback&lt;/span&gt; &lt;span class="n"&gt;transactionActiveRecord&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;SerializationTypeMismatch&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="no"&gt;Attribute&lt;/span&gt; &lt;span class="n"&gt;was&lt;/span&gt; &lt;span class="n"&gt;supposed&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;be&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="nb"&gt;Array&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;but&lt;/span&gt; &lt;span class="n"&gt;was&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="nb"&gt;String&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;1,2,3&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;オブジェクトが異なる場合，例外&lt;code&gt;ActiveRecord::SerializationTypeMismatch&lt;/code&gt;を送出します．&lt;/p&gt;
+
+&lt;h2&gt;テスト&lt;/h2&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;User&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;ActiveRecord&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Base&lt;/span&gt;
+  &lt;span class="n"&gt;serialize&lt;/span&gt; &lt;span class="ss"&gt;:group_ids&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;Array&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;この場合，&lt;code&gt;Array&lt;/code&gt;を保証する&lt;code&gt;serialize&lt;/code&gt;のテストはどう書くのが良いのでしょうか．&lt;/p&gt;
+
+&lt;p&gt;スタンダードな方法がわからなかったので，愚直に書いてみました．&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="n"&gt;describe&lt;/span&gt; &lt;span class="s1"&gt;'.serialize'&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+  &lt;span class="n"&gt;let&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:user&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;build&lt;/span&gt; &lt;span class="ss"&gt;:user&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+
+  &lt;span class="n"&gt;context&lt;/span&gt; &lt;span class="s1"&gt;'when group_ids given the Array object'&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+    &lt;span class="n"&gt;subject&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="nf"&gt;.group_ids&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="n"&gt;before&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+      &lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="nf"&gt;.group_ids&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;
+      &lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="nf"&gt;.save&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+    &lt;span class="n"&gt;it&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;should&lt;/span&gt; &lt;span class="n"&gt;match_array&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+
+  &lt;span class="n"&gt;context&lt;/span&gt; &lt;span class="s1"&gt;'when group_ids given an invalid object'&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+    &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;12345&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'string value'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="ss"&gt;key: &lt;/span&gt;&lt;span class="s1"&gt;'value'&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="nf"&gt;.each&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;invalid_object&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+      &lt;span class="n"&gt;before&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="nf"&gt;.group_ids&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;invalid_object&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+      &lt;span class="n"&gt;it&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;expect&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="nf"&gt;.save&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="nf"&gt;.to&lt;/span&gt; &lt;span class="n"&gt;raise_error&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="no"&gt;ActiveRecord&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;SerializationTypeMismatch&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;shoulda-matchers&lt;/code&gt;のように宣言的に書けるものはあるのでしょうか．&lt;/p&gt;
+
+&lt;h3&gt;はまった点&lt;/h3&gt;
+
+&lt;p&gt;オブジェクトが異なる場合に，例外&lt;code&gt;ActiveRecord::SerializationTypeMismatch&lt;/code&gt;が送出されるのは，保存の時ですね．&lt;/p&gt;
+
+&lt;p&gt;なので，たとえば，&lt;code&gt;Array&lt;/code&gt;を期待しているカラムに対して&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="nf"&gt;.group_ids&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;'invalid value'&lt;/span&gt;
+&lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;invalid value&amp;quot;&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;user&lt;/span&gt;
+&lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="c1"&gt;#&amp;lt;User id: 2, name: &amp;quot;bob&amp;quot;, group_ids: &amp;quot;invalid value&amp;quot;, created_at: &amp;quot;2013-12-11 14:25:27&amp;quot;, updated_at: &amp;quot;2013-12-11 14:25:27&amp;quot;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;などとしても，この時点では何の問題も起きません．&lt;/p&gt;
+</content>
+  </entry>
   <entry>
     <title>simple_form で binary 型フィールドの file_field を使う</title>
     <link rel="alternate" href="http://ckazu.info/blog/2013/12/05/file_field_on_simple_form/"/>
     <id>http://ckazu.info/blog/2013/12/05/file_field_on_simple_form/</id>
     <published>2013-12-05T13:35:00Z</published>
-    <updated>2013-12-05T14:11:44+00:00</updated>
+    <updated>2013-12-11T15:03:18+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -72,7 +169,7 @@
     <link rel="alternate" href="http://ckazu.info/blog/2013/12/04/action_dispatch_http_uploded_file/"/>
     <id>http://ckazu.info/blog/2013/12/04/action_dispatch_http_uploded_file/</id>
     <published>2013-12-04T13:18:00Z</published>
-    <updated>2013-12-05T14:11:44+00:00</updated>
+    <updated>2013-12-11T15:03:18+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -156,7 +253,7 @@
     <link rel="alternate" href="http://ckazu.info/blog/2013/12/04/image_upload_to_ar_db/"/>
     <id>http://ckazu.info/blog/2013/12/04/image_upload_to_ar_db/</id>
     <published>2013-12-03T15:50:00Z</published>
-    <updated>2013-12-05T14:11:44+00:00</updated>
+    <updated>2013-12-11T15:03:18+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -306,7 +403,7 @@ icon_user GET    /users/:id/icon&lt;span class="o"&gt;(&lt;/span&gt;.:format&lt;
     <link rel="alternate" href="http://ckazu.info/blog/2013/11/08/deploy_by_travis_ci/"/>
     <id>http://ckazu.info/blog/2013/11/08/deploy_by_travis_ci/</id>
     <published>2013-11-08T10:05:00Z</published>
-    <updated>2013-12-05T14:11:44+00:00</updated>
+    <updated>2013-12-11T15:03:18+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -385,7 +482,7 @@ icon_user GET    /users/:id/icon&lt;span class="o"&gt;(&lt;/span&gt;.:format&lt;
     <link rel="alternate" href="http://ckazu.info/blog/2013/11/07/check_github_pr/"/>
     <id>http://ckazu.info/blog/2013/11/07/check_github_pr/</id>
     <published>2013-11-07T05:18:00Z</published>
-    <updated>2013-12-05T14:11:44+00:00</updated>
+    <updated>2013-12-11T15:03:18+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -435,63 +532,6 @@ icon_user GET    /users/:id/icon&lt;span class="o"&gt;(&lt;/span&gt;.:format&lt;
 &lt;h2&gt;ruby で書いたものはこちらに．&lt;/h2&gt;
 
 &lt;p&gt;=&amp;gt; &lt;a href="https://github.com/ckazu/github_checker"&gt;ckazu/github_checker&lt;/a&gt;&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>カリグラフィペンを買った</title>
-    <link rel="alternate" href="http://ckazu.info/blog/2013/11/07/buy_sheaffer_calligraphy_pen/"/>
-    <id>http://ckazu.info/blog/2013/11/07/buy_sheaffer_calligraphy_pen/</id>
-    <published>2013-11-06T18:21:00Z</published>
-    <updated>2013-12-05T14:11:44+00:00</updated>
-    <author>
-      <name>Article Author</name>
-    </author>
-    <summary type="html">&lt;h2&gt;Sheaffer Calligraphy MINI&lt;/h2&gt;
-
-&lt;p&gt;ちょっと前からカリグラフィやりたいなと思っていたので，ペンを買ってきた．&lt;/p&gt;
-
-&lt;p&gt;近所の文具店に行ったら，&lt;a href="http://www.sheaffer.jp/products/calligraphy/mini_kit"&gt;Sheaffer® カリグラフィー ミニキット&lt;/a&gt;と，&lt;a href="http://www.pilot.co.jp/products/pen/color_pen/parallel/"&gt;PILOT パラレルペン&lt;/a&gt; があったけど，せっかくなので，万年筆タイプの Sheaffer にした．&lt;/p&gt;
-
-&lt;p&gt;これは，安価な入門キットで，付属の太さの違う３種類のペン先(ニブというようだ)を付け替えられる．&lt;/p&gt;
-
-&lt;h2&gt;初めてのカリグラフィ&lt;/h2&gt;
-
-&lt;p&gt;で，とりあえず，見よう見まねで書いてみたニューヨークタイムズとペ...&lt;/p&gt;</summary>
-    <content type="html">&lt;h2&gt;Sheaffer Calligraphy MINI&lt;/h2&gt;
-
-&lt;p&gt;ちょっと前からカリグラフィやりたいなと思っていたので，ペンを買ってきた．&lt;/p&gt;
-
-&lt;p&gt;近所の文具店に行ったら，&lt;a href="http://www.sheaffer.jp/products/calligraphy/mini_kit"&gt;Sheaffer® カリグラフィー ミニキット&lt;/a&gt;と，&lt;a href="http://www.pilot.co.jp/products/pen/color_pen/parallel/"&gt;PILOT パラレルペン&lt;/a&gt; があったけど，せっかくなので，万年筆タイプの Sheaffer にした．&lt;/p&gt;
-
-&lt;p&gt;これは，安価な入門キットで，付属の太さの違う３種類のペン先(ニブというようだ)を付け替えられる．&lt;/p&gt;
-
-&lt;h2&gt;初めてのカリグラフィ&lt;/h2&gt;
-
-&lt;p&gt;で，とりあえず，見よう見まねで書いてみたニューヨークタイムズとペン．&lt;/p&gt;
-
-&lt;iframe src="//instagram.com/p/gYe-XVnmgU/embed/" width="612" height="710" frameborder="0" scrolling="no" allowtransparency="true"&gt;&lt;/iframe&gt;
-
-&lt;p&gt;本物と太さが違うけど気にせず書いた．&lt;/p&gt;
-
-&lt;p&gt;ペン先が切られてるので，普通の万年筆よりコツがいる．&lt;/p&gt;
-
-&lt;p&gt;書き方の基本も，書き順も何もかも知らないので，こういうことなのかと想像しながら書いた．&lt;/p&gt;
-
-&lt;p&gt;というのも，近所の書店にはカリグラフィの本がなかったから．&lt;/p&gt;
-
-&lt;p&gt;これから amazon さんで探そう．&lt;/p&gt;
-
-&lt;h3&gt;二巡目以降&lt;/h3&gt;
-
-&lt;p&gt;細かい部分まで見ながら書くからか，すっかり覚えてしまって，二回目からは時間を書けずに書けるようになった．&lt;/p&gt;
-
-&lt;p&gt;上手くはなっていない．大文字難しい．e を書くのが楽しい．&lt;/p&gt;
-
-&lt;iframe src="//instagram.com/p/gYfv5vHmhN/embed/" width="612" height="710" frameborder="0" scrolling="no" allowtransparency="true"&gt;&lt;/iframe&gt;
-
-&lt;p&gt;本物とはまったく違うものが出来上がっているけれど，まあ楽しいので良い．&lt;/p&gt;
-
-&lt;p&gt;あと，Zapfino, Euler font を書きたいと思って挑戦してみたけど，技術力が足りなすぎた．&lt;/p&gt;
 </content>
   </entry>
 </feed>

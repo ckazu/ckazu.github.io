@@ -8,7 +8,7 @@
 <html class='no-js' lang='ja'>
 <!-- <![endif] -->
 <head>
-<title>rake notes で，spec, js, coffee, scss, haml, slim のファイルも対象にする - ckazu.info</title>
+<title>ckazu.info</title>
 <meta charset='utf-8' content='text/html' http-equiv='content-type'>
 <meta content='ie=edge,chrome=1' http-equiv='x-ua-compatible'>
 <meta content='' name='description'>
@@ -25,7 +25,7 @@
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.2/css/font-awesome.css" media="screen" rel="stylesheet" type="text/css" />
 <link href="/stylesheets/application.css" media="screen" rel="stylesheet" type="text/css" />
 </head>
-<body class='page'>
+<body class='blog'>
 <div class='navbar navbar-inverse navbar-fixed-top'>
 <div class='container'>
 <div class='navbar-header'>
@@ -57,60 +57,36 @@
 <div class='row'>
 <div class='blog'>
 <div class='col-md-9'>
-<h2>rake notes で，spec, js, coffee, scss, haml, slim のファイルも対象にする</h2>
-<div class='date pull-right'>2011/12/06 00:00:00</div>
-<span class="tag label fa fa-tag"><a href="/blog/tags/rails/">rails</a></span>
+<div class='container'>
+<h2>
+Archives
+2013-12-11
+</h2>
+</div>
 <hr>
-<pre class="highlight ruby">
-<span class="k">class </span><span class="nc">SourceAnnotationExtractor</span>
-  <span class="k">def </span><span class="nf">find_with_custom_directories</span>
-    <span class="n">find_without_custom_directories</span><span class="p">(</span><span class="sx">%w|app lib spec|</span><span class="p">)</span>
-  <span class="k">end</span>
-  <span class="n">alias_method_chain</span> <span class="ss">:find</span><span class="p">,</span> <span class="ss">:custom_directories</span>
+<article class='container'>
+<div class='col-md-2'>
+<div class='date'>2013-12-11</div>
+</div>
+<div class='col-md-7'>
+<h2><a href="/blog/2013/12/11/activerecord_serialize/">ActiveRecord の serialize を使う</a></h2>
+<div class='tags'>
+<span class="tag label fa fa-tag"><a href="/blog/tags/rails/">rails</a></span>
+</div>
+<h2>ActiveRecord::Base .serialize</h2>
 
-  <span class="k">def </span><span class="nf">find_in_with_custom_files</span><span class="p">(</span><span class="n">dir</span><span class="p">)</span>
-    <span class="n">results</span> <span class="o">=</span> <span class="n">find_in_without_custom_files</span><span class="p">(</span><span class="n">dir</span><span class="p">)</span>
-
-    <span class="no">Dir</span><span class="nf">.glob</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">dir</span><span class="si">}</span><span class="s2">/*&quot;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span>
-      <span class="k">next</span> <span class="k">if</span> <span class="no">File</span><span class="nf">.basename</span><span class="p">(</span><span class="n">item</span><span class="p">)</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">==</span> <span class="sc">?.</span>
-
-      <span class="k">if</span> <span class="no">File</span><span class="nf">.directory?</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
-        <span class="n">results</span><span class="nf">.update</span><span class="p">(</span><span class="n">find_in</span><span class="p">(</span><span class="n">item</span><span class="p">))</span>
-      <span class="k">elsif</span> <span class="n">item</span> <span class="o">=~</span> <span class="sr">/\.(coffee)$/</span>
-        <span class="n">results</span><span class="nf">.update</span><span class="p">(</span><span class="n">extract_annotations_from</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="sr">/#\s*\[?(</span><span class="si">#{</span><span class="n">tag</span><span class="si">}</span><span class="sr">)\]?\s*:?\s*(.*)$/</span><span class="p">))</span>
-      <span class="k">elsif</span> <span class="n">item</span> <span class="o">=~</span> <span class="sr">/\.(js|scss)$/</span>
-        <span class="n">results</span><span class="nf">.update</span><span class="p">(</span><span class="n">extract_annotations_from</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="sr">/\/\/\s*\[?(</span><span class="si">#{</span><span class="n">tag</span><span class="si">}</span><span class="sr">)\]?\s*:?\s*(.*)$/</span><span class="p">))</span>
-      <span class="k">elsif</span> <span class="n">item</span> <span class="o">=~</span> <span class="sr">/\.(haml)$/</span>
-        <span class="n">results</span><span class="nf">.update</span><span class="p">(</span><span class="n">extract_annotations_from</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="sr">/[\/|(\-\#)]\s*\[?(</span><span class="si">#{</span><span class="n">tag</span><span class="si">}</span><span class="sr">)\]?\s*:?\s*(.*)$/</span><span class="p">))</span>
-      <span class="k">elsif</span> <span class="n">item</span> <span class="o">=~</span> <span class="sr">/\.(slim)$/</span>
-        <span class="n">results</span><span class="nf">.update</span><span class="p">(</span><span class="n">extract_annotations_from</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="sr">/\/\!?\s*\[?(</span><span class="si">#{</span><span class="n">tag</span><span class="si">}</span><span class="sr">)\]?\s*:?\s*(.*)$/</span><span class="p">))</span>
-      <span class="k">end</span>
-    <span class="k">end</span>
-    <span class="n">results</span>
-  <span class="k">end</span>
-  <span class="n">alias_method_chain</span> <span class="ss">:find_in</span><span class="p">,</span> <span class="ss">:custom_files</span>
+<p>rails でオブジェクトをそのまま DB に保存したい場合， serialize が使える場合があります．</p>
+<pre class="highlight ruby"><span class="k">class </span><span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">serialize</span> <span class="ss">:group_ids</span>
 <span class="k">end</span>
 </pre>
-<hr>
-<ul class='social_buttons list-inline'>
-<li class='evernote'></li>
-<li class='hatena'></li>
-<li class='tweet'></li>
-<li class='facebook_like'></li>
-</ul>
-<div id="disqus_thread"></div>
-            <script type="text/javascript">
-            //<![CDATA[
-                (function() {
-                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-                    dsq.src = '//ckazuinfo.disqus.com/embed.js';
-                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-                })();
-            //]]>
-            </script>
-            <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-            <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-        </script>
+<p>このようにすると，<code>User#group_ids</code> オブジェクトは serialize されて保存されます...</p>
+<a href="/blog/2013/12/11/activerecord_serialize/">続きを読む</a>
+</div>
+</article>
+<div class='nav text-right'>
+</div>
+
 </div>
 <aside class='sidebar col-md-3'>
 <div class='panel'>
@@ -287,7 +263,7 @@
 </a>
 </li>
 <li class='feed'>
-<a href="/blog/feed.xml"><i class='fa fa-3x fa-rss-square'></i>
+<a href="feed.xml"><i class='fa fa-3x fa-rss-square'></i>
 </a>
 </li>
 </ul>

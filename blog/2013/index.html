@@ -66,6 +66,26 @@ Archives
 <hr>
 <article class='container'>
 <div class='col-md-2'>
+<div class='date'>2013-12-11</div>
+</div>
+<div class='col-md-7'>
+<h2><a href="/blog/2013/12/11/activerecord_serialize/">ActiveRecord の serialize を使う</a></h2>
+<div class='tags'>
+<span class="tag label fa fa-tag"><a href="/blog/tags/rails/">rails</a></span>
+</div>
+<h2>ActiveRecord::Base .serialize</h2>
+
+<p>rails でオブジェクトをそのまま DB に保存したい場合， serialize が使える場合があります．</p>
+<pre class="highlight ruby"><span class="k">class </span><span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">serialize</span> <span class="ss">:group_ids</span>
+<span class="k">end</span>
+</pre>
+<p>このようにすると，<code>User#group_ids</code> オブジェクトは serialize されて保存されます...</p>
+<a href="/blog/2013/12/11/activerecord_serialize/">続きを読む</a>
+</div>
+</article>
+<article class='container'>
+<div class='col-md-2'>
 <div class='date'>2013-12-05</div>
 </div>
 <div class='col-md-7'>
@@ -231,6 +251,12 @@ Archives
 <div class='panel-body'>
 <ul>
 <li>
+<span class='date'>2013-12-11</span>
+<br>
+<i class='fa fa-pencil'></i>
+<a href="/blog/2013/12/11/activerecord_serialize/">ActiveRecord の serialize を使う</a>
+</li>
+<li>
 <span class='date'>2013-12-05</span>
 <br>
 <i class='fa fa-pencil'></i>
@@ -284,12 +310,6 @@ Archives
 <i class='fa fa-pencil'></i>
 <a href="/blog/2011/05/23/ruby-rails-rails-Mix-in/">rails で Mix-in するときにすでにあるメソッドをオーバーライドする</a>
 </li>
-<li>
-<span class='date'>2011-03-21</span>
-<br>
-<i class='fa fa-pencil'></i>
-<a href="/blog/2011/03/21/css3-jsdo-it-CSS3/">CSS3のみで色々な背景パターンを描画する</a>
-</li>
 </ul>
 </div>
 </div>
@@ -301,8 +321,8 @@ Archives
 <ul>
 <li>
 <i class='fa fa-tag'></i>
-<a href="/blog/tags/rails/">rails</a>
-(5)
+<a href="/blog/tags/css3/">css3</a>
+(2)
 </li>
 <li>
 <i class='fa fa-tag'></i>
@@ -316,13 +336,13 @@ Archives
 </li>
 <li>
 <i class='fa fa-tag'></i>
-<a href="/blog/tags/github/">github</a>
-(1)
+<a href="/blog/tags/rails/">rails</a>
+(6)
 </li>
 <li>
 <i class='fa fa-tag'></i>
-<a href="/blog/tags/css3/">css3</a>
-(2)
+<a href="/blog/tags/github/">github</a>
+(1)
 </li>
 <li>
 <i class='fa fa-tag'></i>
@@ -345,7 +365,7 @@ Archives
 <ul>
 <li>
 <a href="/blog/2013/12/">2013/12</a>
-(3)
+(4)
 </li>
 <li>
 <a href="/blog/2013/11/">2013/11</a>
