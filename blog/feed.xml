@@ -5,16 +5,71 @@
   <id>http://ckazu.info/blog</id>
   <link href="http://ckazu.info/blog"/>
   <link href="http://ckazu.info/blog/feed.xml" rel="self"/>
-  <updated>2013-12-11T14:06:00Z</updated>
+  <updated>2013-12-13T15:00:00Z</updated>
   <author>
     <name>ckazu</name>
   </author>
+  <entry>
+    <title>rails の delegate で，移譲先のオブジェクトが nil になる場合の対応</title>
+    <link rel="alternate" href="http://ckazu.info/blog/2013/12/14/delegate_allow_nil/"/>
+    <id>http://ckazu.info/blog/2013/12/14/delegate_allow_nil/</id>
+    <published>2013-12-13T15:00:00Z</published>
+    <updated>2013-12-13T16:00:33+00:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <summary type="html">&lt;h2&gt;delegate&lt;/h2&gt;
+
+&lt;p&gt;互いに関連を持つ&lt;code&gt;User&lt;/code&gt;, &lt;code&gt;Profile&lt;/code&gt; があるとして，ある&lt;code&gt;User&lt;/code&gt;を主体として&lt;code&gt;Profile#job&lt;/code&gt;を得るには&lt;code&gt;user.profile.job&lt;/code&gt;とする必要があります．&lt;/p&gt;
+
+&lt;p&gt;ですが，単に&lt;code&gt;user.job&lt;/code&gt;とアクセスしたいと思うこともあるでしょう．&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;User&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;ActiveRecord&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Base&lt;/span&gt;
+  &lt;span class="n"&gt;belongs_to&lt;/span&gt; &lt;span class="ss"&gt;:profile&lt;/span&gt;
+
+  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;job&lt;/span&gt;
+    &lt;span class="n"&gt;profile&lt;/span&gt;&lt;span class="nf"&gt;.try&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:job&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;ということで，&lt;code&gt;User#job&lt;/code&gt;メソ...&lt;/p&gt;</summary>
+    <content type="html">&lt;h2&gt;delegate&lt;/h2&gt;
+
+&lt;p&gt;互いに関連を持つ&lt;code&gt;User&lt;/code&gt;, &lt;code&gt;Profile&lt;/code&gt; があるとして，ある&lt;code&gt;User&lt;/code&gt;を主体として&lt;code&gt;Profile#job&lt;/code&gt;を得るには&lt;code&gt;user.profile.job&lt;/code&gt;とする必要があります．&lt;/p&gt;
+
+&lt;p&gt;ですが，単に&lt;code&gt;user.job&lt;/code&gt;とアクセスしたいと思うこともあるでしょう．&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;User&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;ActiveRecord&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Base&lt;/span&gt;
+  &lt;span class="n"&gt;belongs_to&lt;/span&gt; &lt;span class="ss"&gt;:profile&lt;/span&gt;
+
+  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;job&lt;/span&gt;
+    &lt;span class="n"&gt;profile&lt;/span&gt;&lt;span class="nf"&gt;.try&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:job&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;ということで，&lt;code&gt;User#job&lt;/code&gt;メソッドを定義しました．&lt;/p&gt;
+
+&lt;p&gt;しかし，この場合は，次のように移譲を用いることで解決することができます．&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;User&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;ActiveRecord&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Base&lt;/span&gt;
+  &lt;span class="n"&gt;belongs_to&lt;/span&gt; &lt;span class="ss"&gt;:profile&lt;/span&gt;
+  &lt;span class="n"&gt;delegate&lt;/span&gt; &lt;span class="ss"&gt;:job&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;to: :profile&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;
+&lt;h2&gt;移譲先が nil のケース&lt;/h2&gt;
+
+&lt;p&gt;ただ，&lt;code&gt;user.profile&lt;/code&gt;が存在しない場合(&lt;code&gt;user.profile==nil&lt;/code&gt;の場合)，&lt;code&gt;NoMethodError&lt;/code&gt;になりますね．&lt;/p&gt;
+
+&lt;p&gt;移譲先のオブジェクトにアクセス可能であることが保証できない場合，&lt;code&gt;allow_nil&lt;/code&gt;オプションを指定することでこれを解決できます．&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;User&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;ActiveRecord&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Base&lt;/span&gt;
+  &lt;span class="n"&gt;belongs_to&lt;/span&gt; &lt;span class="ss"&gt;:profile&lt;/span&gt;
+  &lt;span class="n"&gt;delegate&lt;/span&gt; &lt;span class="ss"&gt;:job&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;to: :profile&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;allow_nil: &lt;/span&gt;&lt;span class="kp"&gt;true&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;</content>
+  </entry>
   <entry>
     <title>ActiveRecord の serialize を使う</title>
     <link rel="alternate" href="http://ckazu.info/blog/2013/12/11/activerecord_serialize/"/>
     <id>http://ckazu.info/blog/2013/12/11/activerecord_serialize/</id>
     <published>2013-12-11T14:06:00Z</published>
-    <updated>2013-12-12T14:56:11+00:00</updated>
+    <updated>2013-12-13T16:00:33+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -111,7 +166,7 @@
     <link rel="alternate" href="http://ckazu.info/blog/2013/12/05/file_field_on_simple_form/"/>
     <id>http://ckazu.info/blog/2013/12/05/file_field_on_simple_form/</id>
     <published>2013-12-05T13:35:00Z</published>
-    <updated>2013-12-12T14:56:11+00:00</updated>
+    <updated>2013-12-13T16:00:33+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -169,7 +224,7 @@
     <link rel="alternate" href="http://ckazu.info/blog/2013/12/04/action_dispatch_http_uploded_file/"/>
     <id>http://ckazu.info/blog/2013/12/04/action_dispatch_http_uploded_file/</id>
     <published>2013-12-04T13:18:00Z</published>
-    <updated>2013-12-12T14:56:11+00:00</updated>
+    <updated>2013-12-13T16:00:33+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -253,7 +308,7 @@
     <link rel="alternate" href="http://ckazu.info/blog/2013/12/04/image_upload_to_ar_db/"/>
     <id>http://ckazu.info/blog/2013/12/04/image_upload_to_ar_db/</id>
     <published>2013-12-03T15:50:00Z</published>
-    <updated>2013-12-12T14:56:11+00:00</updated>
+    <updated>2013-12-13T16:00:33+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -403,7 +458,7 @@ icon_user GET    /users/:id/icon&lt;span class="o"&gt;(&lt;/span&gt;.:format&lt;
     <link rel="alternate" href="http://ckazu.info/blog/2013/11/08/deploy_by_travis_ci/"/>
     <id>http://ckazu.info/blog/2013/11/08/deploy_by_travis_ci/</id>
     <published>2013-11-08T10:05:00Z</published>
-    <updated>2013-12-12T14:56:11+00:00</updated>
+    <updated>2013-12-13T16:00:33+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -475,63 +530,6 @@ icon_user GET    /users/:id/icon&lt;span class="o"&gt;(&lt;/span&gt;.:format&lt;
 &lt;p&gt;&lt;img alt="middleman-travis-ci" src="/images/middleman-travis-ci.png" /&gt;&lt;/p&gt;
 
 &lt;p&gt;対応策は，&lt;code&gt;middlemana build&lt;/code&gt; で，&lt;code&gt;.travis.yml&lt;/code&gt; を置くようにするか，コミットメッセージに &lt;code&gt;[ci skip]&lt;/code&gt; を入れるようにするか，くらい？&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>GitHub で open になっている PR をチェックする</title>
-    <link rel="alternate" href="http://ckazu.info/blog/2013/11/07/check_github_pr/"/>
-    <id>http://ckazu.info/blog/2013/11/07/check_github_pr/</id>
-    <published>2013-11-07T05:18:00Z</published>
-    <updated>2013-12-12T14:56:11+00:00</updated>
-    <author>
-      <name>Article Author</name>
-    </author>
-    <summary type="html">&lt;h2&gt;API を叩く&lt;/h2&gt;
-
-&lt;p&gt;複数の GitHub リポジトリの PR をチェックするのが割りと面倒なので，日時バッチで通知するようにしている．&lt;/p&gt;
-
-&lt;p&gt;PR を取得するには，&lt;a href="http://developer.github.com/v3/pulls/#list-pull-requests"&gt;GitHub Developer API&lt;/a&gt; を叩けば済む．&lt;/p&gt;
-&lt;pre class="highlight shell"&gt;&lt;span class="gp"&gt;$ &lt;/span&gt;curl https://api.github.com/repos/rails/rails/pulls
-&lt;/pre&gt;
-&lt;p&gt;以下の様に JSON でまるっと返ってくるので，必要に応じて欲しい情報を取得する．&lt;/p&gt;
-&lt;pre class="highlight json"&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="w"&gt;
-  &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;
-    &lt;/span&gt;&lt;span class="s2"&gt;"url"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"https://api.github.com/repos...&lt;/span&gt;&lt;/pre&gt;</summary>
-    <content type="html">&lt;h2&gt;API を叩く&lt;/h2&gt;
-
-&lt;p&gt;複数の GitHub リポジトリの PR をチェックするのが割りと面倒なので，日時バッチで通知するようにしている．&lt;/p&gt;
-
-&lt;p&gt;PR を取得するには，&lt;a href="http://developer.github.com/v3/pulls/#list-pull-requests"&gt;GitHub Developer API&lt;/a&gt; を叩けば済む．&lt;/p&gt;
-&lt;pre class="highlight shell"&gt;&lt;span class="gp"&gt;$ &lt;/span&gt;curl https://api.github.com/repos/rails/rails/pulls
-&lt;/pre&gt;
-&lt;p&gt;以下の様に JSON でまるっと返ってくるので，必要に応じて欲しい情報を取得する．&lt;/p&gt;
-&lt;pre class="highlight json"&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="w"&gt;
-  &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;
-    &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;url&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;https://api.github.com/repos/rails/rails/pulls/12791&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
-    &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;id&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;9743099&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
-    &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;html_url&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;https://github.com/rails/rails/pull/12791&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
-    &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;diff_url&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;https://github.com/rails/rails/pull/12791.diff&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
-    &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;patch_url&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;https://github.com/rails/rails/pull/12791.patch&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
-    &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;issue_url&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;https://github.com/rails/rails/pull/12791&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
-    &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;number&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;12791&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
-    &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;state&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;open&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
-    &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;title&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;add autoload :TransactionState to fix Marshal.load issues&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
-    &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;user&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;
-      &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;login&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;jasonayre&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
-      &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;id&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;155084&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
-      &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;avatar_url&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;https://2.gravatar.com/avatar/3d4ea18be907fb6130be9749ec336cd6?d=https%3A%2F%2Fidenticons.github.com%2Faf5a6968d0d85aa4ea4af86409d642a0.png&amp;amp;r=x&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
-&lt;/span&gt;&lt;span class="err"&gt;...以下略...&lt;/span&gt;&lt;span class="w"&gt;
-&lt;/span&gt;&lt;/pre&gt;
-&lt;h2&gt;private repository&lt;/h2&gt;
-
-&lt;p&gt;ただし，private なリポジトリの場合には認証が必要．&lt;/p&gt;
-
-&lt;p&gt;&lt;a href="https://github.com/settings/applications"&gt;https://github.com/settings/applications&lt;/a&gt; から，&lt;code&gt;Personal Access Token&lt;/code&gt;を発行して使用する．&lt;/p&gt;
-&lt;pre class="highlight shell"&gt;&lt;span class="gp"&gt;$ &lt;/span&gt;curl -u USERNAME:ACCESSTOKEN https://api.github.com/repos/OWNER/REPO/pulls
-&lt;/pre&gt;
-&lt;h2&gt;ruby で書いたものはこちらに．&lt;/h2&gt;
-
-&lt;p&gt;=&amp;gt; &lt;a href="https://github.com/ckazu/github_checker"&gt;ckazu/github_checker&lt;/a&gt;&lt;/p&gt;
 </content>
   </entry>
 </feed>
