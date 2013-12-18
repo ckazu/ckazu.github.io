@@ -5,16 +5,105 @@
   <id>http://ckazu.info/blog</id>
   <link href="http://ckazu.info/blog"/>
   <link href="http://ckazu.info/blog/feed.xml" rel="self"/>
-  <updated>2013-12-13T15:00:00Z</updated>
+  <updated>2013-12-18T13:14:00Z</updated>
   <author>
     <name>ckazu</name>
   </author>
+  <entry>
+    <title>Sinatra で streaming を使用した際にちゃんとコネクションを閉じる</title>
+    <link rel="alternate" href="http://ckazu.info/blog/2013/12/18/sinatra_streaming/"/>
+    <id>http://ckazu.info/blog/2013/12/18/sinatra_streaming/</id>
+    <published>2013-12-18T13:14:00Z</published>
+    <updated>2013-12-18T13:50:15+00:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <summary type="html">&lt;h2&gt;Sinatra で Streaming&lt;/h2&gt;
+
+&lt;p&gt;Sinatra で WebSocket のような stream の簡便な実装を書くことができます．&lt;/p&gt;
+
+&lt;p&gt;簡易なチャットシステムや，流れてくるログ拾ってきてブラウザで眺めるなどの用途に使えそうです．&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;  &lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="s1"&gt;'/'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;provides: &lt;/span&gt;&lt;span class="s1"&gt;'text/event-stream'&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+    &lt;span class="n"&gt;stream&lt;/span&gt; &lt;span class="ss"&gt;:keep_open&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;conn&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+      &lt;span class="n"&gt;conn&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="s1"&gt;'なにがしかの処理'&lt;/span&gt;
+      &lt;span class="nb"&gt;sleep&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;&lt;/pre&gt;</summary>
+    <content type="html">&lt;h2&gt;Sinatra で Streaming&lt;/h2&gt;
+
+&lt;p&gt;Sinatra で WebSocket のような stream の簡便な実装を書くことができます．&lt;/p&gt;
+
+&lt;p&gt;簡易なチャットシステムや，流れてくるログ拾ってきてブラウザで眺めるなどの用途に使えそうです．&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;  &lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="s1"&gt;'/'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;provides: &lt;/span&gt;&lt;span class="s1"&gt;'text/event-stream'&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+    &lt;span class="n"&gt;stream&lt;/span&gt; &lt;span class="ss"&gt;:keep_open&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;conn&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+      &lt;span class="n"&gt;conn&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="s1"&gt;'なにがしかの処理'&lt;/span&gt;
+      &lt;span class="nb"&gt;sleep&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;
+&lt;h2&gt;loop したい&lt;/h2&gt;
+
+&lt;p&gt;たとえば，ログを眺めるような用途だと，ログを監視して差分を送ってあげるなどの処理が必要になるでしょう．&lt;/p&gt;
+
+&lt;p&gt;loop ブロックを使用したくなることがありそうです．&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;    &lt;span class="n"&gt;stream&lt;/span&gt; &lt;span class="ss"&gt;:keep_open&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;conn&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+      &lt;span class="kp"&gt;loop&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+        &lt;span class="n"&gt;conn&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="s1"&gt;'データの差分を送る'&lt;/span&gt;
+        &lt;span class="nb"&gt;sleep&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+      &lt;span class="k"&gt;end&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;
+&lt;h2&gt;connection が増幅する&lt;/h2&gt;
+
+&lt;p&gt;しかし，この実装だと，ブラウザをリロードしてみると以前のコネクションが残ってしまいます．&lt;/p&gt;
+
+&lt;p&gt;次のようにしてサーバログを見ると，リロードした数だけ余分に呼ばれていることがわかります．&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;    &lt;span class="n"&gt;stream&lt;/span&gt; &lt;span class="ss"&gt;:keep_open&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;conn&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+      &lt;span class="kp"&gt;loop&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+        &lt;span class="nb"&gt;p&lt;/span&gt; &lt;span class="s1"&gt;'loop'&lt;/span&gt;
+        &lt;span class="n"&gt;conn&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="s1"&gt;'データの差分を送る'&lt;/span&gt;
+        &lt;span class="nb"&gt;sleep&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+      &lt;span class="k"&gt;end&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;
+&lt;h2&gt;callback&lt;/h2&gt;
+
+&lt;p&gt;connection が切れたことを検知するには，callback を利用するのが良さそうです．&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;    &lt;span class="n"&gt;stream&lt;/span&gt; &lt;span class="ss"&gt;:keep_open&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;conn&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+      &lt;span class="kp"&gt;loop&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+        &lt;span class="n"&gt;conn&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="s1"&gt;'データの差分を送る'&lt;/span&gt;
+        &lt;span class="n"&gt;conn&lt;/span&gt;&lt;span class="nf"&gt;.errback&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="nb"&gt;p&lt;/span&gt; &lt;span class="s1"&gt;'closed'&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+        &lt;span class="nb"&gt;sleep&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+      &lt;span class="k"&gt;end&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;
+&lt;h2&gt;コネクションの管理&lt;/h2&gt;
+
+&lt;p&gt;ただし，callback の Proc 内では loop ブロックを break できないので，次のようにしてコネクションを管理することにします．&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;  &lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="s1"&gt;'/'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;provides: &lt;/span&gt;&lt;span class="s1"&gt;'text/event-stream'&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+    &lt;span class="n"&gt;conns&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;[]&lt;/span&gt;
+    &lt;span class="n"&gt;stream&lt;/span&gt; &lt;span class="ss"&gt;:keep_open&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;conn&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+      &lt;span class="n"&gt;conns&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;conn&lt;/span&gt;
+      &lt;span class="kp"&gt;loop&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+        &lt;span class="n"&gt;conn&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="s1"&gt;'データの差分を送る'&lt;/span&gt;
+
+        &lt;span class="c1"&gt;# if connection closed&lt;/span&gt;
+        &lt;span class="n"&gt;conn&lt;/span&gt;&lt;span class="nf"&gt;.callback&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;conns&lt;/span&gt;&lt;span class="nf"&gt;.delete&lt;/span&gt; &lt;span class="n"&gt;conn&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+        &lt;span class="n"&gt;conn&lt;/span&gt;&lt;span class="nf"&gt;.errback&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;conns&lt;/span&gt;&lt;span class="nf"&gt;.delete&lt;/span&gt; &lt;span class="n"&gt;conn&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+        &lt;span class="k"&gt;break&lt;/span&gt; &lt;span class="k"&gt;unless&lt;/span&gt; &lt;span class="n"&gt;conns&lt;/span&gt;&lt;span class="nf"&gt;.include?&lt;/span&gt; &lt;span class="n"&gt;conn&lt;/span&gt;
+
+        &lt;span class="nb"&gt;sleep&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+      &lt;span class="k"&gt;end&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt; 
+&lt;/pre&gt;</content>
+  </entry>
   <entry>
     <title>rails の delegate で，移譲先のオブジェクトが nil になる場合の対応</title>
     <link rel="alternate" href="http://ckazu.info/blog/2013/12/14/delegate_allow_nil/"/>
     <id>http://ckazu.info/blog/2013/12/14/delegate_allow_nil/</id>
     <published>2013-12-13T15:00:00Z</published>
-    <updated>2013-12-13T16:00:33+00:00</updated>
+    <updated>2013-12-18T13:50:15+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -69,7 +158,7 @@
     <link rel="alternate" href="http://ckazu.info/blog/2013/12/11/activerecord_serialize/"/>
     <id>http://ckazu.info/blog/2013/12/11/activerecord_serialize/</id>
     <published>2013-12-11T14:06:00Z</published>
-    <updated>2013-12-13T16:00:33+00:00</updated>
+    <updated>2013-12-18T13:50:15+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -166,7 +255,7 @@
     <link rel="alternate" href="http://ckazu.info/blog/2013/12/05/file_field_on_simple_form/"/>
     <id>http://ckazu.info/blog/2013/12/05/file_field_on_simple_form/</id>
     <published>2013-12-05T13:35:00Z</published>
-    <updated>2013-12-13T16:00:33+00:00</updated>
+    <updated>2013-12-18T13:50:15+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -224,7 +313,7 @@
     <link rel="alternate" href="http://ckazu.info/blog/2013/12/04/action_dispatch_http_uploded_file/"/>
     <id>http://ckazu.info/blog/2013/12/04/action_dispatch_http_uploded_file/</id>
     <published>2013-12-04T13:18:00Z</published>
-    <updated>2013-12-13T16:00:33+00:00</updated>
+    <updated>2013-12-18T13:50:15+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -308,7 +397,7 @@
     <link rel="alternate" href="http://ckazu.info/blog/2013/12/04/image_upload_to_ar_db/"/>
     <id>http://ckazu.info/blog/2013/12/04/image_upload_to_ar_db/</id>
     <published>2013-12-03T15:50:00Z</published>
-    <updated>2013-12-13T16:00:33+00:00</updated>
+    <updated>2013-12-18T13:50:15+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -451,85 +540,6 @@ icon_user GET    /users/:id/icon&lt;span class="o"&gt;(&lt;/span&gt;.:format&lt;
 &lt;p&gt;&lt;img alt="ビューの変更" src="/images/20131204_2.png" /&gt;&lt;/p&gt;
 
 &lt;p&gt;これで完了です．&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>Middleman の記事更新を Travis-CI でする</title>
-    <link rel="alternate" href="http://ckazu.info/blog/2013/11/08/deploy_by_travis_ci/"/>
-    <id>http://ckazu.info/blog/2013/11/08/deploy_by_travis_ci/</id>
-    <published>2013-11-08T10:05:00Z</published>
-    <updated>2013-12-13T16:00:33+00:00</updated>
-    <author>
-      <name>Article Author</name>
-    </author>
-    <summary type="html">&lt;h2&gt;Middleman 静的ファイルのデプロイ&lt;/h2&gt;
-
-&lt;p&gt;このサイトは Middleman + github.io でできていて，デプロイ時には &lt;code&gt;middleman build &amp;amp;&amp;amp; middleman deploy&lt;/code&gt;とします．&lt;/p&gt;
-
-&lt;p&gt;これはそんなに面倒じゃないんですが，↓の記事に倣って自動化させてみました．&lt;/p&gt;
-
-&lt;p&gt;=&amp;gt; &lt;a href="http://tricknotes.hateblo.jp/entry/2013/06/17/020229"&gt;Middleman で作った web サイトを Travis + GitHub pages でお手軽に運用する&lt;/a&gt;&lt;/p&gt;
-
-&lt;h3&gt;利点&lt;/h3&gt;
-
-&lt;p&gt;それほど積極的な利点じゃないですが，web ブラウザで GitHub ...&lt;/p&gt;</summary>
-    <content type="html">&lt;h2&gt;Middleman 静的ファイルのデプロイ&lt;/h2&gt;
-
-&lt;p&gt;このサイトは Middleman + github.io でできていて，デプロイ時には &lt;code&gt;middleman build &amp;amp;&amp;amp; middleman deploy&lt;/code&gt;とします．&lt;/p&gt;
-
-&lt;p&gt;これはそんなに面倒じゃないんですが，↓の記事に倣って自動化させてみました．&lt;/p&gt;
-
-&lt;p&gt;=&amp;gt; &lt;a href="http://tricknotes.hateblo.jp/entry/2013/06/17/020229"&gt;Middleman で作った web サイトを Travis + GitHub pages でお手軽に運用する&lt;/a&gt;&lt;/p&gt;
-
-&lt;h3&gt;利点&lt;/h3&gt;
-
-&lt;p&gt;それほど積極的な利点じゃないですが，web ブラウザで GitHub リポジトリの記事を直接更新した時にもデプロイされます．&lt;/p&gt;
-
-&lt;p&gt;端末が使えないけど更新したい時とかあるかわかりませんが，便利といえば便利です．&lt;/p&gt;
-
-&lt;h2&gt;違い&lt;/h2&gt;
-
-&lt;p&gt;で，ちょっと違う点があって工夫が必要だったので，その点だけ，残しておきます．&lt;/p&gt;
-
-&lt;h3&gt;gh-pages ブランチを使用していない&lt;/h3&gt;
-
-&lt;p&gt;この点が違うところで，ブランチ構成を次のようにしています．&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;master&lt;/code&gt; # 生成された後の静的ファイル&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;source&lt;/code&gt; # 実際に作業しているブランチ&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;なので，source に push したら，build して，master へコミットしないといけません．&lt;/p&gt;
-
-&lt;p&gt;それ自体は大したことがないのですが，困るのは master に push するので，Travis さんが master のビルドをしようとしてしまいます．&lt;/p&gt;
-
-&lt;p&gt;ということで，master に push する際に &lt;code&gt;master&lt;/code&gt; ブランチでビルドしない設定の &lt;code&gt;.travis.yml&lt;/code&gt; を生成して対応することにしました．&lt;/p&gt;
-
-&lt;p&gt;ついでに，ビルドしたいのは &lt;code&gt;source&lt;/code&gt; ブランチに push した時だけなので，&lt;code&gt;source&lt;/code&gt; ブランチの &lt;code&gt;.travis.yml&lt;/code&gt; にも追加．&lt;/p&gt;
-&lt;pre class="highlight yaml"&gt;&lt;span class="s"&gt;...略...&lt;/span&gt;
-&lt;span class="s"&gt;after_success&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-  &lt;span class="p"&gt;-&lt;/span&gt; &lt;span class="s"&gt;cd build&lt;/span&gt;
-  &lt;span class="p"&gt;-&lt;/span&gt; &lt;span class="s"&gt;echo -e &amp;quot;---\nbranches:\n  only:\n    - source&amp;quot; &amp;gt; .travis.yml&lt;/span&gt;
-  &lt;span class="p"&gt;-&lt;/span&gt; &lt;span class="s"&gt;git add -A&lt;/span&gt;
-  &lt;span class="p"&gt;-&lt;/span&gt; &lt;span class="s"&gt;git commit -m 'Update'&lt;/span&gt;
-  &lt;span class="p"&gt;-&lt;/span&gt; &lt;span class="s1"&gt;'&lt;/span&gt;&lt;span class="s"&gt;[&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;$GH_TOKEN&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;]&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;git&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;push&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;--quiet&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;https://$GH_TOKEN@github.com/OWNER/REPO.git&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;2&amp;gt;&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;/dev/null'&lt;/span&gt;
-
-&lt;span class="s"&gt;branches&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-  &lt;span class="s"&gt;only&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-    &lt;span class="p"&gt;-&lt;/span&gt; &lt;span class="s"&gt;source&lt;/span&gt;
-&lt;/pre&gt;
-&lt;h3&gt;gh-pages 運用で問題が起きない理由&lt;/h3&gt;
-
-&lt;p&gt;Travis さんは &lt;a href="http://about.travis-ci.org/docs/user/build-configuration/#White--or-blacklisting-branches"&gt;Configuring your build#White- or blacklisting branches&lt;/a&gt; にあるように，&lt;code&gt;gh-pages&lt;/code&gt; が更新された際にはビルドしないんですねー．&lt;/p&gt;
-
-&lt;h2&gt;残された問題点&lt;/h2&gt;
-
-&lt;p&gt;手動で更新した際には，&lt;code&gt;master&lt;/code&gt; もビルドされてしまう．&lt;/p&gt;
-
-&lt;p&gt;&lt;img alt="middleman-travis-ci" src="/images/middleman-travis-ci.png" /&gt;&lt;/p&gt;
-
-&lt;p&gt;対応策は，&lt;code&gt;middlemana build&lt;/code&gt; で，&lt;code&gt;.travis.yml&lt;/code&gt; を置くようにするか，コミットメッセージに &lt;code&gt;[ci skip]&lt;/code&gt; を入れるようにするか，くらい？&lt;/p&gt;
 </content>
   </entry>
 </feed>

@@ -60,6 +60,30 @@
 <div class='container'>
 <article class='col-md-9'>
 <div class='col-md-3'>
+<div class='date'>2013-12-18</div>
+</div>
+<div class='col-md-9'>
+<h2><a href="/blog/2013/12/18/sinatra_streaming/">Sinatra で streaming を使用した際にちゃんとコネクションを閉じる</a></h2>
+<div class='tags'>
+<span class="tag label fa fa-tag"><a href="/blog/tags/sinatra/">sinatra</a></span>
+</div>
+<h2>Sinatra で Streaming</h2>
+
+<p>Sinatra で WebSocket のような stream の簡便な実装を書くことができます．</p>
+
+<p>簡易なチャットシステムや，流れてくるログ拾ってきてブラウザで眺めるなどの用途に使えそうです．</p>
+<pre class="highlight ruby">  <span class="n">get</span> <span class="s1">'/'</span><span class="p">,</span> <span class="ss">provides: </span><span class="s1">'text/event-stream'</span> <span class="k">do</span>
+    <span class="n">stream</span> <span class="ss">:keep_open</span> <span class="k">do</span> <span class="o">|</span><span class="n">conn</span><span class="o">|</span>
+  ...</pre>
+<div class='text-right'>
+<a class="badge fa fa-arrow-right" href="/blog/2013/12/18/sinatra_streaming/">続きを読む</a>
+</div>
+</div>
+</article>
+</div>
+<div class='container'>
+<article class='col-md-9'>
+<div class='col-md-3'>
 <div class='date'>2013-12-14</div>
 </div>
 <div class='col-md-9'>
@@ -282,30 +306,6 @@
 </div>
 </article>
 </div>
-<div class='container'>
-<article class='col-md-9'>
-<div class='col-md-3'>
-<div class='date'>2011-12-06</div>
-</div>
-<div class='col-md-9'>
-<h2><a href="/blog/2011/12/06/ruby-rails-rake-notes-spec-js-coffee-scss-haml-slim/">rake notes で，spec, js, coffee, scss, haml, slim のファイルも対象にする</a></h2>
-<div class='tags'>
-<span class="tag label fa fa-tag"><a href="/blog/tags/rails/">rails</a></span>
-</div>
-<pre class="highlight ruby">
-<span class="k">class </span><span class="nc">SourceAnnotationExtractor</span>
-  <span class="k">def </span><span class="nf">find_with_custom_directories</span>
-    <span class="n">find_without_custom_directories</span><span class="p">(</span><span class="sx">%w|app lib spec|</span><span class="p">)</span>
-  <span class="k">end</span>
-  <span class="n">alias_method_chain</span> <span class="ss">:find</span><span class="p">,</span> <span class="ss">:custom_directories</span>
-
-  <span class="k">def </span><span class="nf">find_in_with_custom_files</span></pre>
-<div class='text-right'>
-<a class="badge fa fa-arrow-right" href="/blog/2011/12/06/ruby-rails-rake-notes-spec-js-coffee-scss-haml-slim/">続きを読む</a>
-</div>
-</div>
-</article>
-</div>
 <div class='nav text-right'>
 Page 1 of 2
 <a href="/blog/page/2/"> >> </a>
@@ -327,6 +327,12 @@ Page 1 of 2
 </div>
 <div class='panel-body'>
 <ul>
+<li>
+<span class='date'>2013-12-18</span>
+<br>
+<i class='fa fa-pencil'></i>
+<a href="/blog/2013/12/18/sinatra_streaming/">Sinatra で streaming を使用した際にちゃんとコネクションを閉じる</a>
+</li>
 <li>
 <span class='date'>2013-12-14</span>
 <br>
@@ -381,12 +387,6 @@ Page 1 of 2
 <i class='fa fa-pencil'></i>
 <a href="/blog/2013/11/06/development_using_middleman/">middleman を使ってみた</a>
 </li>
-<li>
-<span class='date'>2011-12-06</span>
-<br>
-<i class='fa fa-pencil'></i>
-<a href="/blog/2011/12/06/ruby-rails-rake-notes-spec-js-coffee-scss-haml-slim/">rake notes で，spec, js, coffee, scss, haml, slim のファイルも対象にする</a>
-</li>
 </ul>
 </div>
 </div>
@@ -398,18 +398,8 @@ Page 1 of 2
 <ul>
 <li>
 <i class='fa fa-tag'></i>
-<a href="/blog/tags/middleman/">middleman</a>
-(2)
-</li>
-<li>
-<i class='fa fa-tag'></i>
 <a href="/blog/tags/rails/">rails</a>
 (7)
-</li>
-<li>
-<i class='fa fa-tag'></i>
-<a href="/blog/tags/travis-ci/">travis-ci</a>
-(1)
 </li>
 <li>
 <i class='fa fa-tag'></i>
@@ -423,13 +413,28 @@ Page 1 of 2
 </li>
 <li>
 <i class='fa fa-tag'></i>
-<a href="/blog/tags/css3/">css3</a>
+<a href="/blog/tags/middleman/">middleman</a>
 (2)
 </li>
 <li>
 <i class='fa fa-tag'></i>
 <a href="/blog/tags/github/">github</a>
 (1)
+</li>
+<li>
+<i class='fa fa-tag'></i>
+<a href="/blog/tags/sinatra/">sinatra</a>
+(1)
+</li>
+<li>
+<i class='fa fa-tag'></i>
+<a href="/blog/tags/travis-ci/">travis-ci</a>
+(1)
+</li>
+<li>
+<i class='fa fa-tag'></i>
+<a href="/blog/tags/css3/">css3</a>
+(2)
 </li>
 </ul>
 </div>
@@ -442,7 +447,7 @@ Page 1 of 2
 <ul>
 <li>
 <a href="/blog/2013/12/">2013/12</a>
-(5)
+(6)
 </li>
 <li>
 <a href="/blog/2013/11/">2013/11</a>

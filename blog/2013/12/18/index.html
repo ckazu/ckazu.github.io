@@ -60,93 +60,28 @@
 <div class='container'>
 <h2>
 Archives
-2013-11
+2013-12-18
 </h2>
 </div>
 <hr>
 <article class='container'>
 <div class='col-md-2'>
-<div class='date'>2013-11-08</div>
+<div class='date'>2013-12-18</div>
 </div>
 <div class='col-md-7'>
-<h2><a href="/blog/2013/11/08/deploy_by_travis_ci/">Middleman の記事更新を Travis-CI でする</a></h2>
+<h2><a href="/blog/2013/12/18/sinatra_streaming/">Sinatra で streaming を使用した際にちゃんとコネクションを閉じる</a></h2>
 <div class='tags'>
-<span class="tag label fa fa-tag"><a href="/blog/tags/middleman/">middleman</a></span>
-<span class="tag label fa fa-tag"><a href="/blog/tags/travis-ci/">travis-ci</a></span>
+<span class="tag label fa fa-tag"><a href="/blog/tags/sinatra/">sinatra</a></span>
 </div>
-<h2>Middleman 静的ファイルのデプロイ</h2>
+<h2>Sinatra で Streaming</h2>
 
-<p>このサイトは Middleman + github.io でできていて，デプロイ時には <code>middleman build &amp;&amp; middleman deploy</code>とします．</p>
+<p>Sinatra で WebSocket のような stream の簡便な実装を書くことができます．</p>
 
-<p>これはそんなに面倒じゃないんですが，↓の記事に倣って自動化させてみました．</p>
-
-<p>=&gt; <a href="http://tricknotes.hateblo.jp/entry/2013/06/17/020229">Middleman で作った web サイトを Travis + GitHub pages ...</a></p>
-<a href="/blog/2013/11/08/deploy_by_travis_ci/">続きを読む</a>
-</div>
-</article>
-<article class='container'>
-<div class='col-md-2'>
-<div class='date'>2013-11-07</div>
-</div>
-<div class='col-md-7'>
-<h2><a href="/blog/2013/11/07/check_github_pr/">GitHub で open になっている PR をチェックする</a></h2>
-<div class='tags'>
-<span class="tag label fa fa-tag"><a href="/blog/tags/github/">github</a></span>
-</div>
-<h2>API を叩く</h2>
-
-<p>複数の GitHub リポジトリの PR をチェックするのが割りと面倒なので，日時バッチで通知するようにしている．</p>
-
-<p>PR を取得するには，<a href="http://developer.github.com/v3/pulls/#list-pull-requests">GitHub Developer API</a> を叩けば済む．</p>
-<pre class="highlight shell"><span class="gp">$ </span>curl https://api.github.com/repos/rails/rails/pulls
-</pre>
-<p>以下の様に JSON でまるっと返ってくるので，必要に応じて欲しい情...</p>
-<a href="/blog/2013/11/07/check_github_pr/">続きを読む</a>
-</div>
-</article>
-<article class='container'>
-<div class='col-md-2'>
-<div class='date'>2013-11-07</div>
-</div>
-<div class='col-md-7'>
-<h2><a href="/blog/2013/11/07/buy_sheaffer_calligraphy_pen/">カリグラフィペンを買った</a></h2>
-<div class='tags'>
-<span class="tag label fa fa-tag"><a href="/blog/tags/calligraphy/">calligraphy</a></span>
-<span class="tag label fa fa-tag"><a href="/blog/tags/shopping/">shopping</a></span>
-</div>
-<h2>Sheaffer Calligraphy MINI</h2>
-
-<p>ちょっと前からカリグラフィやりたいなと思っていたので，ペンを買ってきた．</p>
-
-<p>近所の文具店に行ったら，<a href="http://www.sheaffer.jp/products/calligraphy/mini_kit">Sheaffer® カリグラフィー ミニキット</a>と，<a href="http://www.pilot.co.jp/products/pen/color_pen/parallel/">PILOT パラレルペン</a> があったけど，せっかくなので，万年筆タイプの Sheaffer にした．</p>
-
-<p>これは，安価な入門キットで，付属の太さの違う３種類のペン先(ニブというようだ)を付け替え...</p>
-<a href="/blog/2013/11/07/buy_sheaffer_calligraphy_pen/">続きを読む</a>
-</div>
-</article>
-<article class='container'>
-<div class='col-md-2'>
-<div class='date'>2013-11-06</div>
-</div>
-<div class='col-md-7'>
-<h2><a href="/blog/2013/11/06/development_using_middleman/">middleman を使ってみた</a></h2>
-<div class='tags'>
-<span class="tag label fa fa-tag"><a href="/blog/tags/middleman/">middleman</a></span>
-</div>
-<h2>経緯</h2>
-
-<p><a href="http://jekyllrb.com/">jekyll</a> を使っていた Github Page を <a href="http://middlemanapp.com/">Middleman</a> (<a href="http://middlemanjp.github.io/">jp</a>) で書きなおしてみました．</p>
-
-<p>更新していなかったので，Jekyll のことはきれいさっぱり忘れた．</p>
-
-<p>ついでにドメインとりました．</p>
-
-<h2>Middleman</h2>
-
-<p>業務の開発で使うなら，最初の一歩がもうちょっと楽になるとありがたいなーという印象．</p>
-
-<p>個人使用でセットアップは一度きりと考えると，これで良いのかな...</p>
-<a href="/blog/2013/11/06/development_using_middleman/">続きを読む</a>
+<p>簡易なチャットシステムや，流れてくるログ拾ってきてブラウザで眺めるなどの用途に使えそうです．</p>
+<pre class="highlight ruby">  <span class="n">get</span> <span class="s1">'/'</span><span class="p">,</span> <span class="ss">provides: </span><span class="s1">'text/event-stream'</span> <span class="k">do</span>
+    <span class="n">stream</span> <span class="ss">:keep_open</span> <span class="k">do</span> <span class="o">|</span><span class="n">conn</span><span class="o">|</span>
+  ...</pre>
+<a href="/blog/2013/12/18/sinatra_streaming/">続きを読む</a>
 </div>
 </article>
 <div class='nav text-right'>
