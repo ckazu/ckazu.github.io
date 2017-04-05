@@ -1,0 +1,7 @@
+//= require 'bootstrap'
+//= require_tree ./vendor
+//= require_tree ./lib
+//= require_tree .
+
+@import "lib/common.css.scss";
+@import "lib/fonts.css.scss";

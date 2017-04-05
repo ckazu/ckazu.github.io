@@ -1,0 +1,43 @@
+<div class="panel">
+  <div class="panel-heading">
+    <h1>About.me</h1>
+  </div>
+  <div class="panel-body">
+    <script src="http://about.me/embed/{{ .Site.Params.aboutme}}"></script>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-heading">
+    <h1>Recent Articles</h1>
+  </div>
+  <div class="panel-body">
+    <ul>
+      {{ range first 10 .Site.Pages }}
+        <li>
+          <span class="date">{{ .Date.Format "2006-01-02" }}</span>
+          <br />
+          <i class="fa fa-pencil"></i>
+          <a href="{{ .Permalink }}">{{ .Title }}</a>
+        </li>
+      {{ end }}
+    </ul>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-heading">
+    <h1>Tags</h1>
+  </div>
+  <div class="panel-body">
+    <ul>
+      {{ range $name, $taxonomy := .Site.Taxonomies.tags.ByCount }}
+        <li>
+          <i class="fa fa-tag"></i>
+          <a href="/tags/{{ $taxonomy.Name | urlize }}">{{ $taxonomy.Name }}</a>
+          ({{ $taxonomy.Count }})
+        </li>
+        {{ end }}
+    </ul>
+  </div>
+</div>
