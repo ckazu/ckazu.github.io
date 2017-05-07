@@ -1,6 +1,6 @@
 languageCode = "ja"
 title = "What is an Information Architecture?"
-baseURL = "http://ckazu.info/"
+baseURL = "http://www.ckazu.info/"
 hasCJKLanguage = true
 theme = "ckazu"
 

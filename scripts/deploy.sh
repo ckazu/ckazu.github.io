@@ -57,7 +57,7 @@ REPO_NAME=$(basename $REPO)
 TARGET_DIR=$(mktemp -d)
 REV=$(git rev-parse HEAD)
 git clone --branch ${TARGET_BRANCH} ${REPO} ${TARGET_DIR}
-rsync -rt --delete --exclude=".git" --exclude=".travis.yml" $SOURCE_DIR/ $TARGET_DIR/
+rsync -rt --delete --exclude=".git" --exclude=".travis.yml" $PUBLIC_DIR/ $TARGET_DIR/
 cd $TARGET_DIR
 git add -A .
 git commit --allow-empty -m "Built from commit $REV"
