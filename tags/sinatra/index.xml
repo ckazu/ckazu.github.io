@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Sinatra on ckazu.info</title>
-    <link>http://ckazu.info/tags/sinatra/</link>
-    <description>Recent content in Sinatra on ckazu.info</description>
+    <title>Sinatra on What is an Information Architecture?</title>
+    <link>http://www.ckazu.info/tags/sinatra/</link>
+    <description>Recent content in Sinatra on What is an Information Architecture?</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <lastBuildDate>Wed, 18 Dec 2013 22:14:00 +0900</lastBuildDate>
     
-	<atom:link href="http://ckazu.info/tags/sinatra/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://www.ckazu.info/tags/sinatra/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Sinatra で streaming を使用した際にちゃんとコネクションを閉じる</title>
-      <link>http://ckazu.info/blog/2013-12-18-sinatra_streaming/</link>
+      <link>http://www.ckazu.info/blog/2013-12-18-sinatra_streaming/</link>
       <pubDate>Wed, 18 Dec 2013 22:14:00 +0900</pubDate>
       
-      <guid>http://ckazu.info/blog/2013-12-18-sinatra_streaming/</guid>
+      <guid>http://www.ckazu.info/blog/2013-12-18-sinatra_streaming/</guid>
       <description>Sinatra で Streaming Sinatra で WebSocket のような stream の簡便な実装を書くことができます． 簡易なチャットシステムや，流れてくるログ拾ってきてブラウザで眺めるなどの用途に使えそ</description>
     </item>
     
