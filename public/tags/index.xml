@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on ckazu.info</title>
+    <link>http://ckazu.info/tags/</link>
+    <description>Recent content in Tags on ckazu.info</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <lastBuildDate>Thu, 07 Nov 2013 03:21:00 +0900</lastBuildDate>
+    
+	<atom:link href="http://ckazu.info/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Calligraphy</title>
+      <link>http://ckazu.info/tags/calligraphy/</link>
+      <pubDate>Thu, 07 Nov 2013 03:21:00 +0900</pubDate>
+      
+      <guid>http://ckazu.info/tags/calligraphy/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Css3</title>
+      <link>http://ckazu.info/tags/css3/</link>
+      <pubDate>Mon, 21 Mar 2011 00:00:00 +0000</pubDate>
+      
+      <guid>http://ckazu.info/tags/css3/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Github</title>
+      <link>http://ckazu.info/tags/github/</link>
+      <pubDate>Thu, 07 Nov 2013 14:18:00 +0900</pubDate>
+      
+      <guid>http://ckazu.info/tags/github/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Middleman</title>
+      <link>http://ckazu.info/tags/middleman/</link>
+      <pubDate>Fri, 08 Nov 2013 19:05:00 +0900</pubDate>
+      
+      <guid>http://ckazu.info/tags/middleman/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Rails</title>
+      <link>http://ckazu.info/tags/rails/</link>
+      <pubDate>Sat, 14 Dec 2013 00:00:00 +0900</pubDate>
+      
+      <guid>http://ckazu.info/tags/rails/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Shopping</title>
+      <link>http://ckazu.info/tags/shopping/</link>
+      <pubDate>Thu, 07 Nov 2013 03:21:00 +0900</pubDate>
+      
+      <guid>http://ckazu.info/tags/shopping/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Sinatra</title>
+      <link>http://ckazu.info/tags/sinatra/</link>
+      <pubDate>Wed, 18 Dec 2013 22:14:00 +0900</pubDate>
+      
+      <guid>http://ckazu.info/tags/sinatra/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Travis Ci</title>
+      <link>http://ckazu.info/tags/travis-ci/</link>
+      <pubDate>Fri, 08 Nov 2013 19:05:00 +0900</pubDate>
+      
+      <guid>http://ckazu.info/tags/travis-ci/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

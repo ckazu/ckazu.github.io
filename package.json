@@ -1,0 +1,13 @@
+{
+  "name": "ckazu",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build:sass": "node-sass --output-style compressed sources/sass/application.scss static/css/application.css"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "node-sass": "^4.5.2"
+  }
+}

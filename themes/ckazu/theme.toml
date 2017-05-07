@@ -1,0 +1,12 @@
+name = "ckazu"
+license = "MIT"
+licenselink = "https://github.com/ckazu/ckazu.github.io/blob/master/LICENSE.md"
+description = ""
+homepage = "http://siteforthistheme.com/"
+tags = []
+features = []
+min_version = 0.19
+
+[author]
+  name = "ckazu"
+  homepage = "http://ckazu.info"

@@ -1,0 +1,27 @@
+<div class="container">
+  <article class="col-md-9">
+
+    <div class="col-md-3">
+      <div class="date">{{ .Date.Format "2006-01-02" }}</div>
+    </div>
+
+    <div class="col-md-9">
+      <h2><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+
+      <div class="tags">
+        {{ range .Params.Tags }}
+        <span class="tag label fa fa-tag">
+          <a href="/tags/{{ . | urlize }}">{{ . }}</a>
+        </span>
+        {{ end }}
+      </div>
+
+      {{ .Summary }}
+
+      <div class="text-right">
+        <a class="badge fa fa-arrow-right" href="{{ .Permalink }}">続きを読む</a>
+      </div>
+
+    </div>
+  </article>
+</div>

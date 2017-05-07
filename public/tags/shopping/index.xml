@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Shopping on ckazu.info</title>
+    <link>http://ckazu.info/tags/shopping/</link>
+    <description>Recent content in Shopping on ckazu.info</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <lastBuildDate>Thu, 07 Nov 2013 03:21:00 +0900</lastBuildDate>
+    
+	<atom:link href="http://ckazu.info/tags/shopping/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>カリグラフィペンを買った</title>
+      <link>http://ckazu.info/blog/2013-11-07-buy_sheaffer_calligraphy_pen/</link>
+      <pubDate>Thu, 07 Nov 2013 03:21:00 +0900</pubDate>
+      
+      <guid>http://ckazu.info/blog/2013-11-07-buy_sheaffer_calligraphy_pen/</guid>
+      <description>Sheaffer Calligraphy MINI ちょっと前からカリグラフィやりたいなと思っていたので，ペンを買ってきた． 近所の文具店に行ったら，Sheaffer® カリグラフィー ミニキ</description>
+    </item>
+    
+  </channel>
+</rss>

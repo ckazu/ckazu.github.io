@@ -1,0 +1,19 @@
+{{ define "main" }}
+  <div class="col-md-12">
+    <h2>{{ .Title }}</h2>
+
+    <hr />
+
+    {{ .Content }}
+
+    <hr />
+
+    <ul class="social_buttons list-inline">
+      <li class="evernote"></li>
+      <li class="hatena"></li>
+      <li class="tweet"></li>
+      <li class="facebook_like"></li>
+    </ul>
+    {{ template "_internal/disqus.html" . }}
+  </div>
+{{ end }}

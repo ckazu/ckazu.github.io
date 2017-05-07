@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Css3 on ckazu.info</title>
+    <link>http://ckazu.info/tags/css3/</link>
+    <description>Recent content in Css3 on ckazu.info</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <lastBuildDate>Mon, 21 Mar 2011 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ckazu.info/tags/css3/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>CSS3のみで色々な背景パターンを描画する</title>
+      <link>http://ckazu.info/blog/2011-03-21-css3-jsdo-it-css3/</link>
+      <pubDate>Mon, 21 Mar 2011 00:00:00 +0000</pubDate>
+      
+      <guid>http://ckazu.info/blog/2011-03-21-css3-jsdo-it-css3/</guid>
+      <description>CSS3 で作る背景パターン - jsdo.it - share JavaScript, HTML5 and CSS gradient() background-image に，gradient() を指定するとグラデーションを実現できます． 現状では，webkit, moz で指定方</description>
+    </item>
+    
+    <item>
+      <title>CSS3で水滴のような形を描く</title>
+      <link>http://ckazu.info/blog/2011-03-19-css3-css3/</link>
+      <pubDate>Sat, 19 Mar 2011 00:00:00 +0000</pubDate>
+      
+      <guid>http://ckazu.info/blog/2011-03-19-css3-css3/</guid>
+      <description>CSS3 面白いですね． 今までは思いつかなかったようなことができるようになっています． その CSS3 を使って，次のような水滴（のようなもの）を CSS だけで作って</description>
+    </item>
+    
+  </channel>
+</rss>
