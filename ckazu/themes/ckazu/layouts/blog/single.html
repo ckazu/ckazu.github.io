@@ -1,0 +1,34 @@
+{{ define "main" }}
+  <div class="blog">
+    <div class="col-md-9">
+
+      <h2>{{ .Title }}</h2>
+      <div class="date pull-right">{{ .Date.Format "2006-01-02" }}</div>
+      <div class="tags">
+        {{ range .Params.Tags }}
+        <span class="tag label fa fa-tag">
+          <a href="/tags/{{ . | urlize }}">{{ . }}</a>
+        </span>
+        {{ end }}
+      </div>
+
+      <hr />
+
+      {{ .Content }}
+
+      <hr />
+
+      <ul class="social_buttons list-inline">
+        <li class="evernote"></li>
+        <li class="hatena"></li>
+        <li class="tweet"></li>
+        <li class="facebook_like"></li>
+      </ul>
+      {{ template "_internal/disqus.html" . }}
+    </div>
+
+    <aside class="sidebar col-md-3">
+      {{ partial "sidebar" . }}
+    </aside>
+  </div>
+{{ end }}

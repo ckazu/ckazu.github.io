@@ -1,0 +1,19 @@
+{{ define "main" }}
+  <div class="blog">
+    <div class="col-md-9">
+
+      {{ range .Paginator.Pages }}
+        {{ partial "article_summary" . }}
+      {{ end }}
+
+      <div class="pull-right">
+        {{ template "_internal/pagination.html" . }}
+      </div>
+
+    </div>
+
+    <aside class="sidebar col-md-3">
+      {{ partial "sidebar" . }}
+    </aside>
+  </div>
+{{ end }}
