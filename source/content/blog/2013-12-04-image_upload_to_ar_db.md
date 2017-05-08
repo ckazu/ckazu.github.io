@@ -85,7 +85,7 @@ end
 
 `User#icon` にファイルをアップロードできるように変更します．
 
-![フォームの変更](images/20131204_1.png)
+![フォームの変更](/images/20131204_1.png)
 
 ```ruby
 app/views/users/_form.html.haml
@@ -166,6 +166,6 @@ end
 image_tag icon_user_path(user)
 ```
 
-![ビューの変更](images/20131204_2.png)
+![ビューの変更](/images/20131204_2.png)
 
 これで完了です．

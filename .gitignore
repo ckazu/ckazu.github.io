@@ -17,6 +17,5 @@
 .DS_Store
 
 /vendor
-/source/*
-!CNAME
+/source/public
 /o-ri

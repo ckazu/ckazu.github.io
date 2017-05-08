@@ -61,6 +61,6 @@ Travis さんは [Configuring your build#White- or blacklisting branches](http:/
 
 手動で更新した際には，`master` もビルドされてしまう．
 
-![middleman-travis-ci](images/middleman-travis-ci.png)
+![middleman-travis-ci](/images/middleman-travis-ci.png)
 
 対応策は，`middlemana build` で，`.travis.yml` を置くようにするか，コミットメッセージに `[ci skip]` を入れるようにするか，くらい？
