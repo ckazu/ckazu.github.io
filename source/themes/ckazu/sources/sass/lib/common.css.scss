@@ -4,18 +4,20 @@ body { padding-top: 60px; }
 blockquote p { font-size: 1em; }
 img { padding: 6px; border: 1px solid #ccc; background: #eee; }
 .fa:before { margin-right: 0.3em; }
-#main { min-height: 300px; }
+#main { min-height: calc(100vh - 210px); }
 
 header.jumbotron h1 {
   font-size: 1.5em;
 }
 
 .footer {
-  margin-top: 100px;
-  padding-top: 40px;
+  margin: 20px 0 0 0;
+  padding: 40px 0 0 0;
+  height: 120px;
   border-top: 1px solid $border-color;
   color: $footer-color;
   background: $footer-background;
+  line-height: 0;
   .about_links {
     a { color: inherit; }
     a:hover { color: $footer-color * 2; }
