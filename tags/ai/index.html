@@ -59,122 +59,46 @@
   <div class="blog">
     <div class="col-md-9">
 
-      <h2>Sinatra で streaming を使用した際にちゃんとコネクションを閉じる</h2>
-      <div class="date pull-right">2013-12-18</div>
+      
+        <div class="container">
+  <article class="col-md-9">
+
+    <div class="col-md-3">
+      <div class="date">2017-05-09</div>
+    </div>
+
+    <div class="col-md-9">
+      <h2><a href="http://www.ckazu.info/blog/read_jsai_201705/">人工知能 2017 No.3 を読んだ</a></h2>
+
       <div class="tags">
         
         <span class="tag label fa fa-tag">
-          <a href="/tags/sinatra">sinatra</a>
+          <a href="/tags/books">books</a>
+        </span>
+        
+        <span class="tag label fa fa-tag">
+          <a href="/tags/ai">ai</a>
         </span>
         
       </div>
 
-      <hr />
+      表紙は森川幸人氏．AI がはたらいている様だそう． マッチ箱の脳は何度も繰り返し読んだ記憶がある． つながりが創発するイノベーションが今号で終わり
+
+      <div class="text-right">
+        <a class="badge fa fa-arrow-right" href="http://www.ckazu.info/blog/read_jsai_201705/">続きを読む</a>
+      </div>
+
+    </div>
+  </article>
+</div>
 
       
 
-<h2 id="sinatra-で-streaming">Sinatra で Streaming</h2>
+      <div class="pull-right">
+        
+    
+      </div>
 
-<p>Sinatra で WebSocket のような stream の簡便な実装を書くことができます．</p>
-
-<p>簡易なチャットシステムや，流れてくるログ拾ってきてブラウザで眺めるなどの用途に使えそうです．</p>
-
-<pre><code class="language-ruby">  get '/', provides: 'text/event-stream' do
-    stream :keep_open do |conn|
-      conn &lt;&lt; 'なにがしかの処理'
-      sleep 1
-    end
-  end
-</code></pre>
-
-<h2 id="loop-したい">loop したい</h2>
-
-<p>たとえば，ログを眺めるような用途だと，ログを監視して差分を送ってあげるなどの処理が必要になるでしょう．</p>
-
-<p>loop ブロックを使用したくなることがありそうです．</p>
-
-<pre><code class="language-ruby">    stream :keep_open do |conn|
-      loop do
-        conn &lt;&lt; 'データの差分を送る'
-        sleep 1
-      end
-    end
-</code></pre>
-
-<h2 id="connection-が増幅する">connection が増幅する</h2>
-
-<p>しかし，この実装だと，ブラウザをリロードしてみると以前のコネクションが残ってしまいます．</p>
-
-<p>次のようにしてサーバログを見ると，リロードした数だけ余分に呼ばれていることがわかります．</p>
-
-<pre><code class="language-ruby">    stream :keep_open do |conn|
-      loop do
-        p 'loop'
-        conn &lt;&lt; 'データの差分を送る'
-        sleep 1
-      end
-    end
-</code></pre>
-
-<h2 id="callback">callback</h2>
-
-<p>connection が切れたことを検知するには，callback を利用するのが良さそうです．</p>
-
-<pre><code class="language-ruby">    stream :keep_open do |conn|
-      loop do
-        conn &lt;&lt; 'データの差分を送る'
-        conn.errback { p 'closed' }
-        sleep 1
-      end
-    end
-</code></pre>
-
-<h2 id="コネクションの管理">コネクションの管理</h2>
-
-<p>ただし，callback の Proc 内では loop ブロックを break できないので，次のようにしてコネクションを管理することにします．</p>
-
-<pre><code class="language-ruby">  get '/', provides: 'text/event-stream' do
-    conns = []
-    stream :keep_open do |conn|
-      conns &lt;&lt; conn
-      loop do
-        conn &lt;&lt; 'データの差分を送る'
-
-        # if connection closed
-        conn.callback { conns.delete conn }
-        conn.errback { conns.delete conn }
-        break unless conns.include? conn
-
-        sleep 1
-      end
-    end
-  end 
-</code></pre>
-
-
-      <hr />
-
-      <ul class="social_buttons list-inline">
-        <li class="evernote"></li>
-        <li class="hatena"></li>
-        <li class="tweet"></li>
-        <li class="facebook_like"></li>
-      </ul>
-      <div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'ckazuinfo';
-    var disqus_identifier = 'http:\/\/www.ckazu.info\/blog\/2013-12-18-sinatra_streaming\/';
-    var disqus_title = 'Sinatra で streaming を使用した際にちゃんとコネクションを閉じる';
-    var disqus_url = 'http:\/\/www.ckazu.info\/blog\/2013-12-18-sinatra_streaming\/';
-
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
     </div>
 
     <aside class="sidebar col-md-3">

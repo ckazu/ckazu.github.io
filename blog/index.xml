@@ -6,10 +6,19 @@
     <description>Recent content in Blogs on What is an Information Architecture?</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Wed, 18 Dec 2013 22:14:00 +0900</lastBuildDate>
+    <lastBuildDate>Tue, 09 May 2017 00:08:15 +0900</lastBuildDate>
     
 	<atom:link href="http://www.ckazu.info/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>人工知能 2017 No.3 を読んだ</title>
+      <link>http://www.ckazu.info/blog/read_jsai_201705/</link>
+      <pubDate>Tue, 09 May 2017 00:08:15 +0900</pubDate>
+      
+      <guid>http://www.ckazu.info/blog/read_jsai_201705/</guid>
+      <description>表紙は森川幸人氏．AI がはたらいている様だそう． マッチ箱の脳は何度も繰り返し読んだ記憶がある． つながりが創発するイノベーションが今号で終わり</description>
+    </item>
     
     <item>
       <title>Sinatra で streaming を使用した際にちゃんとコネクションを閉じる</title>
