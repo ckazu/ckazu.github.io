@@ -59,46 +59,59 @@
   <div class="blog">
     <div class="col-md-9">
 
-      
-        <div class="container">
-  <article class="col-md-9">
-
-    <div class="col-md-3">
-      <div class="date">2017-05-09</div>
-    </div>
-
-    <div class="col-md-9">
-      <h2><a href="http://www.ckazu.info/blog/read_jsai_201705/">人工知能 2017 No.3 を読んだ</a></h2>
-
+      <h2>Hugo に移行した</h2>
+      <div class="date pull-right">2017-05-10</div>
       <div class="tags">
         
         <span class="tag label fa fa-tag">
-          <a href="/tags/books">books</a>
-        </span>
-        
-        <span class="tag label fa fa-tag">
-          <a href="/tags/ai">ai</a>
+          <a href="/tags/hugo">hugo</a>
         </span>
         
       </div>
 
-      表紙は森川幸人氏．AI がはたらいている様だそう． マッチ箱の脳は何度も繰り返し読んだ記憶がある． つながりが創発するイノベーションが今号で終わり
+      <hr />
 
-      <div class="text-right">
-        <a class="badge fa fa-arrow-right" href="http://www.ckazu.info/blog/read_jsai_201705/">続きを読む</a>
-      </div>
+      <p>サイトの生成を middleman から Hugo に変更した．
+middleman の前は Jekyll だったから３代目．
+ほとんど更新しないので，気が向いたときに記事を書こうとしたときに，使い方を忘れててついでに乗り換えている．</p>
 
-    </div>
-  </article>
-</div>
+<p>こうやって考えると，やはり WordPress 最強なのではとも思う．</p>
 
-      
+<p>Hugo への移行自体は概ねすんなりいった．
+ディレクトリ内のファイルに合わせて，single と list とでテンプレートを分けていることへの理解がなくて戸惑ったのくらい．</p>
 
-      <div class="pull-right">
-        
-    
-      </div>
+<p>ああ，あと，Go の時刻フォーマットの <code>2006/01/02 15:03:04</code> みたいなやつにカルチャーショックを受けた．まさかそんなルールだなんて思いもしなかったので，これが定義なのだと気がつくまでしばらくかかった．ネット上で調べてて，みんな同じような時刻使ってるなとは思っていた．</p>
 
+<p>sass とか haml 周りをどうするかで少し迷ったけど，haml は html にえいやと書き直した．
+sass はそのまま活かして <code>yarn run build:sass</code> するようにしている．</p>
+
+<p>middleman では，ブログにべったりレイアウトとかスタイルを書いていたけど，Hugo では theme に切り出した．
+特に公開するわけでもないけれども．構成がすっきりするのでおすすめ．</p>
+
+
+      <hr />
+
+      <ul class="social_buttons list-inline">
+        <li class="evernote"></li>
+        <li class="hatena"></li>
+        <li class="tweet"></li>
+        <li class="facebook_like"></li>
+      </ul>
+      <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'ckazuinfo';
+    var disqus_identifier = 'http:\/\/www.ckazu.info\/blog\/transition_to_hugo\/';
+    var disqus_title = 'Hugo に移行した';
+    var disqus_url = 'http:\/\/www.ckazu.info\/blog\/transition_to_hugo\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
     </div>
 
     <aside class="sidebar col-md-3">

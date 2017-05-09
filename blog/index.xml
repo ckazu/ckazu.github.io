@@ -6,10 +6,19 @@
     <description>Recent content in Blogs on What is an Information Architecture?</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Tue, 09 May 2017 00:08:15 +0900</lastBuildDate>
+    <lastBuildDate>Wed, 10 May 2017 02:38:28 +0900</lastBuildDate>
     
 	<atom:link href="http://www.ckazu.info/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Hugo に移行した</title>
+      <link>http://www.ckazu.info/blog/transition_to_hugo/</link>
+      <pubDate>Wed, 10 May 2017 02:38:28 +0900</pubDate>
+      
+      <guid>http://www.ckazu.info/blog/transition_to_hugo/</guid>
+      <description>サイトの生成を middleman から Hugo に変更した． middleman の前は Jekyll だったから３代目． ほとんど更新しないので，気が向いたときに記事を書こうとしたときに，使い方を忘れ</description>
+    </item>
     
     <item>
       <title>人工知能 2017 No.3 を読んだ</title>
