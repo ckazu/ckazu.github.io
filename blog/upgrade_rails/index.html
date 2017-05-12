@@ -59,42 +59,123 @@
   <div class="blog">
     <div class="col-md-9">
 
-      
-        <div class="container">
-  <article class="col-md-9">
-
-    <div class="col-md-3">
-      <div class="date">2013-12-18</div>
-    </div>
-
-    <div class="col-md-9">
-      <h2><a href="http://www.ckazu.info/blog/2013-12-18-sinatra_streaming/">Sinatra で streaming を使用した際にちゃんとコネクションを閉じる</a></h2>
-
+      <h2>rails 5 にアップデートしたときにやったこと</h2>
+      <div class="date pull-right">2017-05-13</div>
       <div class="tags">
         
         <span class="tag label fa fa-tag">
-          <a href="/tags/sinatra">sinatra</a>
+          <a href="/tags/rails">rails</a>
         </span>
         
       </div>
 
-      Sinatra で Streaming Sinatra で WebSocket のような stream の簡便な実装を書くことができます． 簡易なチャットシステムや，流れてくるログ拾ってきてブラウザで眺めるなどの用途に使えそ
-
-      <div class="text-right">
-        <a class="badge fa fa-arrow-right" href="http://www.ckazu.info/blog/2013-12-18-sinatra_streaming/">続きを読む</a>
-      </div>
-
-    </div>
-  </article>
-</div>
+      <hr />
 
       
 
-      <div class="pull-right">
-        
-    
-      </div>
+<p>以前，rails 5.0 にあげたときにやったことのメモ．
+rails 6 とか、rails 5.1 とかのときにも役に立つといいな．</p>
 
+<h2 id="やったこと">やったこと</h2>
+
+<h3 id="事前準備">事前準備</h3>
+
+<ul>
+<li>テストコードが不足していることがないか確認する
+
+<ul>
+<li>coverage などで確認</li>
+</ul></li>
+<li>既存バージョンで rails 以外のバージョン指定を外して bundle update してみる
+
+<ul>
+<li>テスト、挙動が問題ないところまでアップデートする</li>
+<li>最新にならないものはバージョン指定する</li>
+</ul></li>
+<li>rails guide の upgrading ruby on rails を読む
+
+<ul>
+<li><a href="http://edgeguides.rubyonrails.org/upgrading_ruby_on_rails.html">http://edgeguides.rubyonrails.org/upgrading_ruby_on_rails.html</a></li>
+</ul></li>
+<li>社内のプロダクトやウォッチしている OSS でアップデートしているものがあれば目を通す</li>
+</ul>
+
+<h3 id="手順">手順</h3>
+
+<ul>
+<li>rails のバージョン指定を外して bundle update する
+
+<ul>
+<li>上がらない gem は github の master を使うなど、gem の issue を確認しつつ個別に対応していく</li>
+</ul></li>
+<li><code>rails app:update</code> を実行する
+
+<ul>
+<li>変更に問題ない部分をコミット</li>
+</ul></li>
+<li><code>rails db:migrate</code> して db/scheme.rb をコミット（rails 5 の場合）</li>
+<li><code>rails new &lt;APPNAME&gt;</code> を別ディレクトリに同名の APPNAME で作成する
+
+<ul>
+<li>ディレクトリごとコピーして差分を確認。問題ない部分をコミット。</li>
+</ul></li>
+<li>テストを実行する
+
+<ul>
+<li>エラーになる部分を対応する。warning はとりあえず無視。</li>
+</ul></li>
+<li><code>rails s</code> 起動して挙動を確認する
+
+<ul>
+<li>問題があれば対応する</li>
+</ul></li>
+<li>DEPRECATION WARNING の対応をする
+
+<ul>
+<li>テスト実行やサーバ起動時に出る warning を対応していく</li>
+<li>コードを修正したり、gem のバージョンを指定するなどの対応になる</li>
+<li>ある gem の warnig を解消するのに、依存している他の gem のバージョンを下げないといけないケースの場合、無理して解消しないようにする。そのうち対応されるはず。</li>
+</ul></li>
+<li>一通り対応が終わったら、再度、バージョン指定を外して bundle update してみる
+
+<ul>
+<li>問題があっても、リリース直後は頻繁に gem のアップデートがあるので、解消していることもある</li>
+</ul></li>
+</ul>
+
+<h2 id="tips-など">tips など</h2>
+
+<ul>
+<li>/config/environments/staging.rb は rails new しても存在しないので、staging などを使用している場合コミットから漏れるので気をつける</li>
+<li>デプロイできるかどうかも確認しておかないと、いざという時に慌てる</li>
+<li>手元で、production 相当の設定でも一応確認しておいたほうが良い。assets precompile とかでデプロイしてから気づくこともある。</li>
+<li>rails 本体に取り込まれて必要の無くなった gem とかもたまにあるので対応する。 quiet_assets とか</li>
+</ul>
+
+
+      <hr />
+
+      <ul class="social_buttons list-inline">
+        <li class="evernote"></li>
+        <li class="hatena"></li>
+        <li class="tweet"></li>
+        <li class="facebook_like"></li>
+      </ul>
+      <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'ckazuinfo';
+    var disqus_identifier = 'http:\/\/www.ckazu.info\/blog\/upgrade_rails\/';
+    var disqus_title = 'rails 5 にアップデートしたときにやったこと';
+    var disqus_url = 'http:\/\/www.ckazu.info\/blog\/upgrade_rails\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
     </div>
 
     <aside class="sidebar col-md-3">
