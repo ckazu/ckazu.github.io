@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://www.ckazu.info/blog/what_is_good_codes/</loc>
+    <lastmod>2017-05-24T02:58:59+09:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://www.ckazu.info/blog/upgrade_rails/</loc>
     <lastmod>2017-05-13T01:32:41+09:00</lastmod>
   </url>
@@ -89,7 +94,7 @@
   
   <url>
     <loc>http://www.ckazu.info/</loc>
-    <lastmod>2017-05-13T01:32:41+09:00</lastmod>
+    <lastmod>2017-05-24T02:58:59+09:00</lastmod>
   </url>
   
   <url>
@@ -100,7 +105,7 @@
   
   <url>
     <loc>http://www.ckazu.info/blog/</loc>
-    <lastmod>2017-05-13T01:32:41+09:00</lastmod>
+    <lastmod>2017-05-24T02:58:59+09:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -142,6 +147,12 @@
   <url>
     <loc>http://www.ckazu.info/tags/middleman/</loc>
     <lastmod>2013-11-08T19:05:00+09:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.ckazu.info/tags/poem/</loc>
+    <lastmod>2017-05-24T02:58:59+09:00</lastmod>
     <priority>0</priority>
   </url>
   

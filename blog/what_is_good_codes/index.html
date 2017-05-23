@@ -59,34 +59,102 @@
   <div class="blog">
     <div class="col-md-9">
 
-      <h2>Hugo に移行した</h2>
-      <div class="date pull-right">2017-05-10</div>
+      <h2>良いコード，悪いコード</h2>
+      <div class="date pull-right">2017-05-24</div>
       <div class="tags">
         
         <span class="tag label fa fa-tag">
-          <a href="/tags/hugo">hugo</a>
+          <a href="/tags/poem">poem</a>
         </span>
         
       </div>
 
       <hr />
 
-      <p>サイトの生成を middleman から Hugo に変更した．
-middleman の前は Jekyll だったから３代目．
-ほとんど更新しないので，気が向いたときに記事を書こうとしたときに，使い方を忘れててついでに乗り換えている．</p>
+      
 
-<p>こうやって考えると，やはり WordPress 最強なのではとも思う．</p>
+<ul>
+<li>あるコードが，将来に渡って変更が加えられないということは，まずない</li>
+<li><strong>チームにおいて</strong>，良いコードとは保守性の高いコード</li>
+<li>保守性の高いコードとは誰でも変更が容易であること</li>
+</ul>
 
-<p>Hugo への移行自体は概ねすんなりいった．
-ディレクトリ内のファイルに合わせて，single と list とでテンプレートを分けていることへの理解がなくて戸惑ったのくらい．</p>
+<h2 id="変更が簡単になるためにはどういうコードであるべきか">変更が簡単になるためにはどういうコードであるべきか</h2>
 
-<p>ああ，あと，Go の時刻フォーマットの <code>2006/01/02 15:03:04</code> みたいなやつにカルチャーショックを受けた．まさかそんなルールだなんて思いもしなかったので，これが定義なのだと気がつくまでしばらくかかった．ネット上で調べてて，みんな同じような時刻使ってるなとは思っていた．</p>
+<p>端的にいうと，<strong>読み手が頭を使わなくて済む</strong>こと</p>
 
-<p>sass とか haml 周りをどうするかで少し迷ったけど，haml は html にえいやと書き直した．
-sass はそのまま活かして <code>yarn run build:sass</code> するようにしている．</p>
+<ul>
+<li>適切な命名
 
-<p>middleman では，ブログにべったりレイアウトとかスタイルを書いていたけど，Hugo では theme に切り出した．
-特に公開するわけでもないけれども．構成がすっきりするのでおすすめ．</p>
+<ul>
+<li>hoge, btn, button01,&hellip;</li>
+<li>意味を誤読させない</li>
+</ul></li>
+<li>複雑な制御構造がない
+
+<ul>
+<li>ネストの深さ</li>
+<li>関数内の処理の長さ</li>
+</ul></li>
+<li>疎結合になっている
+
+<ul>
+<li>適切なクラス設計</li>
+<li>モジュール化</li>
+</ul></li>
+<li>トリッキーな記述がない
+
+<ul>
+<li>読むのに頭を使うようなコードは必要ない</li>
+<li>こっちのほうが処理速度が早い！とかあるが，現在の計算機の処理能力を考えると無用な努力であることがほとんど．必要になったら対応する．</li>
+</ul></li>
+<li>優れた定番のライブラリを導入する
+
+<ul>
+<li>信頼性の向上（バグが少ない，誰かが改良してくれる）</li>
+<li>よく知られたライブラリは他の読み手も知っている可能性が高い</li>
+<li>誰にも使われておらず，内容も保証できないようなものは導入してはいけない</li>
+</ul></li>
+<li>言語やフレームワークの標準的な書き方に則っている
+
+<ul>
+<li>おれおれフレームワークを作りたい気持ちはわかるが，そういうのは個人活動でやる</li>
+</ul></li>
+</ul>
+
+<h2 id="どうしたら良いコードだということが分かるか">どうしたら良いコードだということが分かるか</h2>
+
+<ul>
+<li>引っかかりなく読める</li>
+<li>複雑な箇所にはコメントがあったり，分離されている
+
+<ul>
+<li>外部的な要因だったり，パフォーマンスを考慮した結果，どうしても複雑になってしまうことも時にはある</li>
+</ul></li>
+<li>ちゃんとしたテストコードがある
+
+<ul>
+<li>変更を加えたときに，意図しない箇所に影響を与えていないかがわかるようになっている</li>
+</ul></li>
+<li>静的解析してみる
+
+<ul>
+<li>lint</li>
+<li>コード規約</li>
+<li>ベストプラクティス</li>
+<li>コードスメル</li>
+<li>etc.</li>
+</ul></li>
+</ul>
+
+<h2 id="良いコードを書くために">良いコードを書くために</h2>
+
+<ul>
+<li>優れたコードを読む</li>
+<li>レビューしてみる，されてみる</li>
+<li>テストを書く習慣</li>
+<li>静的解析</li>
+</ul>
 
 
       <hr />
@@ -100,9 +168,9 @@ sass はそのまま活かして <code>yarn run build:sass</code> するよう�
       <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'ckazuinfo';
-    var disqus_identifier = 'http:\/\/www.ckazu.info\/blog\/transition_to_hugo\/';
-    var disqus_title = 'Hugo に移行した';
-    var disqus_url = 'http:\/\/www.ckazu.info\/blog\/transition_to_hugo\/';
+    var disqus_identifier = 'http:\/\/www.ckazu.info\/blog\/what_is_good_codes\/';
+    var disqus_title = '良いコード，悪いコード';
+    var disqus_url = 'http:\/\/www.ckazu.info\/blog\/what_is_good_codes\/';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
