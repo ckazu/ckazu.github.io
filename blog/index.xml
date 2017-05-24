@@ -6,10 +6,19 @@
     <description>Recent content in Blogs on What is an Information Architecture?</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Wed, 24 May 2017 02:58:59 +0900</lastBuildDate>
+    <lastBuildDate>Thu, 25 May 2017 00:34:35 +0900</lastBuildDate>
     
 	<atom:link href="http://www.ckazu.info/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>鍵マークの UI</title>
+      <link>http://www.ckazu.info/blog/badui_on_slideshare/</link>
+      <pubDate>Thu, 25 May 2017 00:34:35 +0900</pubDate>
+      
+      <guid>http://www.ckazu.info/blog/badui_on_slideshare/</guid>
+      <description>slideshare のアップロード一覧ページを見ると，右上にこんな鍵マークがある． ソシャゲにすっかり慣れきった身としては，このチェックを入れると編集ができない</description>
+    </item>
     
     <item>
       <title>良いコード，悪いコード</title>

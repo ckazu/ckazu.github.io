@@ -59,108 +59,46 @@
   <div class="blog">
     <div class="col-md-9">
 
-      <h2>Middleman の記事更新を Travis-CI でする</h2>
-      <div class="date pull-right">2013-11-08</div>
+      
+        <div class="container">
+  <article class="col-md-9">
+
+    <div class="col-md-3">
+      <div class="date">2017-05-25</div>
+    </div>
+
+    <div class="col-md-9">
+      <h2><a href="http://www.ckazu.info/blog/badui_on_slideshare/">鍵マークの UI</a></h2>
+
       <div class="tags">
         
         <span class="tag label fa fa-tag">
-          <a href="/tags/middleman">middleman</a>
+          <a href="/tags/ui">ui</a>
         </span>
         
         <span class="tag label fa fa-tag">
-          <a href="/tags/travis-ci">travis-ci</a>
+          <a href="/tags/ux">ux</a>
         </span>
         
       </div>
 
-      <hr />
+      slideshare のアップロード一覧ページを見ると，右上にこんな鍵マークがある． ソシャゲにすっかり慣れきった身としては，このチェックを入れると編集ができない
+
+      <div class="text-right">
+        <a class="badge fa fa-arrow-right" href="http://www.ckazu.info/blog/badui_on_slideshare/">続きを読む</a>
+      </div>
+
+    </div>
+  </article>
+</div>
 
       
 
-<h2 id="middleman-静的ファイルのデプロイ">Middleman 静的ファイルのデプロイ</h2>
+      <div class="pull-right">
+        
 
-<p>このサイトは Middleman + github.io でできていて，デプロイ時には <code>middleman build &amp;&amp; middleman deploy</code>とします．</p>
+      </div>
 
-<p>これはそんなに面倒じゃないんですが，↓の記事に倣って自動化させてみました．</p>
-
-<p>=&gt; <a href="http://tricknotes.hateblo.jp/entry/2013/06/17/020229">Middleman で作った web サイトを Travis + GitHub pages でお手軽に運用する</a></p>
-
-<h3 id="利点">利点</h3>
-
-<p>それほど積極的な利点じゃないですが，web ブラウザで GitHub リポジトリの記事を直接更新した時にもデプロイされます．</p>
-
-<p>端末が使えないけど更新したい時とかあるかわかりませんが，便利といえば便利です．</p>
-
-<h2 id="違い">違い</h2>
-
-<p>で，ちょっと違う点があって工夫が必要だったので，その点だけ，残しておきます．</p>
-
-<h3 id="gh-pages-ブランチを使用していない">gh-pages ブランチを使用していない</h3>
-
-<p>この点が違うところで，ブランチ構成を次のようにしています．</p>
-
-<ul>
-<li><code>master</code> # 生成された後の静的ファイル</li>
-<li><code>source</code> # 実際に作業しているブランチ</li>
-</ul>
-
-<p>なので，source に push したら，build して，master へコミットしないといけません．</p>
-
-<p>それ自体は大したことがないのですが，困るのは master に push するので，Travis さんが master のビルドをしようとしてしまいます．</p>
-
-<p>ということで，master に push する際に <code>master</code> ブランチでビルドしない設定の <code>.travis.yml</code> を生成して対応することにしました．</p>
-
-<p>ついでに，ビルドしたいのは <code>source</code> ブランチに push した時だけなので，<code>source</code> ブランチの <code>.travis.yml</code> にも追加．</p>
-
-<pre><code class="language-yaml">...略...
-after_success:
-  - cd build
-  - echo -e &quot;---\nbranches:\n  only:\n    - source&quot; &gt; .travis.yml
-  - git add -A
-  - git commit -m 'Update'
-  - '[ $GH_TOKEN ] &amp;&amp; git push --quiet https://$GH_TOKEN@github.com/OWNER/REPO.git 2&gt; /dev/null'
-
-branches:
-  only:
-    - source
-</code></pre>
-
-<h3 id="gh-pages-運用で問題が起きない理由">gh-pages 運用で問題が起きない理由</h3>
-
-<p>Travis さんは <a href="http://about.travis-ci.org/docs/user/build-configuration/#White--or-blacklisting-branches">Configuring your build#White- or blacklisting branches</a> にあるように，<code>gh-pages</code> が更新された際にはビルドしないんですねー．</p>
-
-<h2 id="残された問題点">残された問題点</h2>
-
-<p>手動で更新した際には，<code>master</code> もビルドされてしまう．</p>
-
-<p><img src="/images/middleman-travis-ci.png" alt="middleman-travis-ci" /></p>
-
-<p>対応策は，<code>middlemana build</code> で，<code>.travis.yml</code> を置くようにするか，コミットメッセージに <code>[ci skip]</code> を入れるようにするか，くらい？</p>
-
-
-      <hr />
-
-      <ul class="social_buttons list-inline">
-        <li class="evernote"></li>
-        <li class="hatena"></li>
-        <li class="tweet"></li>
-        <li class="facebook_like"></li>
-      </ul>
-      <div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'ckazuinfo';
-    var disqus_identifier = 'http:\/\/www.ckazu.info\/blog\/2013-11-08-deploy_by_travis_ci\/';
-    var disqus_title = 'Middleman の記事更新を Travis-CI でする';
-    var disqus_url = 'http:\/\/www.ckazu.info\/blog\/2013-11-08-deploy_by_travis_ci\/';
-
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
     </div>
 
     <aside class="sidebar col-md-3">
