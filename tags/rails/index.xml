@@ -22,64 +22,64 @@
     
     <item>
       <title>rails の delegate で，移譲先のオブジェクトが nil になる場合の対応</title>
-      <link>http://www.ckazu.info/blog/2013-12-14-delegate_allow_nil/</link>
+      <link>http://www.ckazu.info/blog/2013/12/14/delegate_allow_nil/</link>
       <pubDate>Sat, 14 Dec 2013 00:00:00 +0900</pubDate>
       
-      <guid>http://www.ckazu.info/blog/2013-12-14-delegate_allow_nil/</guid>
+      <guid>http://www.ckazu.info/blog/2013/12/14/delegate_allow_nil/</guid>
       <description>delegate 互いに関連を持つUser, Profile があるとして，あるUserを主体としてProfile#jobを得るにはuser.profile.jobとする必</description>
     </item>
     
     <item>
       <title>ActiveRecord の serialize を使う</title>
-      <link>http://www.ckazu.info/blog/2013-12-11-activerecord_serialize/</link>
+      <link>http://www.ckazu.info/blog/2013/12/11/activerecord_serialize/</link>
       <pubDate>Wed, 11 Dec 2013 23:06:00 +0900</pubDate>
       
-      <guid>http://www.ckazu.info/blog/2013-12-11-activerecord_serialize/</guid>
+      <guid>http://www.ckazu.info/blog/2013/12/11/activerecord_serialize/</guid>
       <description>ActiveRecord::Base .serialize rails でオブジェクトをそのまま DB に保存したい場合， serialize が使える場合があります． class User &amp;lt; ActiveRecord::Base serialize :group_ids end このようにすると，User#group_ids オブ</description>
     </item>
     
     <item>
       <title>simple_form で binary 型フィールドの file_field を使う</title>
-      <link>http://www.ckazu.info/blog/2013-12-05-file_field_on_simple_form/</link>
+      <link>http://www.ckazu.info/blog/2013/12/05/file_field_on_simple_form/</link>
       <pubDate>Thu, 05 Dec 2013 22:35:00 +0900</pubDate>
       
-      <guid>http://www.ckazu.info/blog/2013-12-05-file_field_on_simple_form/</guid>
+      <guid>http://www.ckazu.info/blog/2013/12/05/file_field_on_simple_form/</guid>
       <description>simple_form https://github.com/plataformatec/simple_form は，煩雑になりがちなフォームの記述をシンプルにしてくれます． - form_for @user do |f| %li name: = f.text_field :name %li email: = f.email_field :mail_address %li password: = f.password_field :password 通常，このように記述するところを，次</description>
     </item>
     
     <item>
       <title>rails でファイルをアップロードする際の挙動</title>
-      <link>http://www.ckazu.info/blog/2013-12-04-action_dispatch_http_uploded_file/</link>
+      <link>http://www.ckazu.info/blog/2013/12/04/action_dispatch_http_uploded_file/</link>
       <pubDate>Wed, 04 Dec 2013 22:18:00 +0900</pubDate>
       
-      <guid>http://www.ckazu.info/blog/2013-12-04-action_dispatch_http_uploded_file/</guid>
+      <guid>http://www.ckazu.info/blog/2013/12/04/action_dispatch_http_uploded_file/</guid>
       <description>経緯 前回，画像ファイルをアップロードして DB に保存する記事を書きました． 実際にファイルはどうやって DB に保存されるのかについて補足します． params をみ</description>
     </item>
     
     <item>
       <title>rails で画像ファイルを DB に保存する</title>
-      <link>http://www.ckazu.info/blog/2013-12-04-image_upload_to_ar_db/</link>
+      <link>http://www.ckazu.info/blog/2013/12/04/image_upload_to_ar_db/</link>
       <pubDate>Wed, 04 Dec 2013 00:50:00 +0900</pubDate>
       
-      <guid>http://www.ckazu.info/blog/2013-12-04-image_upload_to_ar_db/</guid>
+      <guid>http://www.ckazu.info/blog/2013/12/04/image_upload_to_ar_db/</guid>
       <description>rails で画像を保存する rails 画像を扱うには，https://github.com/thoughtbot/paperclip や https://github.com/carrierwaveuploader/carrierwave といった便利な画像アッ</description>
     </item>
     
     <item>
       <title>rake notes で，spec, js, coffee, scss, haml, slim のファイルも対象にする</title>
-      <link>http://www.ckazu.info/blog/2011-12-06-ruby-rails-rake-notes-spec-js-coffee-scss-haml-slim/</link>
+      <link>http://www.ckazu.info/blog/2011/12/06/ruby-rails-rake-notes-spec-js-coffee-scss-haml-slim/</link>
       <pubDate>Tue, 06 Dec 2011 00:00:00 +0000</pubDate>
       
-      <guid>http://www.ckazu.info/blog/2011-12-06-ruby-rails-rake-notes-spec-js-coffee-scss-haml-slim/</guid>
+      <guid>http://www.ckazu.info/blog/2011/12/06/ruby-rails-rake-notes-spec-js-coffee-scss-haml-slim/</guid>
       <description>class SourceAnnotationExtractor def find_with_custom_directories find_without_custom_directories(%w|app lib spec|) end alias_method_chain :find, :custom_directories def find_in_with_custom_files(dir) results = find_in_without_custom_files(dir) Dir.glob(&amp;quot;#{dir}/*&amp;quot;) do |item| next if File.basename(item)[0] == ?. if File.directory?(item) results.update(find_in(item)) elsif item =~ /\.(coffee)$/ results.update(extract_annotations_from(item, /#\s*\[?(#{tag})\]?\s*:?\s*(.*)$/)) elsif item =~ /\.(js|scss)$/ results.update(extract_annotations_from(item, /\/\/\s*\[?(#{tag})\]?\s*:?\s*(.*)$/)) elsif item =~ /\.(haml)$/ results.update(extract_annotations_from(item, /[\/|(\-\#)]\s*\[?(#{tag})\]?\s*:?\s*(.*)$/)) elsif item =~ /\.(slim)$/ results.update(extract_annotations_from(item, /\/\!?\s*\[?(#{tag})\]?\s*:?\s*(.*)$/)) end end results end alias_method_chain :find_in, :custom_files end  </description>
     </item>
     
     <item>
       <title>rails で Mix-in するときにすでにあるメソッドをオーバーライドする</title>
-      <link>http://www.ckazu.info/blog/2011-05-23-ruby-rails-rails-mix-in/</link>
+      <link>http://www.ckazu.info/blog/2011/05/23/ruby-rails-rails-mix-in/</link>
       <pubDate>Mon, 23 May 2011 00:00:00 +0000</pubDate>
       
-      <guid>http://www.ckazu.info/blog/2011-05-23-ruby-rails-rails-mix-in/</guid>
+      <guid>http://www.ckazu.info/blog/2011/05/23/ruby-rails-rails-mix-in/</guid>
       <description>module NewMethod def self.included(mod) mod.class_eval do alias_method_chain :method, :new_method end end def method_with_new_method method_without_new_method &#39;new method&#39; end end class Origin def method &#39;origin method&#39; end include NewMethod end puts Origin.new.method #=&amp;gt; new method include をメソッドの後に書かないといけないのが微妙 ちょっと補足 普通の include module NewMethod def method &#39;new</description>
     </item>
     

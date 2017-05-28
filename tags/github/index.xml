@@ -13,10 +13,10 @@
     
     <item>
       <title>GitHub で open になっている PR をチェックする</title>
-      <link>http://www.ckazu.info/blog/2013-11-07-check_github_pr/</link>
+      <link>http://www.ckazu.info/blog/2013/11/07/check_github_pr/</link>
       <pubDate>Thu, 07 Nov 2013 14:18:00 +0900</pubDate>
       
-      <guid>http://www.ckazu.info/blog/2013-11-07-check_github_pr/</guid>
+      <guid>http://www.ckazu.info/blog/2013/11/07/check_github_pr/</guid>
       <description>API を叩く 複数の GitHub リポジトリの PR をチェックするのが割りと面倒なので，日時バッチで通知するようにしている． PR を取得するには，GitHub Developer API を叩</description>
     </item>
     

@@ -13,10 +13,10 @@
     
     <item>
       <title>Sinatra で streaming を使用した際にちゃんとコネクションを閉じる</title>
-      <link>http://www.ckazu.info/blog/2013-12-18-sinatra_streaming/</link>
+      <link>http://www.ckazu.info/blog/2013/12/18/sinatra_streaming/</link>
       <pubDate>Wed, 18 Dec 2013 22:14:00 +0900</pubDate>
       
-      <guid>http://www.ckazu.info/blog/2013-12-18-sinatra_streaming/</guid>
+      <guid>http://www.ckazu.info/blog/2013/12/18/sinatra_streaming/</guid>
       <description>Sinatra で Streaming Sinatra で WebSocket のような stream の簡便な実装を書くことができます． 簡易なチャットシステムや，流れてくるログ拾ってきてブラウザで眺めるなどの用途に使えそ</description>
     </item>
     

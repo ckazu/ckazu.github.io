@@ -13,10 +13,10 @@
     
     <item>
       <title>Middleman の記事更新を Travis-CI でする</title>
-      <link>http://www.ckazu.info/blog/2013-11-08-deploy_by_travis_ci/</link>
+      <link>http://www.ckazu.info/blog/2013/11/08/deploy_by_travis_ci/</link>
       <pubDate>Fri, 08 Nov 2013 19:05:00 +0900</pubDate>
       
-      <guid>http://www.ckazu.info/blog/2013-11-08-deploy_by_travis_ci/</guid>
+      <guid>http://www.ckazu.info/blog/2013/11/08/deploy_by_travis_ci/</guid>
       <description>Middleman 静的ファイルのデプロイ このサイトは Middleman + github.io でできていて，デプロイ時には middleman build &amp;amp;&amp;amp; middleman deployとします． これはそんなに面倒じゃないんですが，↓の</description>
     </item>
     
